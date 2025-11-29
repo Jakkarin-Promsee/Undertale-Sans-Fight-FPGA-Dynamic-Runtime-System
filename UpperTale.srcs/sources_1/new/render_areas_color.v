@@ -26,8 +26,8 @@ module render_areas_color(
     input [9:0] y,
     
     input blank,        // <-- ADDED: Input for the blanking signal
-    input player_areas,
-    input border_areas,
+    input game_display_border_render,
+    input player_render,
     
     // Outputs must be 'reg' since they are driven from inside an always @(*) block
     output reg [3:0] RED,  
@@ -49,14 +49,14 @@ module render_areas_color(
             BLUE  = 0;
         end 
         
-        else if (border_areas) begin // <-- FIXED SYNTAX: 'else if'
-                RED   = 0;
-                GREEN = 0;
-                BLUE  = 15;
-            end 
+        else if (game_display_border_render) begin
+            RED   = 15;
+            GREEN = 15;
+            BLUE  = 15;
+        end
                 
         // 2. Next Priority: Player Area (Green)
-        else if (player_areas) begin // <-- FIXED SYNTAX: 'else if'
+        else if (player_render) begin // <-- FIXED SYNTAX: 'else if'
             RED   = 0;
             GREEN = 15;
             BLUE  = 0;

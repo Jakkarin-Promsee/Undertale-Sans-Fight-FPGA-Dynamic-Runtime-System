@@ -39,6 +39,8 @@ module topModule(
     output [3:0] BLUE
     );
     
+    //----------------------------------------- Clock Divider -----------------------------------------
+    
     // Internal Variable
     wire clk_vga;
     wire clk_player_control;
@@ -94,42 +96,94 @@ module topModule(
         .blank(blank)
     );
     
-    wire player_areas_signal;
-    wire [9:0] p_x;
-    wire [9:0] p_y;
-    wire [9:0] c_p_x;
-    wire [9:0] c_p_y;
+    //----------------------------------------- Collider -----------------------------------------
+    wire [9:0] game_display_x0;
+    wire [9:0] game_display_y0;
+    wire [9:0] game_display_x1;
+    wire [9:0] game_display_y1;
+    wire game_display_border_signal;
     
-    player_colider p_c(
+    game_display_controller #(
+        .GAME_DISPLAY_X0(130),
+        .GAME_DISPLAY_Y0(251),
+        .GAME_DISPLAY_X1(506),
+        .GAME_DISPLAY_Y1(391)
+  
+    ) game_display_control (
+        .clk_update_position(clk_update_position),
+        .reset(reset),
+        .game_display_x0(game_display_x0),
+        .game_display_y0(game_display_y0),
+        .game_display_x1(game_display_x1),
+        .game_display_y1(game_display_y1)
+    );
+    
+    game_display_renderer #(
+        .BORDER(7)
+   ) game_display_render (
+       .x(x),
+       .y(y),
+       .game_display_x0(game_display_x0),
+       .game_display_y0(game_display_y0),
+       .game_display_x1(game_display_x1),
+       .game_display_y1(game_display_y1),
+       
+       .render(game_display_border_signal)
+   );
+    
+    //----------------------------------------- Trigger -----------------------------------------
+    
+    //----------------------------------------- Player ----------------------------------------- 
+    wire player_render_signal;
+    wire [9:0] player_pos_x;
+    wire [9:0] player_pos_y;
+    wire [9:0] player_w;
+    wire [9:0] player_h;
+    
+    player_position_controller #(
+        .PLAYER_POS_X(316),
+        .PLAYER_POS_Y(314),
+        .PLAYER_W(17),
+        .PLAYER_H(17),
+        .SPEED(3),
+        .GRAVITY(2)
+        
+    ) player_position(
         .clk_control(clk_player_control),
         .reset(reset),
         .switch_up(switch_up),
         .switch_down(switch_down),
         .switch_left(switch_left),
         .switch_right(switch_right),
+        .game_display_x0(game_display_x0),
+        .game_display_y0(game_display_y0),
+        .game_display_x1(game_display_x1),
+        .game_display_y1(game_display_y1),
         
-        .p_x(p_x),
-        .p_y(p_y),
-        .c_p_x(c_p_x),
-        .c_p_y(c_p_y)
+        .player_pos_x(player_pos_x),
+        .player_pos_y(player_pos_y),
+        .player_w(player_w),
+        .player_h(player_h)
     );
     
-    player_areas p_a (
+    player_renderer player_render (
         .x(x),
         .y(y),
-        .p_x(p_x),
-        .p_y(p_y),
-        .c_p_x(c_p_x),
-        .c_p_y(c_p_y),
+        .player_pos_x(player_pos_x),
+        .player_pos_y(player_pos_y),
+        .player_w(player_w),
+        .player_h(player_h),
         
-        .player_area(player_areas_signal)
+        .render(player_render_signal)
     );
     
-    render_areas_color renderer(
+    universal_renderer universal_render(
         .x(x),
         .y(y),
         .blank(blank),
-        .player_areas(player_areas_signal),
+        
+        .game_display_border_render(game_display_border_signal),
+        .player_render(player_render_signal),
         
         .RED(RED),
         .GREEN(GREEN),
