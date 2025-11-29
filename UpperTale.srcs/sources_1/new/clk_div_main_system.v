@@ -1,26 +1,6 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 11/22/2025 03:09:14 PM
-// Design Name: 
-// Module Name: clk_div_main_system
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
 
-
-module clk_div_main_system(
+module clk_div_update_position(
   input wire rst_ni,
   input wire clk_i,
   output wire clk_o
@@ -34,7 +14,7 @@ always @(posedge clk_i) begin
     clk_r <= 0;
     counter_r <= 0;
  
-// Else reduce Hz from 100MHz to 100Hz (100fps)
+// Else reduce Hz from 100MHz to 1kHz
   end else begin
     if (counter_r == (100_000  / 2) - 1) begin
       clk_r <= ~clk_r;

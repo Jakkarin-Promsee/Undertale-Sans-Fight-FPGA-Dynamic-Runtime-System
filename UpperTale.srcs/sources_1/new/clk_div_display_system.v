@@ -1,31 +1,12 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 11/22/2025 03:09:14 PM
-// Design Name: 
-// Module Name: clk_div_main_system
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
 
-
-module clk_div_display_system(
+module clk_div_vga(
   input wire rst_ni,
   input wire clk_i,
   output wire clk_o
 );
-reg [31:0] counter_r;
+
+reg counter_r;
 reg clk_r;
 
 always @(posedge clk_i) begin

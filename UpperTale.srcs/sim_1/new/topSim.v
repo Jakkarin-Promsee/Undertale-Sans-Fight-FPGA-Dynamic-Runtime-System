@@ -38,9 +38,10 @@ module topSim();
     wire [3:0] BLUE;
     
     // Internal Wires (for probing signals within topModule)
-    wire clk_div_main_system;
-    wire clk_div_display_system;
-    wire clk_div_control_system;
+    wire clk_vga;
+    wire clk_player_control;
+    wire clk_update_position;
+    wire clk_calculation;
     wire [9:0] x, y;
     wire blank;
     wire player_areas_signal;
@@ -63,9 +64,10 @@ module topSim();
     );
     
     // Connections to internal wires (Must be done explicitly for probing if they are not module outputs)
-    assign clk_div_main_system = DUT.clk_div_main_system;
-    assign clk_div_display_system = DUT.clk_div_display_system;
-    assign clk_div_control_system = DUT.clk_div_control_system;
+    assign clk_vga = DUT.clk_vga;
+    assign clk_player_control = DUT.clk_player_control;
+    assign clk_update_position = DUT.clk_update_position;
+    assign clk_calculation = DUT.clk_calculation;
     assign x = DUT.x;
     assign y = DUT.y;
     assign blank = DUT.blank;

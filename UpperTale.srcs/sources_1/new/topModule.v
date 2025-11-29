@@ -40,40 +40,51 @@ module topModule(
     );
     
     // Internal Variable
-    wire clk_div_main_system;
-    wire clk_div_display_system;
-    wire clk_div_control_system;
+    wire clk_vga;
+    wire clk_player_control;
+    wire clk_update_position;
+    wire clk_calculation;
     
-    // Connect main clk div (1KHz)
-    clk_div_main_system clk_m (
+    // Connect vga clk (25KHz)
+    clk_div_vga c1_clk_vga (
         .clk_i(clk), 
         .rst_ni(reset), 
         
-        .clk_o(clk_div_main_system)
+        .clk_o(clk_vga)
     );
     
-    // Conect display clk div (25MHz)
-    clk_div_display_system clk_d (
+    // Conect player control clk (100Hz)
+    clk_div_player_control c2_clk_player_control (
         .clk_i(clk), 
         .rst_ni(reset), 
         
-        .clk_o(clk_div_display_system)
+        .clk_o(clk_player_control)
     );
     
-    // Conect display clk div (1kHz)
-    clk_div_control_system clk_c (
+    // Conect update position clk (100Hz)
+    clk_div_update_position c3_clk_update_position (
         .clk_i(clk), 
         .rst_ni(reset), 
         
-        .clk_o(clk_div_control_system)
+        .clk_o(clk_update_position)
     );
-        
-    // VGA Variable
-    wire [9:0] x, y;
-    wire blank;
     
-    vga vga (
-        .clk_display(clk_div_display_system),
+    // Conect calculation clk (1kHz)
+    clk_div_calculation c4_clk_calculation (
+        .clk_i(clk), 
+        .rst_ni(reset), 
+        
+        .clk_o(clk_calculation)
+    );
+    
+    //----------------------------------------- VGA -----------------------------------------
+        
+    // VGA Translate Variable
+    wire [9:0] x, y; // Current pixels (0-1024)
+    wire blank; // Is in blank screen
+    
+    vga_translator t1_vga_translator (
+        .clk_display(clk_vga),
         .reset(reset),
         
         .HS(HS),
@@ -90,7 +101,7 @@ module topModule(
     wire [9:0] c_p_y;
     
     player_colider p_c(
-        .clk_control(clk_div_control_system),
+        .clk_control(clk_player_control),
         .reset(reset),
         .switch_up(switch_up),
         .switch_down(switch_down),

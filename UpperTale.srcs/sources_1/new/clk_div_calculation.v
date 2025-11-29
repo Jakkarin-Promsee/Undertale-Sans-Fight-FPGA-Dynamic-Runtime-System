@@ -1,11 +1,13 @@
 `timescale 1ns / 1ps
 
-module clk_div_control (
+module clk_div_calculation(
   input wire rst_ni,
   input wire clk_i,
   output wire clk_o
 );
-reg [31:0] counter_r;
+
+// Using only 0-49_999 (maximum 65_536)
+reg [16:0] counter_r;
 reg clk_r;
 
 always @(posedge clk_i) begin
@@ -14,7 +16,7 @@ always @(posedge clk_i) begin
     clk_r <= 0;
     counter_r <= 0;
  
-// Else reduce Hz from 100MHz to 100HZ (100fps)
+// Else reduce Hz from 100MHz to 1kHZ (1000fps)
   end else begin
     if (counter_r == (100_000 / 2) - 1) begin
       clk_r <= ~clk_r;
