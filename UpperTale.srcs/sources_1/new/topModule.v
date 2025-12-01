@@ -24,11 +24,15 @@ module topModule(
     // Internal Variable
     wire clk_vga;
     wire clk_player_control;
-    wire clk_update_position;
+    wire clk_object_control;
+    wire clk_centi_second;
     wire clk_calculation;
     
     // Connect vga clk (25KHz)
-    clk_div_vga c1_clk_vga (
+    clk_div #(
+        .DIV_FACTOR(4),
+        .DIV_FACTOR_BIT(2)
+    ) clk_div_vga (
         .clk_i(clk), 
         .rst_ni(reset), 
         
@@ -36,23 +40,43 @@ module topModule(
     );
     
     // Conect player control clk (100Hz)
-    clk_div_player_control c2_clk_player_control (
+    clk_div #(
+        .DIV_FACTOR(1_000_000),
+        .DIV_FACTOR_BIT(20)
+    ) clk_div_player_control (
         .clk_i(clk), 
         .rst_ni(reset), 
         
         .clk_o(clk_player_control)
     );
     
-    // Conect update position clk (100Hz)
-    clk_div_update_position c3_clk_update_position (
+    // Conect object control clk (100Hz)
+    clk_div #(
+        .DIV_FACTOR(1_000_000),
+        .DIV_FACTOR_BIT(20)
+    ) clk_div_update_position (
         .clk_i(clk), 
         .rst_ni(reset), 
         
-        .clk_o(clk_update_position)
+        .clk_o(clk_object_control)
+    );
+    
+    // Conect centi second position clk (100Hz / 0.01s)
+    clk_div #(
+        .DIV_FACTOR(1_000_000),
+        .DIV_FACTOR_BIT(20)
+    ) clk_div_centi_second (
+        .clk_i(clk), 
+        .rst_ni(reset), 
+        
+        .clk_o(clk_centi_second)
     );
     
     // Conect calculation clk (1kHz)
-    clk_div_calculation c4_clk_calculation (
+    clk_div #(
+        .DIV_FACTOR(100_000),
+        .DIV_FACTOR_BIT(17)
+    ) clk_div_calculation (
         .clk_i(clk), 
         .rst_ni(reset), 
         
@@ -65,7 +89,7 @@ module topModule(
     wire [9:0] x, y; // Current pixels (0-1024)
     wire blank; // Is in blank screen
     
-    vga_translator t1_vga_translator (
+    vga_translator vga_translate (
         .clk_display(clk_vga),
         .reset(reset),
         
@@ -90,7 +114,7 @@ module topModule(
         .GAME_DISPLAY_Y1(391)
   
     ) game_display_control (
-        .clk_update_position(clk_update_position),
+        .clk_object_control(clk_object_control),
         .reset(reset),
         
         .game_display_x0(game_display_x0),
@@ -122,6 +146,7 @@ module topModule(
     wire [9:0] player_pos_y;
     wire [9:0] player_w;
     wire [9:0] player_h;
+    reg active_gravity = 1;
     
     player_position_controller #(
         .PLAYER_POS_X(316),
@@ -140,6 +165,7 @@ module topModule(
         .game_display_y0(game_display_y0),
         .game_display_x1(game_display_x1),
         .game_display_y1(game_display_y1),
+        .active_gravity(active_gravity),
         
         .player_pos_x(player_pos_x),
         .player_pos_y(player_pos_y),

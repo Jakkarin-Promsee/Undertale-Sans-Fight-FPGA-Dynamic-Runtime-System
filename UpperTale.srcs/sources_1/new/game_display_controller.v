@@ -6,7 +6,7 @@ module game_display_controller #(
     parameter integer GAME_DISPLAY_X1 = 540,
     parameter integer GAME_DISPLAY_Y1 = 380
 )(
-    input clk_update_position,
+    input clk_object_control,
     input reset,
     
     output reg [9:0] game_display_x0,
@@ -24,7 +24,7 @@ module game_display_controller #(
     end
         
     // physic clock work at 100Hz
-    always @(posedge clk_update_position) begin
+    always @(posedge clk_object_control) begin
         // Set player center in display
         if (!reset) begin
             game_display_x0 = GAME_DISPLAY_X0;
