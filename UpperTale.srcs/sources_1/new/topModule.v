@@ -100,6 +100,107 @@ module topModule(
         .blank(blank)
     );
     
+    //----------------------------------------- Game Runtime ROM Reader -----------------------------------------
+    localparam integer INITIAL_STAGE = 0;
+    localparam integer MAXIMUM_STAGE = 8; // 256 stage
+    localparam integer MAXIMUM_TIMES = 30; // 10,000,000.00 second
+    localparam integer MAXIMUM_ATTACK = 20; // 1,000,000
+    localparam integer MAXIMUM_PLATFORM = 20; // 1,000,000
+        
+    wire [MAXIMUM_TIMES-1:0] next_attack_time;
+    wire [MAXIMUM_TIMES-1:0] next_platform_time;
+    wire update_attack_time;
+    wire update_platform_time;
+    
+    wire [MAXIMUM_STAGE-1:0] current_stage;
+    wire [MAXIMUM_TIMES-1:0] current_time;
+    wire [MAXIMUM_ATTACK-1:0] attack_i;
+    wire [MAXIMUM_PLATFORM-1:0] platform_i;
+    wire sync_attack_time;
+    wire sync_platform_time;
+    
+    game_manager_contorller #(
+        .INITIAL_STAGE(INITIAL_STAGE),
+        .MAXIMUM_STAGE(MAXIMUM_STAGE),
+        .MAXIMUM_TIMES(MAXIMUM_TIMES),
+        .MAXIMUM_ATTACK(MAXIMUM_ATTACK),
+        .MAXIMUM_PLATFORM(MAXIMUM_PLATFORM)
+        
+    ) game_manager_contorl (
+        .clk(clk),
+        .clk_centi_second(clk_centi_second),
+        .reset(reset),
+        .next_attack_time(next_attack_time),
+        .next_platform_time(next_platform_time),
+        .update_attack_time(update_attack_time),
+        .update_platform_time(update_platform_time),
+        
+        .current_stage(current_stage),
+        .current_time(current_time),
+        .attack_i(attack_i),
+        .platform_i(platform_i),
+        .sync_attack_time(sync_attack_time),
+        .sync_platform_time(sync_platform_time)
+    );
+    
+    // Attack object data
+    wire  [4:0]  attack_type;
+    wire  [1:0]  attack_colider_type;
+    wire  [2:0]  attack_movement_direction;
+    wire  [4:0]  attack_speed;
+    wire  [7:0]  attack_pos_x;
+    wire  [7:0]  attack_pos_y;
+    wire  [7:0]  attack_w;
+    wire  [7:0]  attack_h;
+    wire  [7:0]  attack_time;
+    
+    attack_object_rom #(
+        .ADDR_WIDTH(MAXIMUM_ATTACK)
+    ) attack_object_reader (
+        .clk(clk),
+        .addr(attack_i),
+        .sync_attack_time(sync_attack_time),
+        
+        .update_attack_time(update_attack_time),
+        .types(attack_type),
+        .colider_type(attack_colider_type),
+        .movement_direction(attack_movement_direction),
+        .speed(attack_speed),
+        .pos_x(attack_pos_x),
+        .pos_y(attack_pos_y),
+        .w(attack_w),
+        .h(attack_h),
+        .times(attack_time)
+    );
+    
+    
+    // Platform object data
+    wire  [2:0]  platform_movement_direction;
+    wire  [4:0]  platform_speed;
+    wire  [7:0]  platform_pos_x;
+    wire  [7:0]  platform_pos_y;
+    wire  [7:0]  platform_w;
+    wire  [7:0]  platform_h;
+    wire  [7:0]  platform_time;
+        
+    platform_object_rom #(
+        .ADDR_WIDTH(MAXIMUM_PLATFORM)
+    ) platform_object_reader (
+        .clk(clk),
+        .addr(platform_i),
+        .sync_platform_time(sync_platform_time),
+        
+        .update_platform_time(update_platform_time),
+        .movement_direction(platform_movement_direction),
+        .speed(platform_speed),
+        .pos_x(platform_pos_x),
+        .pos_y(platform_pos_y),
+        .w(platform_w),
+        .h(platform_h),
+        .times(platform_time)
+    );
+    
+    
     //----------------------------------------- game display -----------------------------------------
     wire [9:0] game_display_x0;
     wire [9:0] game_display_y0;
