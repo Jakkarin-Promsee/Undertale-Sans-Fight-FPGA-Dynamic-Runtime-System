@@ -155,13 +155,16 @@ module topModule(
     wire  [7:0]  attack_time;
     
     attack_object_rom #(
-        .ADDR_WIDTH(MAXIMUM_ATTACK)
+        .ADDR_WIDTH(MAXIMUM_ATTACK),
+        .MAXIMUM_TIMES(MAXIMUM_TIMES)
     ) attack_object_reader (
         .clk(clk),
         .addr(attack_i),
+        .current_time(current_time),
         .sync_attack_time(sync_attack_time),
         
         .update_attack_time(update_attack_time),
+        .next_attack_time(next_attack_time),
         .types(attack_type),
         .colider_type(attack_colider_type),
         .movement_direction(attack_movement_direction),
@@ -184,13 +187,16 @@ module topModule(
     wire  [7:0]  platform_time;
         
     platform_object_rom #(
-        .ADDR_WIDTH(MAXIMUM_PLATFORM)
+        .ADDR_WIDTH(MAXIMUM_PLATFORM),
+        .MAXIMUM_TIMES(MAXIMUM_TIMES)
     ) platform_object_reader (
         .clk(clk),
         .addr(platform_i),
+        .current_time(current_time),
         .sync_platform_time(sync_platform_time),
         
         .update_platform_time(update_platform_time),
+        .next_platform_time(next_platform_time),
         .movement_direction(platform_movement_direction),
         .speed(platform_speed),
         .pos_x(platform_pos_x),
@@ -238,9 +244,32 @@ module topModule(
    );
    
     //----------------------------------------- Collider -----------------------------------------
+    wire object_colider1_signal;
+    object_renderer object_colider1 (
+        .x(x),
+        .y(y),
+        .object_pos_x(attack_pos_x),
+        .object_pos_y(attack_pos_y),
+        .object_w(attack_w),
+        .object_h(attack_h),
+        
+        .render(object_colider1_signal)
+    );
     
     //----------------------------------------- Trigger -----------------------------------------
     
+    wire object_trigger1_signal;
+    object_renderer object_trigger1 (
+        .x(x),
+        .y(y),
+        .object_pos_x(platform_pos_x),
+        .object_pos_y(platform_pos_y),
+        .object_w(platform_w),
+        .object_h(platform_h),
+        
+        .render(object_trigger1_signal)
+    );
+            
     //----------------------------------------- Player ----------------------------------------- 
     wire player_render_signal;
     wire [9:0] player_pos_x;
@@ -291,6 +320,8 @@ module topModule(
         .blank(blank),
         
         .game_display_border_render(game_display_border_signal),
+        .object_colider_signal(object_colider1_signal),
+        .object_trigger_signal(object_trigger1_signal),
         .player_render(player_render_signal),
         
         .RED(RED),

@@ -5,7 +5,7 @@ module game_manager_rom #(
 )(
     input  wire clk,
     input  wire [ADDR_WIDTH-1:0] addr,
-    input sync_game_manage,
+    input sync_game_manager,
     
     output reg  [7:0]  stage,
     output reg  [9:0]  attack_amount,
@@ -26,12 +26,13 @@ module game_manager_rom #(
 
     // Read and unpack fields
     always @(posedge clk) begin
-        if(!sync_game_manage) begin
+        if(!sync_game_manager) begin
             stage           <= rom[addr][39:32];    // 8 bits
             attack_amount   <= rom[addr][31:22];    // 10 bits
             platform_amount <= rom[addr][21:12];    // 10 bits
             free_unused     <= rom[addr][11:8];     // 4 bits
             wait_time       <= rom[addr][7:0];      // 8 bits
+            
             update_game_manager <= 1;
         end else begin
             update_game_manager <= 0;

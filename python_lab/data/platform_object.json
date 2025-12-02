@@ -4,9 +4,9 @@
             "movement_direction": 2, 
             "speed": 2, 
             "pos_x": 0, 
-            "pos_y": 391, 
-            "w": 7, 
-            "h": 43, 
+            "pos_y": 0, 
+            "w": 20, 
+            "h": 20, 
             "time": 2
         }, 
 
@@ -14,9 +14,9 @@
             "movement_direction": 2, 
             "speed": 2, 
             "pos_x": 0, 
-            "pos_y": 100, 
-            "w": 7, 
-            "h": 43, 
+            "pos_y": 50, 
+            "w": 20, 
+            "h": 20, 
             "time": 2
         },
 
@@ -25,9 +25,43 @@
             "speed": 2, 
             "pos_x": 0, 
             "pos_y": 100, 
-            "w": 7, 
-            "h": 43, 
-            "time": 255
+            "w": 20, 
+            "h": 20, 
+            "time": 2
+        },
+
+
+
+
+
+        {
+            "movement_direction": 2, 
+            "speed": 2, 
+            "pos_x": 100, 
+            "pos_y": 0, 
+            "w": 20, 
+            "h": 20, 
+            "time": 2
+        }, 
+
+        {
+            "movement_direction": 2, 
+            "speed": 2, 
+            "pos_x": 100, 
+            "pos_y": 50, 
+            "w": 20, 
+            "h": 20, 
+            "time": 2
+        },
+
+        {
+            "movement_direction": 2, 
+            "speed": 2, 
+            "pos_x": 100, 
+            "pos_y": 100, 
+            "w": 20, 
+            "h": 20, 
+            "time": 2
         }
     ]
 }

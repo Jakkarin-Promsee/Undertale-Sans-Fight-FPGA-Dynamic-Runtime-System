@@ -7,15 +7,17 @@ import os
 def pack_bits(value, width, entry_index=None, field_name=None):
     """
     Force integer `value` into exactly `width` bits.
-    If value exceeds width, print debug info.
+    Reverse bit order (LSB to RSB) before returning.
     """
     if value >= (1 << width):
         if entry_index is not None and field_name is not None:
             print(f"[OVERFLOW] Entry #{entry_index}, Field '{field_name}': "
                   f"value={value}, width={width}, needs {value.bit_length()} bits")
-    # Force fixed width (truncate higher bits)
     masked = value & ((1 << width) - 1)
+    # bitstr = format(masked, f'0{width}b')
     return format(masked, f'0{width}b')
+    # Reverse bits for LSB→RSB
+    # return bitstr[::-1]
 
 
 # ----------------------------
@@ -27,7 +29,7 @@ def encode_game_manager(entry, index=None):
     bits += pack_bits(entry["attack_amount"], 10, index, "attack_amount")
     bits += pack_bits(entry["platform_amount"], 10, index, "platform_amount")
     bits += pack_bits(entry["free(unused)"], 4, index, "free(unused)")
-    bits += pack_bits(entry["wait_time"], 8, index, "wait_time")
+    bits += pack_bits(entry["wait_time"]*10, 8, index, "wait_time")
     return bits
 
 
@@ -45,7 +47,7 @@ def encode_attack(entry, index=None):
     bits += pack_bits(int(entry["pos_y"]/4), 8, index, "pos_y")
     bits += pack_bits(int(entry["w"]/4), 8, index, "w")
     bits += pack_bits(int(entry["h"]/4), 8, index, "h")
-    bits += pack_bits(entry["time"], 8, index, "time")
+    bits += pack_bits(entry["time"]*10, 8, index, "time")
     return bits
 
 
@@ -60,7 +62,7 @@ def encode_platform(entry, index=None):
     bits += pack_bits(int(entry["pos_y"]/4), 8, index, "pos_y")
     bits += pack_bits(int(entry["w"]/4), 8, index, "w")
     bits += pack_bits(int(entry["h"]/4), 8, index, "h")
-    bits += pack_bits(entry["time"], 8, index, "time")
+    bits += pack_bits(entry["time"]*10, 8, index, "time")
     return bits
 
 
@@ -68,7 +70,8 @@ def encode_platform(entry, index=None):
 # Convert binary string → hex (optional)
 # ----------------------------
 def bin_to_hex(bitstring):
-    return format(int(bitstring, 2), '08X')  # 32-bit fixed hex
+    hex_len = (len(bitstring) + 3) // 4  # Round up to full hex char
+    return format(int(bitstring, 2), f'0{hex_len}X')
 
 
 # ----------------------------

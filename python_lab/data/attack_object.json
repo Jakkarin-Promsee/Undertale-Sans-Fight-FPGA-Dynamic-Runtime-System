@@ -6,9 +6,9 @@
             "movement_direction": 2, 
             "speed": 2, 
             "pos_x": 0, 
-            "pos_y": 391, 
-            "w": 7, 
-            "h": 43, 
+            "pos_y": 0, 
+            "w": 20, 
+            "h": 20, 
             "time": 2,
             "free(unused)": 0
         }, 
@@ -18,10 +18,10 @@
             "colider_type": 0, 
             "movement_direction": 2, 
             "speed": 2, 
-            "pos_x": 0, 
-            "pos_y": 391, 
-            "w": 7, 
-            "h": 53, 
+            "pos_x": 50, 
+            "pos_y": 0, 
+            "w": 20, 
+            "h": 20, 
             "time": 2,
             "free(unused)": 0
         }, 
@@ -31,11 +31,132 @@
             "colider_type": 0, 
             "movement_direction": 2, 
             "speed": 2, 
+            "pos_x": 100, 
+            "pos_y": 0, 
+            "w": 20, 
+            "h": 20, 
+            "time": 2,
+            "free(unused)": 0
+        }, 
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 2, 
+            "pos_x": 150, 
+            "pos_y": 0, 
+            "w": 20, 
+            "h": 20, 
+            "time": 2,
+            "free(unused)": 0
+        }, 
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 2, 
+            "pos_x": 200, 
+            "pos_y": 0, 
+            "w": 20, 
+            "h": 20, 
+            "time": 2,
+            "free(unused)": 0
+        }, 
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 2, 
+            "pos_x": 250, 
+            "pos_y": 0, 
+            "w": 20, 
+            "h": 20, 
+            "time": 2,
+            "free(unused)": 0
+        },
+
+
+
+
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 2, 
             "pos_x": 0, 
-            "pos_y": 391, 
-            "w": 7, 
-            "h": 53, 
-            "time": 4,
+            "pos_y": 100, 
+            "w": 20, 
+            "h": 20, 
+            "time": 2,
+            "free(unused)": 0
+        }, 
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 2, 
+            "pos_x": 50, 
+            "pos_y": 100, 
+            "w": 20, 
+            "h": 20, 
+            "time": 2,
+            "free(unused)": 0
+        }, 
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 2, 
+            "pos_x": 100, 
+            "pos_y": 100, 
+            "w": 20, 
+            "h": 20, 
+            "time": 2,
+            "free(unused)": 0
+        }, 
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 2, 
+            "pos_x": 150, 
+            "pos_y": 100, 
+            "w": 20, 
+            "h": 20, 
+            "time": 2,
+            "free(unused)": 0
+        }, 
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 2, 
+            "pos_x": 200, 
+            "pos_y": 100, 
+            "w": 20, 
+            "h": 20, 
+            "time": 2,
+            "free(unused)": 0
+        }, 
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 2, 
+            "pos_x": 250, 
+            "pos_y": 100, 
+            "w": 20, 
+            "h": 20, 
+            "time": 2,
             "free(unused)": 0
         }
     ]

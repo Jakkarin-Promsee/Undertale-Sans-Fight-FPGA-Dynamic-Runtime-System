@@ -1,55 +1,54 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 11/22/2025 04:12:04 PM
-// Design Name: 
-// Module Name: topSim
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
 
+// Testbench for the topModule, designed to observe timing and control signals.
+module tb_topModule;
 
-module topSim();
-    
-    // Inputs (Initialized at declaration to prevent Z/X states)
-    reg clk          = 1'b0;
-    reg reset        = 1'b1; // Assuming reset is active-low (rst_ni) and starts DE-asserted
-    reg switch_up    = 1'b0;
-    reg switch_down  = 1'b0;
-    reg switch_left  = 1'b0;
-    reg switch_right = 1'b0;
-    
-    // Outputs
-    wire HS;
-    wire VS;
-    wire [3:0] RED;
-    wire [3:0] GREEN;
-    wire [3:0] BLUE;
-    
-    // Internal Wires (for probing signals within topModule)
-    wire clk_vga;
-    wire clk_player_control;
-    wire clk_update_position;
-    wire clk_calculation;
-    wire [9:0] x, y;
-    wire blank;
-    wire player_areas_signal;
-    wire [9:0] p_x;
-    wire [9:0] p_y;
+    // -----------------------------------------------------
+    // 1. Testbench Signals (Registers and Wires)
+    // -----------------------------------------------------
 
-    // Instantiate the Device Under Test (DUT)
-    topModule DUT (
+    // Clock and Reset
+    reg clk;
+    reg reset;
+
+    // Controller Inputs (Mock Stimulus)
+    reg switch_up;
+    reg switch_down;
+    reg switch_left;
+    reg switch_right;
+
+    // Outputs from the DUT (not strictly needed for testing logic, but required for instantiation)
+    wire HS, VS;
+    wire [3:0] RED, GREEN, BLUE;
+
+    // Clock Period definition (50MHz clock -> 20ns period)
+    parameter CLK_PERIOD = 20; // 20ns for a 50MHz clock
+
+    // Monitored Internal Game Signals (Mirrors of DUT internal wires)
+    // Assuming MAXIMUM_TIMES=30, MAXIMUM_ATTACK=20, MAXIMUM_PLATFORM=20 from topModule
+    wire [29:0] tb_current_time;
+    wire [19:0] tb_attack_i;
+    wire [19:0] tb_platform_i;
+    wire tb_sync_attack;
+    wire tb_update_attack;
+    wire tb_sync_platform;
+    wire tb_update_platform;
+    
+    wire [29:0] next_attack_time;
+        wire [29:0] next_platform_time;
+        wire [29:0] attack_current_time;
+        
+        wire [7:0] attack_times;
+         wire [7:0] attack_pos_x;
+        
+        wire sync_game_manager;
+        wire update_game_manager;
+
+    // -----------------------------------------------------
+    // 2. Instantiate the Device Under Test (DUT)
+    // -----------------------------------------------------
+
+    topModule dut (
         .clk(clk),
         .reset(reset),
         .switch_up(switch_up),
@@ -62,44 +61,117 @@ module topSim();
         .GREEN(GREEN),
         .BLUE(BLUE)
     );
+
+    // -----------------------------------------------------
+    // 3. Clock Generation
+    // -----------------------------------------------------
+
+    always #1 clk = ~clk;
+
+    // -----------------------------------------------------
+    // 3.5. Internal Signal Mirroring (for easy debugging/graph)
+    // -----------------------------------------------------
+    // Assign top-level wires to the DUT's internal signals via hierarchical reference
+    assign tb_current_time    = dut.current_time;
+    assign tb_attack_i        = dut.attack_i;
+    assign tb_platform_i      = dut.platform_i;
+    assign tb_sync_attack     = dut.sync_attack_time;
+    assign tb_update_attack   = dut.update_attack_time;
+    assign tb_sync_platform   = dut.sync_platform_time;
+    assign tb_update_platform = dut.update_platform_time;
+    assign next_attack_time = dut.next_attack_time;
+    assign next_platform_time = dut.next_platform_time;
+    assign attack_current_time = dut.attack_object_reader.current_time;
+    assign attack_times = dut.attack_object_reader.times;
+    assign attack_pos_x = dut.attack_object_reader.pos_x;
+    assign attack_update_data = dut.attack_object_reader.update_data;
     
-    // Connections to internal wires (Must be done explicitly for probing if they are not module outputs)
-    assign clk_vga = DUT.clk_vga;
-    assign clk_player_control = DUT.clk_player_control;
-    assign clk_update_position = DUT.clk_update_position;
-    assign clk_calculation = DUT.clk_calculation;
-    assign x = DUT.x;
-    assign y = DUT.y;
-    assign blank = DUT.blank;
-    assign player_areas_signal = DUT.player_areas_signal;
-    assign p_x = DUT.p_x;
-    assign p_y = DUT.p_y;
+    assign sync_game_manager = dut.game_manager_contorl.sync_game_manager;
+    assign update_game_manager = dut.game_manager_contorl.update_game_manager;
     
-    // Clock Generation (100MHz - period 10ns)
-    initial begin 
-        forever #1 clk = ~clk;
+    
+
+    // -----------------------------------------------------
+    // 4. Initialization and Stimulus
+    // -----------------------------------------------------
+
+    initial begin
+        // Initialize inputs
+        clk <= 1'b0;
+        reset <= 1'b0; // Start in reset
+        switch_up <= 1'b0;
+        switch_down <= 1'b0;
+        switch_left <= 1'b0;
+        switch_right <= 1'b0;
+
+        // Setup Waveform Tracing
+        $dumpfile("topModule_sim.vcd");
+        // Dump all signals from the current scope (tb_topModule) and its children (dut)
+        $dumpvars(0, tb_topModule);
+
+        // De-assert reset after 100ns
+        #100 reset <= 1'b1;
+
+        // Apply a brief input stimulus after reset is released
+        #500
+        switch_left <= 1'b1; // Move player left
+        
+        // Wait for player control clock to potentially tick (100Hz -> 10ms period)
+        #200_000 // 200 us, ensuring several player control cycles
+        switch_left <= 1'b0;
+
+        // Wait longer to see ROM reading and synchronization events
+        // The game manager clock is 100Hz (10ms period), so let's run for 50ms
+        #500_000 // 500 us (0.5ms) - Still quite short, but enough to see divider outputs
+        
+        // Final stimulus to check another direction
+        switch_up <= 1'b1;
+        #100_000
+        switch_up <= 1'b0;
+
+        // Run for a longer period to ensure Game Manager cycles
+        // Game manager clock is 10ms. Running for 100ms should show events.
+        #1_000_000_000 // Wait 100ms (100,000,000 ns)
+
+        // End simulation
+        $finish;
     end
     
-    // Stimulus
-    initial begin
-       $dumpvars(0, topSim);
-       $dumpfile("waveform.vcd");
-       
-      // 1. Initial Reset Phase (Assert Active-Low Reset)
-      // Assuming rst_ni means active-low reset.
-      reset = 1'b0; // Assert Reset
-      #20;
-      reset = 1'b1; // De-assert Reset (System starts running)
-      
-      #100; // Wait for system to settle
-      
-      // 2. Controller Stimulus: Move Up
-      switch_up = 1'b1;
-      #50000; // Hold for 50us (50,000ns)
-//      switch_right = 1'b0;
-      
-      #10_000_000;
-      $finish;
-     end
+    wire  [7:0]  times;
+    wire  [7:0]  pos_x;
+    wire  [7:0]  w;
     
+    assign times = rom[0][7:0];
+    assign pos_x = rom[0][39:32];
+    assign w = rom[0][23:16];
+    
+    reg [55:0] rom [0:10];
+    initial begin
+        $readmemh("attack_object.mem", rom);
+        $display("ROM[0] = %h", rom[0]);
+        
+        
+    end
+
+    // -----------------------------------------------------
+    // 5. Monitoring Internal Signals (for text output)
+    // -----------------------------------------------------
+    // Monitor Game Manager State (Time and Iterators) on the centi-second clock edge
+//    always @(posedge dut.clk_centi_second) begin
+//        $display("Time: %t | [GAME STATE] Time (centi-sec): %d | Attack Index (i): %d | Platform Index (i): %d",
+//                 $time, tb_current_time, tb_attack_i, tb_platform_i);
+//    end
+    
+    // Monitors the sync and update signals for the ROM readers on the main clock edge
+//    always @(posedge clk) begin
+//        if (tb_sync_attack)
+//            $display("Time: %t | >>> ATTACK SYNC: Requesting next attack time.", $time);
+//        if (tb_update_attack)
+//            $display("Time: %t | !!! ATTACK UPDATE: New attack time received (Index: %d).", $time, tb_attack_i);
+//        if (tb_sync_platform)
+//            $display("Time: %t | >>> PLATFORM SYNC: Requesting next platform time.", $time);
+//        if (tb_update_platform)
+//            $display("Time: %t | !!! PLATFORM UPDATE: New platform time received (Index: %d).", $time, tb_platform_i);
+//    end
+
 endmodule

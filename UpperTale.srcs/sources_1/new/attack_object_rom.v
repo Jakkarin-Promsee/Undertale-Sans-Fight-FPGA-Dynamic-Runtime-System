@@ -1,13 +1,16 @@
 `timescale 1ns / 1ps
 
 module attack_object_rom #(
-    parameter integer ADDR_WIDTH = 10              // 1024 entries
+    parameter integer ADDR_WIDTH = 10,              // 1024 entries
+    parameter integer MAXIMUM_TIMES = 30
 )(
     input clk,
     input [ADDR_WIDTH-1:0] addr,
+    input [MAXIMUM_TIMES-1:0] current_time,
     input sync_attack_time,
     
-    output reg update_attack_time,
+    output reg  update_attack_time,
+    output reg  [MAXIMUM_TIMES-1:0] next_attack_time,
     output reg  [4:0]  types,
     output reg  [1:0]  colider_type,
     output reg  [2:0]  movement_direction,
@@ -21,27 +24,41 @@ module attack_object_rom #(
 );
 
     reg [55:0] rom [0:(1<<ADDR_WIDTH)-1];
+    reg update_data;
 
     initial begin
         $readmemh("attack_object.mem", rom);
     end
+    
+    initial begin
+        update_data = 0; 
+        next_attack_time = 0;
+        
+    end
 
     always @(posedge clk) begin
         if(!sync_attack_time) begin
-            types               <= rom[addr][55:51];
-            colider_type       <= rom[addr][50:49];
-            movement_direction <= rom[addr][48:46];
-            speed              <= rom[addr][45:41];
-            free_unused        <= rom[addr][40];
-            pos_x              <= rom[addr][39:32];
-            pos_y              <= rom[addr][31:24];
-            w                  <= rom[addr][23:16];
-            h                  <= rom[addr][15:8];
-            times               <= rom[addr][7:0];
+            if(!update_data) begin
+                types               <= rom[addr][55:51];
+                colider_type       <= rom[addr][50:49];
+                movement_direction <= rom[addr][48:46];
+                speed              <= rom[addr][45:41];
+                free_unused        <= rom[addr][40];
+                pos_x              <= rom[addr][39:32];
+                pos_y              <= rom[addr][31:24];
+                w                  <= rom[addr][23:16];
+                h                  <= rom[addr][15:8];
+                times              <= rom[addr][7:0];
             
-            update_attack_time <= 1;
+                update_data <= 1;
+                                    
+            end else begin
+                next_attack_time <= current_time + times;
+                update_attack_time <= 1;
+            end
         end else begin
             update_attack_time <= 0;
+            update_data <= 0;
         end
     end
 endmodule

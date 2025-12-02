@@ -5,6 +5,8 @@ module universal_renderer(
     input [9:0] y,
     input blank,   
        
+    input object_colider_signal,
+    input object_trigger_signal,
     input game_display_border_render,
     input player_render,
     
@@ -22,6 +24,20 @@ module universal_renderer(
             BLUE  = 0;
         end 
         
+        // Object Colider
+        else if (object_colider_signal) begin
+            RED   = 0;
+            GREEN = 15;
+            BLUE  = 15;
+        end 
+        
+        // Object Trigger
+        else if (object_trigger_signal) begin
+            RED   = 15;
+            GREEN = 0;
+            BLUE  = 0;
+        end
+        
         // Game display border
         else if (game_display_border_render) begin
             RED   = 15;
@@ -32,8 +48,8 @@ module universal_renderer(
         // Player
         else if (player_render) begin 
             RED   = 0;
-            GREEN = 15;
-            BLUE  = 0;
+            GREEN = 0;
+            BLUE  = 15;
         end 
         
         // Background
