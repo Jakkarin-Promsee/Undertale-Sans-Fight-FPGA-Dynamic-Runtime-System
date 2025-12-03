@@ -16,13 +16,13 @@ module attack_object_rom #(
     output reg  [1:0]  colider_type,
     output reg  [2:0]  movement_direction,
     output reg  [4:0]  speed,
-    output reg  [0:0]  free_unused,
-    output reg  [7:0]  pos_x,
-    output reg  [7:0]  pos_y,
-    output reg  [7:0]  w,
-    output reg  [7:0]  h,
+    output reg  [9:0]  pos_x,
+    output reg  [9:0]  pos_y,
+    output reg  [9:0]  w,
+    output reg  [9:0]  h,
     output reg  [7:0]  times
 );
+    reg  [0:0]  free_unused;
 
     reg [55:0] rom [0:(1<<ADDR_WIDTH)-1];
     reg update_data;
@@ -40,10 +40,10 @@ module attack_object_rom #(
                 movement_direction <= rom[addr][48:46];
                 speed              <= rom[addr][45:41];
                 free_unused        <= rom[addr][40];
-                pos_x              <= rom[addr][39:32];
-                pos_y              <= rom[addr][31:24];
-                w                  <= rom[addr][23:16];
-                h                  <= rom[addr][15:8];
+                pos_x              <= rom[addr][39:32] << 2;
+                pos_y              <= rom[addr][31:24] << 2;
+                w                  <= rom[addr][23:16] << 2;
+                h                  <= rom[addr][15:8] << 2;
                 times              <= rom[addr][7:0];
             
                 update_data <= 1;

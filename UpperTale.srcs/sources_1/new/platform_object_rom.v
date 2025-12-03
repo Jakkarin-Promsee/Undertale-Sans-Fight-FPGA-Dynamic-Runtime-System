@@ -14,10 +14,10 @@ module platform_object_rom #(
     output reg  [MAXIMUM_TIMES-1:0] next_platform_time,
     output reg  [2:0]  movement_direction,
     output reg  [4:0]  speed,
-    output reg  [7:0]  pos_x,
-    output reg  [7:0]  pos_y,
-    output reg  [7:0]  w,
-    output reg  [7:0]  h,
+    output reg  [9:0]  pos_x,
+    output reg  [9:0]  pos_y,
+    output reg  [9:0]  w,
+    output reg  [9:0]  h,
     output reg  [7:0]  times
 );
 
@@ -33,10 +33,10 @@ module platform_object_rom #(
             if(!update_data) begin
                 movement_direction <= rom[addr][47:45];
                 speed              <= rom[addr][44:40];
-                pos_x              <= rom[addr][39:32];
-                pos_y              <= rom[addr][31:24];
-                w                  <= rom[addr][23:16];
-                h                  <= rom[addr][15:8];
+                pos_x              <= rom[addr][39:32] << 2;
+                pos_y              <= rom[addr][31:24] << 2;
+                w                  <= rom[addr][23:16] << 2;
+                h                  <= rom[addr][15:8] << 2;
                 times               <= rom[addr][7:0];
                 
                 update_data <= 1;

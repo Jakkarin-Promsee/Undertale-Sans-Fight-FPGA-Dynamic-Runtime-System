@@ -11,7 +11,7 @@ module object_renderer(
     output render
 );
     
-    assign render = (x >= (object_pos_x<<2)) && (x < (object_pos_x<<2) + (object_w<<2)) 
-                    && (y >= (object_pos_y<<2)) && (y < (object_pos_y<<2) + (object_h<<2)) ;
+    assign render = (x >= (object_pos_x)) && (x < (object_pos_x) + (object_w)) 
+                    && (y >= (object_pos_y)) && (y < (object_pos_y) + (object_h)) ;
 
 endmodule

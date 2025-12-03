@@ -235,10 +235,10 @@ module topModule(
     wire  [1:0]  attack_colider_type;
     wire  [2:0]  attack_movement_direction;
     wire  [4:0]  attack_speed;
-    wire  [7:0]  attack_pos_x;
-    wire  [7:0]  attack_pos_y;
-    wire  [7:0]  attack_w;
-    wire  [7:0]  attack_h;
+    wire  [9:0]  attack_pos_x;
+    wire  [9:0]  attack_pos_y;
+    wire  [9:0]  attack_w;
+    wire  [9:0]  attack_h;
     wire  [7:0]  attack_time;
     
     attack_object_rom #(
@@ -268,10 +268,10 @@ module topModule(
     // Platform Object Data Stream   
     wire  [2:0]  platform_movement_direction;
     wire  [4:0]  platform_speed;
-    wire  [7:0]  platform_pos_x;
-    wire  [7:0]  platform_pos_y;
-    wire  [7:0]  platform_w;
-    wire  [7:0]  platform_h;
+    wire  [9:0]  platform_pos_x;
+    wire  [9:0]  platform_pos_y;
+    wire  [9:0]  platform_w;
+    wire  [9:0]  platform_h;
     wire  [7:0]  platform_time;
         
     platform_object_rom #(
