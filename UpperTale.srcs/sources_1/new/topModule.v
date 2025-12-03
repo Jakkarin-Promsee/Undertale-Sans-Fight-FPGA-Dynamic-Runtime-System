@@ -3,7 +3,7 @@
 module topModule(
     // Setting Inputs
     input clk,
-    input reset,
+    input clk_reset,
     
     // Controller Input
     input switch_up,
@@ -19,79 +19,151 @@ module topModule(
     output [3:0] BLUE
     );
     
-    //----------------------------------------- Clock Divider -----------------------------------------
+    //----------------------------------------- List of Contents -----------------------------------------
+    // To use it, select name of topic, then use search (ctrl + F) to find next word
     
-    // Internal Variable
+    
+    // Clock Dividers Section
+    
+    // Synchonus Reset Section
+    
+    // VGA Translator Section
+    
+    // Game Runtime && ROM Reader Section 
+    
+    // Game Display Section
+    
+    // Game Display Section
+    
+    // Collider Object Runtimes Section
+    
+    // Trigger Object Runtimes Section
+    
+    // Player Controller Section
+    
+    // Universal Renderer Section
+    
+    
+    //----------------------------------- Clock Dividers Section -----------------------------------------
+    // The Main clock is running at 100MHz
+    
+    // Connect to clk_div_vga 25KHz)
+    // To match vga signal speed, current for 480x680 60Hz
+    localparam integer CLK_DIV_FACTOR_VGA = 4;
+    localparam integer CLK_DIV_FACTOR_BIT_VGA = 2;
+
+    // Conect to clk_div_player_control (100Hz)
+    // To maintain player module.
+    // Such as switch_control, player_pos, player_gravity, player_render, etc.
+    localparam integer CLK_DIV_FACTOR_PLAYER_CONTROL = 1_000_000;
+    localparam integer CLK_DIV_FACTOR_BIT_PLAYER_CONTROL = 20;
+
+    // Conect to clk_div_object_control (100Hz)
+    // To maintain object module. Seperate to coliders and triggers type (100+ objects)
+    // Such as objects_runtime, objects_position, objects_render
+    localparam integer CLK_DIV_FACTOR_OBJECT_CONTROL = 1_000_000;
+    localparam integer CLK_DIV_FACTOR_BIT_OBJECT_CONTROL = 20;
+
+    // Conect to clk_div_centi_second (100Hz)
+    // To maintain run-time module. Require precise 0.01clk/s to count time
+    // For main runtime module that read dynamic task from ROM file
+    localparam integer CLK_DIV_FACTOR_CENTI_SECOND = 1_000_000;
+    localparam integer CLK_DIV_FACTOR_BIT_CENTI_SECOND = 20;
+
+    // Conect to clk_div_calculation (1kHz)
+    // To maintain object collidion and tringger check or heavy calculation
+    // This clock should faster than main clk to keep it synchonus
+    localparam integer CLK_DIV_FACTOR_CALCULATION = 100_000;
+    localparam integer CLK_DIV_FACTOR_BIT_CALCULATION = 20;
+    
+
+    // Internal Clock Wire Variable
     wire clk_vga;
     wire clk_player_control;
     wire clk_object_control;
     wire clk_centi_second;
     wire clk_calculation;
     
-    // Connect vga clk (25KHz)
     clk_div #(
-        .DIV_FACTOR(4),
-        .DIV_FACTOR_BIT(2)
+        .DIV_FACTOR(CLK_DIV_FACTOR_VGA),
+        .DIV_FACTOR_BIT(CLK_DIV_FACTOR_BIT_VGA)
     ) clk_div_vga (
         .clk_i(clk), 
-        .rst_ni(reset), 
+        .rst_ni(clk_reset), 
         
         .clk_o(clk_vga)
     );
     
-    // Conect player control clk (100Hz)
     clk_div #(
-        .DIV_FACTOR(1_000_000),
-        .DIV_FACTOR_BIT(20)
+        .DIV_FACTOR(CLK_DIV_FACTOR_PLAYER_CONTROL),
+        .DIV_FACTOR_BIT(CLK_DIV_FACTOR_BIT_PLAYER_CONTROL)
     ) clk_div_player_control (
         .clk_i(clk), 
-        .rst_ni(reset), 
+        .rst_ni(clk_reset), 
         
         .clk_o(clk_player_control)
     );
     
-    // Conect object control clk (100Hz)
     clk_div #(
-        .DIV_FACTOR(1_000_000),
-        .DIV_FACTOR_BIT(20)
-    ) clk_div_update_position (
+        .DIV_FACTOR(CLK_DIV_FACTOR_OBJECT_CONTROL),
+        .DIV_FACTOR_BIT(CLK_DIV_FACTOR_BIT_OBJECT_CONTROL)
+    ) clk_div_object_control (
         .clk_i(clk), 
-        .rst_ni(reset), 
+        .rst_ni(clk_reset), 
         
         .clk_o(clk_object_control)
     );
     
-    // Conect centi second position clk (100Hz / 0.01s)
     clk_div #(
-        .DIV_FACTOR(1_000_000),
-        .DIV_FACTOR_BIT(20)
+        .DIV_FACTOR(CLK_DIV_FACTOR_CENTI_SECOND),
+        .DIV_FACTOR_BIT(CLK_DIV_FACTOR_BIT_CENTI_SECOND)
     ) clk_div_centi_second (
         .clk_i(clk), 
-        .rst_ni(reset), 
+        .rst_ni(clk_reset), 
         
         .clk_o(clk_centi_second)
     );
     
-    // Conect calculation clk (1kHz)
     clk_div #(
-        .DIV_FACTOR(100_000),
-        .DIV_FACTOR_BIT(17)
+        .DIV_FACTOR(CLK_DIV_FACTOR_CALCULATION),
+        .DIV_FACTOR_BIT(CLK_DIV_FACTOR_BIT_CALCULATION)
     ) clk_div_calculation (
         .clk_i(clk), 
-        .rst_ni(reset), 
+        .rst_ni(clk_reset), 
         
         .clk_o(clk_calculation)
     );
     
-    //----------------------------------------- VGA -----------------------------------------
-        
-    // VGA Translate Variable
-    wire [9:0] x, y; // Current pixels (0-1024)
-    wire blank; // Is in blank screen
+    //----------------------------------- Synchonus Reset Section -----------------------------------------
+    // To sync clock reset and other flip-flop reset (1s)
+    localparam integer WAIT_TIME_FOR_CLK_SYNC = 100_000_000;
+    
+    reg sync_reset; // To prevent bufg to share real pin to many module
+    reg [27:0] wait_sync_reset; // To synchonus all modules setup
+    
+    // Wait Clock reset done first, then hold a time to wait other flip-flop reset
+    always @(posedge clk) begin
+        if(clk_reset) begin
+            wait_sync_reset <= 0;
+            sync_reset <= 1;
+        end else begin
+            if(wait_sync_reset <= WAIT_TIME_FOR_CLK_SYNC) begin
+                wait_sync_reset <= wait_sync_reset + 1;
+                sync_reset <= 1;
+            end else begin
+                sync_reset <= 0;
+            end
+        end
+    end
+    
+    //----------------------------------- VGA Translator Section -----------------------------------------
+    
+    wire [9:0] x, y; // Current pixels x and y
+    wire blank; // Is this in blank screen
     
     vga_translator vga_translate (
         .clk_display(clk_vga),
-        .reset(reset),
+        .reset(sync_reset),
         
         .HS(HS),
         .VS(VS),
@@ -100,36 +172,51 @@ module topModule(
         .blank(blank)
     );
     
-    //----------------------------------------- Game Runtime ROM Reader -----------------------------------------
-    localparam integer INITIAL_STAGE = 0;
-    localparam integer MAXIMUM_STAGE = 8; // 256 stage
-    localparam integer MAXIMUM_TIMES = 30; // 10,000,000.00 second
-    localparam integer MAXIMUM_ATTACK = 20; // 1,000,000
-    localparam integer MAXIMUM_PLATFORM = 20; // 1,000,000
-        
-    wire [MAXIMUM_TIMES-1:0] next_attack_time;
-    wire [MAXIMUM_TIMES-1:0] next_platform_time;
-    wire update_attack_time;
-    wire update_platform_time;
+    //----------------------------------- Game Runtime && ROM Reader Section -----------------------------------------
+    // TO declare size of hold memeory variable
+    localparam integer MAXIMUM_STAGE = 8; // 256 stages
+    localparam integer MAXIMUM_TIMES = 30; // 10,000,000.00 seconds
+    localparam integer MAXIMUM_ATTACK_OBJECT = 20; // 1,000,000 objects
+    localparam integer MAXIMUM_PLATFORM_OBJECT = 20; // 1,000,000 objects
     
+    // To recursive stage when all data in rom was readed
+    localparam integer INITIAL_STAGE = 0; // Default Start at stages 1
+    localparam integer LAST_STAGE = 2; // Default End at stages 2
+    
+    // Internal Data Stream   
+    // Assign with game_manager_contorl
     wire [MAXIMUM_STAGE-1:0] current_stage;
     wire [MAXIMUM_TIMES-1:0] current_time;
-    wire [MAXIMUM_ATTACK-1:0] attack_i;
-    wire [MAXIMUM_PLATFORM-1:0] platform_i;
+    wire [MAXIMUM_ATTACK_OBJECT-1:0] attack_i;
+    wire [MAXIMUM_PLATFORM_OBJECT-1:0] platform_i;
+    
+    // Assign with attack_object reader and platform_object_reader
+    wire [MAXIMUM_TIMES-1:0] next_attack_time;
+    wire [MAXIMUM_TIMES-1:0] next_platform_time;
+    
+    // Sychonus signal from game_manager_contorl (Normal: 1, Require update: 0)
+    // Turn 0 when next_attack_time or next_platform_time >= current time
+    // Turn 1 when update_attack_time or update_platfom_time = 1
     wire sync_attack_time;
     wire sync_platform_time;
+    
+    // Sychonus signal from attack_object reader and platform_object_reader (Normal: 0, Updated: 1)
+    // Turn 1 when sync_attack_time or sync_platform_time = 0 (it will read data from rom and set next_time)
+    // Trun 0 when sync_attack_time or sync_platform_time back to 1
+    wire update_attack_time;
+    wire update_platform_time;
     
     game_manager_contorller #(
         .INITIAL_STAGE(INITIAL_STAGE),
         .MAXIMUM_STAGE(MAXIMUM_STAGE),
         .MAXIMUM_TIMES(MAXIMUM_TIMES),
-        .MAXIMUM_ATTACK(MAXIMUM_ATTACK),
-        .MAXIMUM_PLATFORM(MAXIMUM_PLATFORM)
+        .MAXIMUM_ATTACK_OBJECT(MAXIMUM_ATTACK_OBJECT),
+        .MAXIMUM_PLATFORM_OBJECT(MAXIMUM_PLATFORM_OBJECT)
         
     ) game_manager_contorl (
         .clk(clk),
         .clk_centi_second(clk_centi_second),
-        .reset(reset),
+        .reset(sync_reset),
         .next_attack_time(next_attack_time),
         .next_platform_time(next_platform_time),
         .update_attack_time(update_attack_time),
@@ -143,7 +230,7 @@ module topModule(
         .sync_platform_time(sync_platform_time)
     );
     
-    // Attack object data
+    // Attack Object Data Stream   
     wire  [4:0]  attack_type;
     wire  [1:0]  attack_colider_type;
     wire  [2:0]  attack_movement_direction;
@@ -155,11 +242,11 @@ module topModule(
     wire  [7:0]  attack_time;
     
     attack_object_rom #(
-        .ADDR_WIDTH(MAXIMUM_ATTACK),
+        .ADDR_WIDTH(MAXIMUM_ATTACK_OBJECT),
         .MAXIMUM_TIMES(MAXIMUM_TIMES)
     ) attack_object_reader (
         .clk(clk),
-        .reset(reset),
+        .reset(sync_reset),
         .addr(attack_i),
         .current_time(current_time),
         .sync_attack_time(sync_attack_time),
@@ -178,7 +265,7 @@ module topModule(
     );
     
     
-    // Platform object data
+    // Platform Object Data Stream   
     wire  [2:0]  platform_movement_direction;
     wire  [4:0]  platform_speed;
     wire  [7:0]  platform_pos_x;
@@ -188,11 +275,11 @@ module topModule(
     wire  [7:0]  platform_time;
         
     platform_object_rom #(
-        .ADDR_WIDTH(MAXIMUM_PLATFORM),
+        .ADDR_WIDTH(MAXIMUM_PLATFORM_OBJECT),
         .MAXIMUM_TIMES(MAXIMUM_TIMES)
     ) platform_object_reader (
         .clk(clk),
-        .reset(reset),
+        .reset(sync_reset),
         .addr(platform_i),
         .current_time(current_time),
         .sync_platform_time(sync_platform_time),
@@ -209,7 +296,15 @@ module topModule(
     );
     
     
-    //----------------------------------------- game display -----------------------------------------
+    //----------------------------------- Game Display Section -----------------------------------------
+    
+    // Initialize Game Display parameters
+    localparam integer GAME_DISPLAY_X0 = 130;
+    localparam integer GAME_DISPLAY_Y0 = 251;
+    localparam integer GAME_DISPLAY_X1 = 506;
+    localparam integer GAME_DISPLAY_Y1 = 391;
+    localparam integer GAME_DISPLAY_BORDER = 5;
+
     wire [9:0] game_display_x0;
     wire [9:0] game_display_y0;
     wire [9:0] game_display_x1;
@@ -217,14 +312,14 @@ module topModule(
     wire game_display_border_signal;
     
     game_display_controller #(
-        .GAME_DISPLAY_X0(130),
-        .GAME_DISPLAY_Y0(251),
-        .GAME_DISPLAY_X1(506),
-        .GAME_DISPLAY_Y1(391)
+        .GAME_DISPLAY_X0(GAME_DISPLAY_X0),
+        .GAME_DISPLAY_Y0(GAME_DISPLAY_Y0),
+        .GAME_DISPLAY_X1(GAME_DISPLAY_X1),
+        .GAME_DISPLAY_Y1(GAME_DISPLAY_Y1)
   
     ) game_display_control (
         .clk_object_control(clk_object_control),
-        .reset(reset),
+        .reset(sync_reset),
         
         .game_display_x0(game_display_x0),
         .game_display_y0(game_display_y0),
@@ -233,7 +328,7 @@ module topModule(
     );
     
     game_display_renderer #(
-        .BORDER(6)
+        .BORDER(GAME_DISPLAY_BORDER)
    ) game_display_render (
        .x(x),
        .y(y),
@@ -245,7 +340,7 @@ module topModule(
        .render(game_display_border_signal)
    );
    
-    //----------------------------------------- Collider -----------------------------------------
+    //----------------------------------- Collider Object Runtimes Section  -----------------------------------------
     wire object_colider1_signal;
     object_renderer object_colider1 (
         .x(x),
@@ -258,7 +353,7 @@ module topModule(
         .render(object_colider1_signal)
     );
     
-    //----------------------------------------- Trigger -----------------------------------------
+    //----------------------------------- Trigger Object Runtimes Section -----------------------------------------
     
     wire object_trigger1_signal;
     object_renderer object_trigger1 (
@@ -272,7 +367,23 @@ module topModule(
         .render(object_trigger1_signal)
     );
             
-    //----------------------------------------- Player ----------------------------------------- 
+    //----------------------------------- Player Controller Section ----------------------------------------- 
+    
+    // Initialize Player parameters
+    localparam integer INIT_PLAYER_POS_X = 316;
+    localparam integer INIT_PLAYER_POS_y = 314;
+    localparam integer INIT_PLAYER_W = 17;
+    localparam integer INIT_PLAYER_H = 17;
+    
+    // Initialize Physic parameters
+    localparam integer HORIZONTAL_SPEED = 15;
+    localparam integer VERTICAL_SPEED = 22;  // 1/16 scale
+    localparam integer GRAVITY = 8;  // 1/16 scale
+    localparam integer MAX_FALLING_SPEED = 35; // 1/16 scale 
+    localparam integer JUMP_H = 80; 
+
+
+    // Player Data Stream
     wire player_render_signal;
     wire [9:0] player_pos_x;
     wire [9:0] player_pos_y;
@@ -281,14 +392,14 @@ module topModule(
     reg active_gravity = 1;
     
     player_position_controller #(
-        .PLAYER_POS_X(316),
-        .PLAYER_POS_Y(314),
-        .PLAYER_W(17),
-        .PLAYER_H(17)
+        .PLAYER_POS_X(INIT_PLAYER_POS_X),
+        .PLAYER_POS_Y(INIT_PLAYER_POS_y),
+        .PLAYER_W(INIT_PLAYER_W),
+        .PLAYER_H(INIT_PLAYER_H)
         
     ) player_position(
         .clk_player_control(clk_player_control),
-        .reset(reset),
+        .reset(sync_reset),
         .switch_up(switch_up),
         .switch_down(switch_down),
         .switch_left(switch_left),
@@ -316,8 +427,10 @@ module topModule(
         .render(player_render_signal)
     );
     
+    
+    //----------------------------------- Universal Renderer Section  ----------------------------------------- 
     universal_renderer universal_render(
-        .reset(reset),
+        .reset(sync_reset),
         .x(x),
         .y(y),
         .blank(blank),
@@ -331,4 +444,5 @@ module topModule(
         .GREEN(GREEN),
         .BLUE(BLUE)
     );
+    
 endmodule

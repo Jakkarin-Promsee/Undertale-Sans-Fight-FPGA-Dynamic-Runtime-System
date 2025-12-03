@@ -1,11 +1,9 @@
-set_property IOSTANDARD LVCMOS33 [get_ports reset]
+set_property IOSTANDARD LVCMOS33 [get_ports clk_reset]
 set_property IOSTANDARD LVCMOS33 [get_ports clk]
-set_property PACKAGE_PIN V17 [get_ports reset]
+set_property PACKAGE_PIN V17 [get_ports clk_reset]
 set_property PACKAGE_PIN W5 [get_ports clk]
 
 create_clock -period 10.000 -name clk_board_to_topModule -waveform {0.000 5.000} [get_ports clk]
-
-set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets reset_IBUF]
 
 set_property PACKAGE_PIN G19 [get_ports {RED[0]}]
 set_property PACKAGE_PIN H19 [get_ports {RED[1]}]
