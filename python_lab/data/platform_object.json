@@ -3,31 +3,31 @@
         {
             "movement_direction": 2, 
             "speed": 2, 
-            "pos_x": 0, 
-            "pos_y": 0, 
+            "pos_x": 320, 
+            "pos_y": 240, 
             "w": 20, 
-            "h": 20, 
-            "time": 2
+            "h": 6, 
+            "time": 4
         }, 
 
         {
-            "movement_direction": 2, 
+            "movement_direction": 6, 
             "speed": 2, 
-            "pos_x": 0, 
-            "pos_y": 50, 
+            "pos_x": 320, 
+            "pos_y": 240, 
             "w": 20, 
-            "h": 20, 
-            "time": 2
+            "h": 6, 
+            "time": 4
         },
 
         {
-            "movement_direction": 2, 
+            "movement_direction": 4, 
             "speed": 2, 
-            "pos_x": 0, 
-            "pos_y": 100, 
+            "pos_x": 320, 
+            "pos_y": 240, 
             "w": 20, 
-            "h": 20, 
-            "time": 2
+            "h": 6, 
+            "time": 4
         },
 
 
@@ -35,33 +35,33 @@
 
 
         {
-            "movement_direction": 2, 
+            "movement_direction": 0, 
             "speed": 2, 
-            "pos_x": 100, 
-            "pos_y": 0, 
+            "pos_x": 320, 
+            "pos_y": 240, 
             "w": 20, 
-            "h": 20, 
-            "time": 2
+            "h": 6, 
+            "time": 4
         }, 
 
         {
-            "movement_direction": 2, 
+            "movement_direction": 7, 
             "speed": 2, 
-            "pos_x": 100, 
-            "pos_y": 50, 
+            "pos_x": 320, 
+            "pos_y": 240, 
             "w": 20, 
-            "h": 20, 
-            "time": 2
+            "h": 6, 
+            "time": 4
         },
 
         {
-            "movement_direction": 2, 
+            "movement_direction": 1, 
             "speed": 2, 
-            "pos_x": 100, 
-            "pos_y": 100, 
+            "pos_x": 320, 
+            "pos_y": 240, 
             "w": 20, 
-            "h": 20, 
-            "time": 2
+            "h": 6, 
+            "time": 4
         }
     ]
 }

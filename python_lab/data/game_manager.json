@@ -4,7 +4,7 @@
             "stage": 0,
             "attack_amount": 6,
             "platform_amount": 3,
-            "wait_time": 3,
+            "wait_time": 1,
             "free(unused)": 0
         },
 
@@ -12,7 +12,7 @@
             "stage": 0,
             "attack_amount": 6,
             "platform_amount": 3,
-            "wait_time": 3,
+            "wait_time": 1,
             "free(unused)": 0
         }
     ]
