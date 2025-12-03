@@ -206,14 +206,14 @@ module topModule(
     wire update_attack_time;
     wire update_platform_time;
     
-    game_manager_contorller #(
+    game_runtime #(
         .INITIAL_STAGE(INITIAL_STAGE),
         .MAXIMUM_STAGE(MAXIMUM_STAGE),
         .MAXIMUM_TIMES(MAXIMUM_TIMES),
         .MAXIMUM_ATTACK_OBJECT(MAXIMUM_ATTACK_OBJECT),
         .MAXIMUM_PLATFORM_OBJECT(MAXIMUM_PLATFORM_OBJECT)
         
-    ) game_manager_contorl (
+    ) game_runtime_execute (
         .clk(clk),
         .clk_centi_second(clk_centi_second),
         .reset(sync_reset),

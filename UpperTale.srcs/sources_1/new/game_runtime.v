@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module game_manager_contorller#(
+module game_runtime#(
     parameter integer INITIAL_STAGE = 0,
     parameter integer MAXIMUM_STAGE = 8,    // Stage index bit width (e.g., 8 bits for 256 stages)
     parameter integer MAXIMUM_TIMES = 30,   // Time index bit width (e.g., 30 bits)
