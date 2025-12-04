@@ -38,6 +38,8 @@ module object_collilder_runtime (
     reg [OBJECT_AMOUNT-1: 0] object_ready_state ;
     wire [9:0] object_collider_override_pos_x [OBJECT_AMOUNT-1: 0];
     wire [9:0] object_collider_override_pos_y [OBJECT_AMOUNT-1: 0];
+    wire [9:0] object_collider_override_w [OBJECT_AMOUNT-1: 0];
+    wire [9:0] object_collider_override_h [OBJECT_AMOUNT-1: 0];
     
     reg [OBJECT_AMOUNT-1: 0] sync_object_position_i ;
     wire [OBJECT_AMOUNT-1: 0] update_object_position_i ;
@@ -143,9 +145,14 @@ module object_collilder_runtime (
                 .display_pos_x2(display_pos_x2),
                 .display_pos_y2(display_pos_y2),
                 
+                .object_w(object_w),
+                .object_h(object_h),
+                
                 .update_object_position(update_object_position_i[i]),
                 .object_override_pos_x(object_collider_override_pos_x[i]),
                 .object_override_pos_y(object_collider_override_pos_y[i]),
+                .object_override_w(object_collider_override_w[i]),
+                .object_override_h(object_collider_override_h[i]),
                 
                 .object_free(object_free_i[i])
             );
@@ -155,8 +162,8 @@ module object_collilder_runtime (
                 .y(y),
                 .object_pos_x(object_collider_override_pos_x[i]),
                 .object_pos_y(object_collider_override_pos_y[i]),
-                .object_w(object_w),
-                .object_h(object_h),
+                .object_w(object_collider_override_w[i]),
+                .object_h(object_collider_override_h[i]),
                       
                 .render(object_signal_i[i])
             );

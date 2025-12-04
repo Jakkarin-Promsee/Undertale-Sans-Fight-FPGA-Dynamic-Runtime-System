@@ -16,8 +16,13 @@ module object_position_controller (
     input  [9:0]  display_pos_y1,
     input  [9:0]  display_pos_x2,
     input  [9:0]  display_pos_y2,
+    
+    input [9:0]  object_w,
+    input [9:0]  object_h,
         
     output reg update_object_position,
+    output reg [9:0] object_override_w,
+    output reg [9:0] object_override_h,
     output wire [9:0] object_override_pos_x,
     output wire [9:0] object_override_pos_y,
     
@@ -51,6 +56,9 @@ module object_position_controller (
             display_pos_x2_hired <= 0;
             display_pos_y2_hired <= 0;
             
+            object_override_w <= 0;
+            object_override_h <= 0;
+            
             movement_direction_hired <= movement_direction;
             object_speed_hired <= object_speed;
         end else begin
@@ -61,13 +69,24 @@ module object_position_controller (
                 movement_direction_hired <= movement_direction;
                 object_speed_hired <= object_speed;
                 
-                display_pos_x1_hired <=  display_pos_x1;
-                display_pos_y1_hired <=  display_pos_y1;
-                display_pos_x2_hired <=  display_pos_x2;
-                display_pos_y2_hired <=  display_pos_y2;
+                display_pos_x1_hired <=  display_pos_x1 << SCALE_FACTOR_BITS;
+                display_pos_y1_hired <=  display_pos_y1 << SCALE_FACTOR_BITS;
+                display_pos_x2_hired <=  display_pos_x2 << SCALE_FACTOR_BITS;
+                display_pos_y2_hired <=  display_pos_y2 << SCALE_FACTOR_BITS;
+                
+                object_override_w <= object_w;
+                object_override_h <= object_h;
                 
                 update_object_position <= 1;
                 object_free <= 0;
+                
+            end else if (object_free) begin
+                object_override_pos_x_hired <= 0;
+                object_override_pos_y_hired <= 0;
+                
+                object_override_w <= 0;
+                object_override_h <= 0;
+            
             end else begin
                 update_object_position <= 0;
                 
@@ -77,9 +96,9 @@ module object_position_controller (
                     
                     1: begin
                         if (object_override_pos_x_hired > 640*SCALE_FACTOR ||
-                            object_override_pos_x_hired < 0   ||
+                            object_override_pos_x_hired + (object_override_w<<SCALE_FACTOR_BITS) < 0   ||
                             object_override_pos_y_hired > 480*SCALE_FACTOR ||
-                            object_override_pos_y_hired < 0) begin
+                            object_override_pos_y_hired + (object_override_h<<SCALE_FACTOR_BITS) < 0) begin
                             
                             object_free <= 1;
                         end
@@ -87,9 +106,9 @@ module object_position_controller (
                     
                     2: begin
                         if (object_override_pos_x_hired > display_pos_x2_hired||
-                            object_override_pos_x_hired < display_pos_x1_hired   ||
-                            object_override_pos_y_hired > display_pos_y1_hired ||
-                            object_override_pos_y_hired < display_pos_y2_hired) begin
+                            object_override_pos_x_hired + (object_override_w<<SCALE_FACTOR_BITS) < display_pos_x1_hired   ||
+                            object_override_pos_y_hired > display_pos_y2_hired ||
+                            object_override_pos_y_hired + (object_override_h<<SCALE_FACTOR_BITS) < display_pos_y1_hired) begin
                             
                             object_free <= 1;
                         end

@@ -19,6 +19,7 @@ module game_runtime#(
     input update_platform_time, // Asserted by external module when time is updated
     
     // Outputs
+    output wire [2:0] gravity_direction,
     output wire [9:0] display_pos_x1,
     output wire [9:0] display_pos_y1,
     output wire [9:0] display_pos_x2,
@@ -52,6 +53,7 @@ module game_runtime#(
         .stage(stage),
         .attack_amount(attack_amount),
         .platform_amount(platform_amount),
+        .gravity_direction(gravity_direction),
         .display_pos_x1(display_pos_x1),
         .display_pos_y1(display_pos_y1),
         .display_pos_x2(display_pos_x2),

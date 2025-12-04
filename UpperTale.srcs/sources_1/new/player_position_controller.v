@@ -21,7 +21,7 @@ module player_position_controller#(
     input [9:0] game_display_y0,
     input [9:0] game_display_x1,
     input [9:0] game_display_y1,
-    input active_gravity,
+    input [2:1] gravity_direction,
     
     output reg [9:0] player_pos_x,
     output reg [9:0] player_pos_y,
@@ -60,6 +60,7 @@ module player_position_controller#(
     assign player_h_hires = PLAYER_H << SCALE_FACTOR_BITS;
 
     reg [9 + SCALE_FACTOR_GRAVITY_BITS: 0] falling_speed;
+    reg active_gravity;
     reg on_ground;
     reg is_hold_switch_up;
     
@@ -78,13 +79,41 @@ module player_position_controller#(
             
             is_hold_switch_up <= 0;
             on_ground <= 1;
+            active_gravity <= 0;
             
         end else begin
+            case (gravity_direction) 
+                // No Gravity
+                0: begin
+                    active_gravity<=0;
+                end
+                
+                // Upper Direction Gravity
+                1: begin
+                    active_gravity<=1;
+                end
+                
+                // Right Direction Gravity
+                2: begin
+                    active_gravity<=1;
+                end
+                
+                // Below Direction Gravity
+                3: begin
+                    active_gravity<=1;
+                end
+                
+                // Left Direction Gravity
+                4: begin
+                    active_gravity<=1;
+                end
+                
+            endcase
             
             // --- Vertical Movement Logic ---
             
             // 1. Handle Jump/Up Input
-            if (switch_up && ((is_hold_switch_up || on_ground)) || !active_gravity) begin
+            if (switch_up && (((is_hold_switch_up || on_ground)) || !active_gravity)) begin
                 // While player jump up, gravity set zero
                 falling_speed <= 0;
             
@@ -113,7 +142,7 @@ module player_position_controller#(
             end
 
             // 2. Apply Gravity (Only if not moving up)
-            if (!is_hold_switch_up) begin
+            if (!is_hold_switch_up && active_gravity) begin
                 // Udpate falling speed
                 if(falling_speed < (4 * SCALE_FACTOR_GRAVITY)) begin
                     falling_speed <= falling_speed + GRAVITY/3;

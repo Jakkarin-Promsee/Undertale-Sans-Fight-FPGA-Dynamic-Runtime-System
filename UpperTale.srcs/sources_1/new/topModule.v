@@ -198,6 +198,8 @@ module topModule#(
     wire [MAXIMUM_TIMES-1:0] current_time;
     wire [MAXIMUM_ATTACK_OBJECT-1:0] attack_i;
     wire [MAXIMUM_PLATFORM_OBJECT-1:0] platform_i;
+    
+    wire [2:0]  gravity_direction;
     wire [9:0]  display_pos_x1;
     wire [9:0]  display_pos_y1;
     wire [9:0]  display_pos_x2;
@@ -235,6 +237,7 @@ module topModule#(
         .update_attack_time(update_attack_time),
         .update_platform_time(update_platform_time),
         
+        .gravity_direction(gravity_direction),
         .display_pos_x1(display_pos_x1),
         .display_pos_y1(display_pos_y1),
         .display_pos_x2(display_pos_x2),
@@ -479,7 +482,7 @@ module topModule#(
         .game_display_y0(game_display_y0),
         .game_display_x1(game_display_x1),
         .game_display_y1(game_display_y1),
-        .active_gravity(active_gravity),
+        .gravity_direction(gravity_direction),
         
         .player_pos_x(player_pos_x),
         .player_pos_y(player_pos_y),
