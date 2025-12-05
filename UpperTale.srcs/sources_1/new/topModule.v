@@ -395,6 +395,7 @@ module topModule#(
         .OBJECT_AMOUNT(MAXIMUM_COLLIDER_OBJECT_AMOUT)
     ) multi_object_collider_runtime_execute (
         .clk_object_control(clk_object_control),
+        .clk_centi_second(clk_centi_second),
         .clk_calculation(clk_calculation),
         .reset(sync_reset),
         .x(x),
@@ -440,6 +441,7 @@ module topModule#(
         .OBJECT_AMOUNT(MAXIMUM_TRIGGER_OBJECT_AMOUT)
      ) muti_object_trigger_runtime_execute (
        .clk_object_control(clk_object_control),
+       .clk_centi_second(clk_centi_second),
        .clk_calculation(clk_calculation),
        .reset(sync_reset),
        .x(x),

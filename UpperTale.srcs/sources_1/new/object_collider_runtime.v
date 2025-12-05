@@ -4,7 +4,9 @@ module multi_object_collider_runtime #(
     parameter integer OBJECT_AMOUNT = 5
 ) (
     input clk_object_control,
+    input clk_centi_second,
     input clk_calculation,
+
     input reset,
     input [9:0] x,
     input [9:0] y,
@@ -56,6 +58,8 @@ module multi_object_collider_runtime #(
     reg [9:0] best_ground_w;
     reg [9:0] best_ground_y;
     
+    
+    
     //------------- Check player ------------- 
     always @(posedge clk_calculation) begin
         is_collider_ground_player = 0;
@@ -70,7 +74,7 @@ module multi_object_collider_runtime #(
             ox2 = ox1 + object_override_w_hired[it];
             // 1. X-axis overlap
             if ((px2 > ox1) && (px1 < ox2) && !object_ready_state[it]) begin
-    
+                
                 // 2. object_top must be below or touching player's feet
                 if ((py2 < oy1)) begin
     
@@ -193,6 +197,7 @@ module multi_object_collider_runtime #(
     generate
         for (i = 0; i < OBJECT_AMOUNT; i = i + 1) begin : OBJECTS
             object_position_controller object_collider_position_control (
+                .clk_centi_second(clk_centi_second),
                 .clk_object_control(clk_object_control),
                 .reset(reset),
                 .movement_direction(object_movement_direction),

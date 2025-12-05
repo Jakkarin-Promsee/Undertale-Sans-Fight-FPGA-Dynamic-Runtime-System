@@ -82,12 +82,19 @@ module Topsim_Collider_pipline_test;
 
      wire [9:0] collider_ground_h_player;
      wire [9:0] collider_ground_w_player;
-
+     
      assign collider_ground_h_player = dut.collider_ground_h_player;
      assign collider_ground_w_player = dut.multi_object_collider_runtime_execute.collider_ground_w_player;
      assign collider_player_pos_x = dut.multi_object_collider_runtime_execute.px1;
      assign collider_player_pos_y = dut.multi_object_collider_runtime_execute.py1;
      
+     wire clk_centi_second;
+//     wire [7:0] centi_second;
+     wire [7:0] object_destroy_time;
+     assign object_destroy_time = dut.multi_object_collider_runtime_execute.object_destroy_time;
+     assign clk_centi_second = dut.multi_object_collider_runtime_execute.clk_centi_second;
+//     assign centi_second = dut.multi_object_collider_runtime_execute.object_collider_position_control[i].centi_second;
+
     // Iterator Log
     localparam integer OBJECT_AMOUNT = 20;   
     wire [OBJECT_AMOUNT-1: 0] object_ready_state;

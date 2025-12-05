@@ -1,6 +1,7 @@
 `timescale 1ns / 1ps
 
 module object_position_controller (
+    input clk_centi_second,
     input clk_object_control,
     input reset,
     
@@ -43,9 +44,34 @@ module object_position_controller (
     
     assign object_override_pos_x = object_override_pos_x_hired >> SCALE_FACTOR_BITS;
     assign object_override_pos_y = object_override_pos_y_hired >> SCALE_FACTOR_BITS;
+    
+    reg [7:0] object_destroy_time_count;
+    reg [6:0] centi_second;
+    
+    always @(posedge clk_centi_second) begin
+        if(reset) begin
+            centi_second <= 0;
+            object_destroy_time_count <= 255;
+        end else begin
+            if(centi_second == 100) begin
+                centi_second = 0;
+                
+                if(sync_object_position && (object_destroy_time_count > 0))
+                    object_destroy_time_count <= object_destroy_time_count - 1;
+                
+            end else begin
+                centi_second <= centi_second + 1;
+            end
+            
+            if(sync_object_position && (object_destroy_time_count == 0)) begin
+                object_free <= 1;
+            end 
+        end
+    end
 
     always @(posedge clk_object_control) begin
         if(reset) begin
+
             update_object_position <= 0;
             object_override_pos_x_hired <= 0;
             object_override_pos_y_hired <= 0;
@@ -77,6 +103,7 @@ module object_position_controller (
                 object_override_w <= object_w;
                 object_override_h <= object_h;
                 
+                object_destroy_time_count <= object_destroy_time;
                 update_object_position <= 1;
                 object_free <= 0;
                 

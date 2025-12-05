@@ -3,6 +3,7 @@
 module multi_object_runtime #(
     parameter integer OBJECT_AMOUNT = 5
 ) (
+    input clk_centi_second,
     input clk_object_control,
     input clk_calculation,
     input reset,
@@ -124,6 +125,7 @@ module multi_object_runtime #(
     generate
         for (i = 0; i < OBJECT_AMOUNT; i = i + 1) begin : OBJECTS
             object_position_controller object_collider_position_control (
+                .clk_centi_second(clk_centi_second),
                 .clk_object_control(clk_object_control),
                 .reset(reset),
                 .movement_direction(object_movement_direction),
