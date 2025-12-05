@@ -2,9 +2,9 @@
     "decimal_data": [
         {
             "movement_direction": 2, 
-            "speed": 2, 
+            "speed": 0, 
             "pos_x": 340, 
-            "pos_y": 340, 
+            "pos_y": 300, 
             "w": 40, 
             "h": 6, 
             "wait_time": 2, 

@@ -21,7 +21,10 @@ module player_position_controller#(
     input [9:0] game_display_y0,
     input [9:0] game_display_x1,
     input [9:0] game_display_y1,
-    input [2:1] gravity_direction,
+    input [2:0] gravity_direction,
+    
+    input [9:0] collider_ground_h_player,
+    input is_collider_ground_player,
     
     output reg [9:0] player_pos_x,
     output reg [9:0] player_pos_y,
@@ -49,6 +52,9 @@ module player_position_controller#(
     // Player width/height are also scaled for internal use
     wire [9 + SCALE_FACTOR_BITS : 0] player_w_hires;
     wire [9 + SCALE_FACTOR_BITS : 0] player_h_hires;
+    
+    wire [9 + SCALE_FACTOR_BITS : 0] collider_ground_h_player_hired;
+    assign collider_ground_h_player_hired = collider_ground_h_player << SCALE_FACTOR_BITS;
 
     // Scale up the boundary and size inputs
     assign game_display_x0_hires = game_display_x0 << SCALE_FACTOR_BITS;
@@ -142,7 +148,7 @@ module player_position_controller#(
             end
 
             // 2. Apply Gravity (Only if not moving up)
-            if (!is_hold_switch_up && active_gravity) begin
+            if (!is_hold_switch_up && !on_ground && active_gravity) begin
                 // Udpate falling speed
                 if(falling_speed < (4 * SCALE_FACTOR_GRAVITY)) begin
                     falling_speed <= falling_speed + GRAVITY/3;
@@ -157,10 +163,24 @@ module player_position_controller#(
                 end
             
                 // Use GRAVITY directly (1 unit = 1/16th pixel)
-                if (player_pos_y_hires + (falling_speed>>SCALE_FACTOR_GRAVITY_BITS) - 2*SCALE_FACTOR < game_display_y1_hires - player_h_hires) begin
-                    player_pos_y_hires <= player_pos_y_hires + (falling_speed>>SCALE_FACTOR_GRAVITY_BITS);
+                if(is_collider_ground_player) begin
+                    // Check for collision *after* movement
+                    if((player_pos_y_hires + falling_speed < collider_ground_h_player_hired - player_h_hires)) begin
+                        player_pos_y_hires <= player_pos_y_hires + falling_speed;
+                    end else begin
+                        on_ground <= 1;
+                        // Snap to ground level (Corrected: remove - 2*SCALE_FACTOR)
+                        player_pos_y_hires <= collider_ground_h_player_hired - player_h_hires;
+                    end
                 end else begin
-                    player_pos_y_hires <= game_display_y1_hires - player_h_hires + 2*SCALE_FACTOR;
+                    // Check for screen bottom collision *after* movement
+                    if ((player_pos_y_hires + falling_speed < game_display_y1_hires - player_h_hires)) begin
+                        player_pos_y_hires <= player_pos_y_hires + falling_speed;
+                    end else begin
+                        on_ground <= 1;
+                        // Snap to screen bottom level (Corrected: remove + 2*SCALE_FACTOR)
+                        player_pos_y_hires <= game_display_y1_hires - player_h_hires;
+                    end
                 end
             end
             
@@ -176,8 +196,13 @@ module player_position_controller#(
             
             // 4. Update Ground Check
             // Check if the player is within GRAVITY scaled units of the bottom boundary
-            if (game_display_y1_hires - player_pos_y_hires - player_h_hires + 2*SCALE_FACTOR <= GRAVITY) begin
+            if (is_collider_ground_player && (player_pos_y_hires + player_h_hires <= collider_ground_h_player_hired)
+            && (player_pos_y_hires + player_h_hires > collider_ground_h_player_hired) + 2*SCALE_FACTOR) begin
                 on_ground <= 1;
+                    
+            end else if (player_pos_y_hires + player_h_hires >= game_display_y1_hires) begin
+                on_ground <= 1;
+                
             end else begin
                 on_ground <= 0;
             end
@@ -203,6 +228,18 @@ module player_position_controller#(
                     player_pos_x_hires <= (game_display_x1_hires - player_w_hires) + 2*SCALE_FACTOR;
                 end
             end
+            
+            // If player are out size
+            if(player_pos_x_hires + player_w_hires > game_display_x1_hires)
+                player_pos_x_hires <= game_display_x1_hires - player_w_hires;
+            else if(player_pos_x_hires < game_display_x0_hires)
+                player_pos_x_hires <= game_display_x0_hires;
+                
+            if(player_pos_y_hires + player_h_hires > game_display_y1_hires) begin
+                player_pos_y_hires <= game_display_y1_hires - player_h_hires;
+                on_ground <= 1;
+            end else if(player_pos_y_hires < game_display_y0_hires)
+                player_pos_y_hires <= game_display_y0_hires;
             
             // --- Output Assignment (10-bit integer part only) ---
             // Divide by 16 by shifting right 4 bits to get the pixel integer value

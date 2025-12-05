@@ -380,14 +380,30 @@ module topModule#(
    
     //----------------------------------- Collider Object Runtimes Section  -----------------------------------------
     
+    localparam MAXIMUM_COLLIDER_OBJECT_AMOUT = 20;
+    
     wire object_colider_signal;
+    wire [9:0] collider_ground_h_player;
+    wire is_collider_ground_player;
+    
+    wire [9:0] player_pos_x;
+    wire [9:0] player_pos_y;
+    wire [9:0] player_w;
+    wire [9:0] player_h;
 
-    object_collilder_runtime object_collider_runtime_execute (
+    multi_object_collider_runtime # (
+        .OBJECT_AMOUNT(MAXIMUM_COLLIDER_OBJECT_AMOUT)
+    ) multi_object_collider_runtime_execute (
         .clk_object_control(clk_object_control),
         .clk_calculation(clk_calculation),
         .reset(sync_reset),
         .x(x),
         .y(y),
+        
+        .player_pos_x(player_pos_x),
+        .player_pos_y(player_pos_y),
+        .player_w(player_w),
+        .player_h(player_h),
         
         .object_movement_direction(platform_movement_direction),
         .object_pos_x(platform_pos_x),
@@ -406,40 +422,49 @@ module topModule#(
         .sync_object_position(sync_platform_position),
         
         .update_object_position(update_object_collider_position),    
-        .object_signal(object_colider_signal)
+        .object_signal(object_colider_signal),
+        
+        .collider_ground_h_player(collider_ground_h_player),
+        .is_collider_ground_player(is_collider_ground_player)
+        
     );
     
     //----------------------------------- Trigger Object Runtimes Section -----------------------------------------
     
-    wire [9:0] object_trigger_override_pos_x;
-    wire [9:0] object_trigger_override_pos_y;
+    localparam MAXIMUM_TRIGGER_OBJECT_AMOUT = 100;
+    
     wire object_trigger_signal;
+    wire trigger_player;
     
-    object_position_controller object_trigger_position_control (
-        .clk_object_control(clk_object_control),
-        .reset(sync_reset),
-        
-        .movement_direction(attack_movement_direction),
-        .object_pos_x(attack_pos_x),
-        .object_pos_y(attack_pos_y),
-        .object_speed(attack_speed),
-        .sync_object_position(sync_attack_position),
-        
-        .update_object_position(update_object_trigger_position),
-        .object_override_pos_x(object_trigger_override_pos_x),
-        .object_override_pos_y(object_trigger_override_pos_y)
-    );
-    
-    object_renderer object_trigger (
-        .x(x),
-        .y(y),
-        .object_pos_x(object_trigger_override_pos_x),
-        .object_pos_y(object_trigger_override_pos_y),
-        .object_w(attack_w),
-        .object_h(attack_h),
-        
-        .render(object_trigger_signal)
-    );
+     multi_object_runtime #(
+        .OBJECT_AMOUNT(MAXIMUM_TRIGGER_OBJECT_AMOUT)
+     ) muti_object_trigger_runtime_execute (
+       .clk_object_control(clk_object_control),
+       .clk_calculation(clk_calculation),
+       .reset(sync_reset),
+       .x(x),
+       .y(y),
+       
+       .object_movement_direction(attack_movement_direction),
+       .object_pos_x(attack_pos_x),
+       .object_pos_y(attack_pos_y),
+       .object_w(attack_w),
+       .object_h(attack_h),
+       .object_speed(attack_speed),
+       .object_destroy_time(attack_destroy_time),
+       .object_destroy_trigger(attack_destroy_trigger),
+       
+       .display_pos_x1(display_pos_x1),
+       .display_pos_y1(display_pos_y1),
+       .display_pos_x2(display_pos_x2),
+       .display_pos_y2(display_pos_y2),
+       
+       .sync_object_position(sync_attack_position),
+       
+       .update_object_position(update_object_trigger_position),    
+       .object_signal(object_trigger_signal)
+   );
+  
             
     //----------------------------------- Player Controller Section ----------------------------------------- 
     
@@ -459,10 +484,6 @@ module topModule#(
 
     // Player Data Stream
     wire player_render_signal;
-    wire [9:0] player_pos_x;
-    wire [9:0] player_pos_y;
-    wire [9:0] player_w;
-    wire [9:0] player_h;
     reg active_gravity = 1;
     
     player_position_controller #(
@@ -483,6 +504,9 @@ module topModule#(
         .game_display_x1(game_display_x1),
         .game_display_y1(game_display_y1),
         .gravity_direction(gravity_direction),
+        
+        .collider_ground_h_player(collider_ground_h_player),
+        .is_collider_ground_player(is_collider_ground_player),
         
         .player_pos_x(player_pos_x),
         .player_pos_y(player_pos_y),

@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module multi_object_collider_runtime #(
+module multi_object_runtime #(
     parameter integer OBJECT_AMOUNT = 5
 ) (
     input clk_object_control,
@@ -8,11 +8,6 @@ module multi_object_collider_runtime #(
     input reset,
     input [9:0] x,
     input [9:0] y,
-    
-    input [9:0] player_pos_x,
-    input [9:0] player_pos_y,
-    input [9:0] player_w,
-    input [9:0] player_h,
     
     input [2:0] object_movement_direction,
     input [9:0] object_pos_x,
@@ -31,69 +26,13 @@ module multi_object_collider_runtime #(
     input sync_object_position,
     
     output reg update_object_position,
-    output object_signal,
-    
-    output wire [9:0] collider_ground_h_player,
-    output wire [9:0] collider_ground_w_player,
-    output reg is_collider_ground_player 
+    output wire object_signal
 );
     genvar i;
     integer it;
     integer k;
     
-    // Player box shift
-    wire [9:0] px1 = player_pos_x;
-    wire [9:0] py1 = player_pos_y;
-    wire [9:0] px2 = px1 + player_w;
-    wire [9:0] py2 = py1 + player_h;
-            
-    // Object box
-    reg [9:0] ox1;
-    reg [9:0] oy1;
-    reg [9:0] ox2;
     
-    reg [9:0] best_ground_h;
-    reg [9:0] best_ground_w;
-    reg [9:0] best_ground_y;
-    
-    //------------- Check player ------------- 
-    always @(posedge clk_calculation) begin
-        is_collider_ground_player = 0;
-        best_ground_w = 0;
-        best_ground_h = 10'h3FF;
-        best_ground_y = 10'h3FF;  // large initial (max)
-    
-    
-        for (it = 0; it < OBJECT_AMOUNT; it = it + 1) begin
-            ox1 = object_override_pos_x_hired[it];
-            oy1 = object_override_pos_y_hired[it];
-            ox2 = ox1 + object_override_w_hired[it];
-            // 1. X-axis overlap
-            if ((px2 > ox1) && (px1 < ox2) && !object_ready_state[it]) begin
-    
-                // 2. object_top must be below or touching player's feet
-                if ((py2 < oy1)) begin
-    
-                    // 3. choose the highest object (largest oy1)
-                    if (oy1 < best_ground_y) begin
-                        is_collider_ground_player = 1;
-                        best_ground_y = oy1;
-                        best_ground_h = oy1;
-                        best_ground_w = object_override_w_hired[it];
-                    end
-    
-                end
-            end
-        end
-    end
-    
-    assign collider_ground_h_player  = best_ground_h;
-    assign collider_ground_w_player  = best_ground_w;
-
-        
-        
-        
-    ///////////////////////////////////////
     
     // Object Interotor Data Stream
     reg get_itertor_ready_state_state;
@@ -109,19 +48,11 @@ module multi_object_collider_runtime #(
     wire [OBJECT_AMOUNT-1: 0] object_signal_i ;
     wire [OBJECT_AMOUNT-1: 0] object_free_i;
     
-    reg second_sync;
+    reg second_sync; 
     
-    
-//    wire [OBJECT_AMOUNT-1:0] object_signal_vec;
-    
-//    generate
-//        for (i = 0; i < OBJECT_AMOUNT; i = i + 1) begin : OBJ
-//            // ...
-//            assign object_signal_vec[i] = object_signal_i[i];
-//        end
-//    endgenerate
     
     assign object_signal = |object_signal_i;    
+    
     
     always @(posedge clk_calculation) begin
         if(reset) begin

@@ -63,6 +63,15 @@ module tb_topModule;
     wire [9:0]  display_pos_x2;
     wire [9:0]  display_pos_y2;
     
+    wire [9:0] player_pos_x;
+    wire [9:0] player_pos_y;
+    wire [9:0] collider_ground_h_player;
+    
+    assign player_pos_x = dut.player_pos_x;
+    assign player_pos_y = dut.player_pos_y;
+    assign is_collider_ground_player = dut.is_collider_ground_player;
+    assign collider_ground_h_player = dut.collider_ground_h_player;
+    
     assign display_pos_x1 = dut.display_pos_x1;
     assign display_pos_y1 = dut.display_pos_y1;
     assign display_pos_x2 = dut.display_pos_x2;
@@ -75,25 +84,25 @@ module tb_topModule;
     assign update_game_manager = dut.game_runtime_execute.update_game_manager;
     
     
-    localparam integer OBJECT_AMOUNT = 10;
+    localparam integer OBJECT_AMOUNT = 20;
     wire [OBJECT_AMOUNT-1: 0] object_ready_state ;  
     wire [OBJECT_AMOUNT-1: 0] sync_object_position_i ;
     wire [OBJECT_AMOUNT-1: 0] update_object_position_i ;
     wire [OBJECT_AMOUNT-1: 0] object_signal_i ;
     wire [OBJECT_AMOUNT-1: 0] object_free_i ;
     
-    assign itertor_ready_state = dut.object_collider_runtime_execute.itertor_ready_state;
+    assign itertor_ready_state = dut.multi_object_collider_runtime_execute.itertor_ready_state;
    
-    assign update_object_position_i = dut.object_collider_runtime_execute.update_object_position_i;
-    assign object_signal_i = dut.object_collider_runtime_execute.object_signal_i;
+    assign update_object_position_i = dut.multi_object_collider_runtime_execute.update_object_position_i;
+    assign object_signal_i = dut.multi_object_collider_runtime_execute.object_signal_i;
     
-    assign sync_object_position = dut.object_collider_runtime_execute.sync_object_position;
-    assign get_itertor_ready_state_state = dut.object_collider_runtime_execute.get_itertor_ready_state_state;
-    assign object_ready_state = dut.object_collider_runtime_execute.object_ready_state;
+    assign sync_object_position = dut.multi_object_collider_runtime_execute.sync_object_position;
+    assign get_itertor_ready_state_state = dut.multi_object_collider_runtime_execute.get_itertor_ready_state_state;
+    assign object_ready_state = dut.multi_object_collider_runtime_execute.object_ready_state;
     
-    assign sync_object_position = dut.object_collider_runtime_execute.sync_object_position;
-    assign sync_object_position_i = dut.object_collider_runtime_execute.sync_object_position_i;
-    assign object_free_i = dut.object_collider_runtime_execute.object_free_i;
+    assign sync_object_position = dut.multi_object_collider_runtime_execute.sync_object_position;
+    assign sync_object_position_i = dut.multi_object_collider_runtime_execute.sync_object_position_i;
+    assign object_free_i = dut.multi_object_collider_runtime_execute.object_free_i;
     
 
     initial begin

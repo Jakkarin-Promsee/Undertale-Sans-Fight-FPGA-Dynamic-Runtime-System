@@ -1,0 +1,100 @@
+`timescale 1ns / 1ps
+
+// Testbench for the topModule, designed to observe timing and control signals.
+module Topsim_Collider_pipline_test;
+    reg clk;
+    reg reset;
+    reg switch_up;
+    reg switch_down;
+    reg switch_left;
+    reg switch_right;
+    
+    wire HS, VS;
+    wire [3:0] RED, GREEN, BLUE;
+
+    topModule #(
+        .IS_SIM(1)
+    ) dut (
+        .clk(clk),
+        .clk_reset(reset),
+        .switch_up(switch_up),
+        .switch_down(switch_down),
+        .switch_left(switch_left),
+        .switch_right(switch_right),
+        .HS(HS),
+        .VS(VS),
+        .RED(RED),
+        .GREEN(GREEN),
+        .BLUE(BLUE)
+    );
+
+    always #1 clk = ~clk;
+
+    initial begin
+        // Initialize inputs
+        clk <= 1'b1;
+        reset <= 1'b1; // Start in reset
+        
+        switch_up <= 1'b1;
+        switch_down <= 1'b0;
+        switch_left <= 1'b0;
+        switch_right <= 1'b0;
+
+        // De-assert reset after 100ns
+        #100 reset <= 1'b0;
+        // Run for a longer period to ensure Game Manager cycles
+        // Game manager clock is 10ms. Running for 100ms should show events.
+        #1_000_000_000 // Wait 100ms (100,000,000 ns)
+
+        // End simulation
+        $finish;
+    end
+    
+    
+    wire [10-1:0] attack_i;
+    wire [10-1:0] platform_i;
+    assign attack_i        = dut.attack_i;
+    assign platform_i      = dut.platform_i;
+    
+    // Display Log
+    wire [9:0]  display_pos_x1;
+    wire [9:0]  display_pos_y1;
+    wire [9:0]  display_pos_x2;
+    wire [9:0]  display_pos_y2;
+    
+    assign display_pos_x1 = dut.display_pos_x1;
+    assign display_pos_y1 = dut.display_pos_y1;
+    assign display_pos_x2 = dut.display_pos_x2;
+    assign display_pos_y2 = dut.display_pos_y2;
+    
+    // Player Log
+    wire [9:0] player_pos_x;
+    wire [9:0] player_pos_y;
+    wire [9:0] player_w;
+    
+    assign player_pos_x = dut.player_pos_x;
+    assign player_pos_y = dut.player_pos_y;
+    assign player_w = dut.player_w;
+    
+    // Collider Log
+     wire [9:0] collider_player_pos_x;
+     wire [9:0] collider_player_pos_y;
+
+     wire [9:0] collider_ground_h_player;
+     wire [9:0] collider_ground_w_player;
+
+     assign collider_ground_h_player = dut.collider_ground_h_player;
+     assign collider_ground_w_player = dut.multi_object_collider_runtime_execute.collider_ground_w_player;
+     assign collider_player_pos_x = dut.multi_object_collider_runtime_execute.px1;
+     assign collider_player_pos_y = dut.multi_object_collider_runtime_execute.py1;
+     
+    // Iterator Log
+    localparam integer OBJECT_AMOUNT = 20;   
+    wire [OBJECT_AMOUNT-1: 0] object_ready_state;
+    
+    assign object_ready_state = dut.multi_object_collider_runtime_execute.object_ready_state;
+
+    
+   
+
+endmodule
