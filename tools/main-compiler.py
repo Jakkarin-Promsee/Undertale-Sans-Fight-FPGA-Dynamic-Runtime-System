@@ -109,41 +109,35 @@ def build_mem(input_json_path, output_mem_path, encoder, hex_output=False):
 # Usage
 # ----------------------------
 if __name__ == "__main__":
-    base_python_lab = os.path.dirname(os.path.abspath(__file__))
-    base_Uppertale = os.path.dirname(base_python_lab)
+    tools_path = os.path.dirname(os.path.abspath(__file__))
+    project_path = os.path.dirname(tools_path)
 
     isPushingVerilog = True
     isHex = True  # 0 = binary output, 1 = hex output
 
-    base_game_manager_path = os.path.join(base_python_lab, "output","game_manager.mem")
-    verilog_game_manager_path = os.path.join(base_Uppertale, "UpperTale.srcs", "sources_1", "new","game_manager.mem")
+    build_path = []
 
-    base_attack_object_path = os.path.join(base_python_lab, "output","attack_object.mem")
-    verilog_attack_object_path = os.path.join(base_Uppertale, "UpperTale.srcs", "sources_1", "new","attack_object.mem")
+    game_manager_json_path = os.path.join(tools_path, "json-source","game_manager.json")
+    game_manager_mem_test_path = os.path.join(tools_path, "mem-decode","game_manager.mem")
+    game_manager_mem_vivado_path = os.path.join(project_path, "mem", "game_manager.mem")
+    build_path.append([game_manager_json_path, game_manager_mem_test_path, game_manager_mem_vivado_path, encode_game_manager])
 
-    base_platform_object_path = os.path.join(base_python_lab, "output","platform_object.mem")
-    verilog_platform_object_path = os.path.join(base_Uppertale, "UpperTale.srcs", "sources_1", "new","platform_object.mem")
+    attack_object_json_path = os.path.join(tools_path, "json-source","attack_object.json")
+    attack_object_mem_test_path = os.path.join(tools_path, "mem-decode","attack_object.mem")
+    attack_object_mem_vivado_path = os.path.join(project_path, "mem","attack_object.mem")
+    build_path.append([attack_object_json_path, attack_object_mem_test_path, attack_object_mem_vivado_path, encode_attack])
 
-    # Build Game Manager .mem
-    build_mem(
-        os.path.join(base_python_lab, "data", "game_manager.json"),
-        verilog_game_manager_path if isPushingVerilog else base_game_manager_path,
-        encode_game_manager,
-        hex_output=isHex
-    )
+    platform_object_json_path = os.path.join(tools_path, "json-source","platform_object.json")
+    platform_object_mem_test_path = os.path.join(tools_path, "mem-decode","platform_object.mem")
+    platform_object_mem_vivado_path = os.path.join(project_path, "mem","platform_object.mem")
+    build_path.append([platform_object_json_path, platform_object_mem_test_path,platform_object_mem_vivado_path, encode_platform])
 
-    # Build Attack Objects .mem
-    build_mem(
-        os.path.join(base_python_lab, "data", "attack_object.json"),
-        verilog_attack_object_path if isPushingVerilog else base_attack_object_path,
-        encode_attack,
-        hex_output=isHex
-    )
 
-    # Build Platform Objects .mem
-    build_mem(
-        os.path.join(base_python_lab, "data", "platform_object.json"),
-        verilog_platform_object_path if isPushingVerilog else base_platform_object_path,
-        encode_platform,
-        hex_output=isHex
-    )
+    for source, test, vivado, encode in build_path:
+        build_mem(
+            source,
+            vivado if isPushingVerilog else test,
+            encode,
+            hex_output=isHex
+        )
+
