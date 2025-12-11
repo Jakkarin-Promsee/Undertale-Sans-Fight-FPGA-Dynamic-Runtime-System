@@ -5,10 +5,10 @@
         "platform_amount": 1,
         "wait_time": 4,
         "gravity_direction": 3,
-        "display_pos_x1": 135,
-        "display_pos_y1": 257,
-        "display_pos_x2": 508,
-        "display_pos_y2": 390,
+        "display_pos_x1": 137,
+        "display_pos_y1": 255,
+        "display_pos_x2": 507,
+        "display_pos_y2": 385,
         "free(unused)": 0
     },
 
@@ -18,9 +18,9 @@
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 135, 
-            "pos_y": 389, 
+            "speed": 3, 
+            "pos_x": 137, 
+            "pos_y": 365, 
             "w": 12, 
             "h": 20, 
             "wait_time": 0.1, 
@@ -32,9 +32,9 @@
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 6, 
-            "speed": 1, 
+            "speed": 3, 
             "pos_x": 508, 
-            "pos_y": 366, 
+            "pos_y": 255, 
             "w": 12, 
             "h": 112, 
             "wait_time": 1.4, 
@@ -43,13 +43,15 @@
             "free(unused)": 0
         },
 
+
+
         {
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 135, 
-            "pos_y": 389, 
+            "speed": 3, 
+            "pos_x": 137, 
+            "pos_y": 365, 
             "w": 12, 
             "h": 20, 
             "wait_time": 0.1, 
@@ -61,9 +63,9 @@
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 6, 
-            "speed": 1, 
+            "speed": 3, 
             "pos_x": 508, 
-            "pos_y": 366, 
+            "pos_y": 255, 
             "w": 12, 
             "h": 112, 
             "wait_time": 1.4, 
@@ -72,13 +74,18 @@
             "free(unused)": 0
         },
 
+
+
+        
+
+        
         {
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 135, 
-            "pos_y": 389, 
+            "speed": 3, 
+            "pos_x": 137, 
+            "pos_y": 365, 
             "w": 12, 
             "h": 20, 
             "wait_time": 0.1, 
@@ -90,9 +97,9 @@
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 6, 
-            "speed": 1, 
+            "speed": 3, 
             "pos_x": 508, 
-            "pos_y": 366, 
+            "pos_y": 255, 
             "w": 12, 
             "h": 112, 
             "wait_time": 1.4, 
@@ -101,13 +108,14 @@
             "free(unused)": 0
         },
 
+        
         {
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 135, 
-            "pos_y": 389, 
+            "speed": 3, 
+            "pos_x": 137, 
+            "pos_y": 365, 
             "w": 12, 
             "h": 20, 
             "wait_time": 0.1, 
@@ -119,9 +127,9 @@
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 6, 
-            "speed": 1, 
+            "speed": 3, 
             "pos_x": 508, 
-            "pos_y": 366, 
+            "pos_y": 255, 
             "w": 12, 
             "h": 112, 
             "wait_time": 1.4, 
@@ -130,13 +138,14 @@
             "free(unused)": 0
         },
 
+        
         {
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 135, 
-            "pos_y": 389, 
+            "speed": 3, 
+            "pos_x": 137, 
+            "pos_y": 365, 
             "w": 12, 
             "h": 20, 
             "wait_time": 0.1, 
@@ -148,9 +157,9 @@
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 6, 
-            "speed": 1, 
+            "speed": 3, 
             "pos_x": 508, 
-            "pos_y": 366, 
+            "pos_y": 255, 
             "w": 12, 
             "h": 112, 
             "wait_time": 1.4, 
@@ -159,13 +168,14 @@
             "free(unused)": 0
         },
 
+        
         {
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 135, 
-            "pos_y": 389, 
+            "speed": 3, 
+            "pos_x": 137, 
+            "pos_y": 365, 
             "w": 12, 
             "h": 20, 
             "wait_time": 0.1, 
@@ -177,9 +187,9 @@
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 6, 
-            "speed": 1, 
+            "speed": 3, 
             "pos_x": 508, 
-            "pos_y": 366, 
+            "pos_y": 255, 
             "w": 12, 
             "h": 112, 
             "wait_time": 1.4, 
@@ -188,13 +198,14 @@
             "free(unused)": 0
         },
 
+        
         {
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 135, 
-            "pos_y": 389, 
+            "speed": 3, 
+            "pos_x": 137, 
+            "pos_y": 365, 
             "w": 12, 
             "h": 20, 
             "wait_time": 0.1, 
@@ -206,9 +217,9 @@
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 6, 
-            "speed": 1, 
+            "speed": 3, 
             "pos_x": 508, 
-            "pos_y": 366, 
+            "pos_y": 255, 
             "w": 12, 
             "h": 112, 
             "wait_time": 1.4, 
@@ -217,13 +228,14 @@
             "free(unused)": 0
         },
 
+        
         {
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 135, 
-            "pos_y": 389, 
+            "speed": 3, 
+            "pos_x": 137, 
+            "pos_y": 365, 
             "w": 12, 
             "h": 20, 
             "wait_time": 0.1, 
@@ -235,9 +247,9 @@
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 6, 
-            "speed": 1, 
+            "speed": 3, 
             "pos_x": 508, 
-            "pos_y": 366, 
+            "pos_y": 255, 
             "w": 12, 
             "h": 112, 
             "wait_time": 1.4, 

@@ -135,7 +135,7 @@ module object_position_controller (
                 // Check destroy trigger
                 case (object_destroy_trigger)
                     // 0 is non trigger destroy
-                    1: begin
+                    2: begin
                         if (object_override_pos_x_hired > 640*SCALE_FACTOR ||
                             object_override_pos_x_hired + (object_override_w<<SCALE_FACTOR_BITS) < 0   ||
                             object_override_pos_y_hired > 480*SCALE_FACTOR ||
@@ -145,7 +145,7 @@ module object_position_controller (
                         end
                     end
                     
-                    2: begin
+                    1: begin
                         if (object_override_pos_x_hired > display_pos_x2_hired||
                             object_override_pos_x_hired + (object_override_w<<SCALE_FACTOR_BITS) < display_pos_x1_hired   ||
                             object_override_pos_y_hired > display_pos_y2_hired ||

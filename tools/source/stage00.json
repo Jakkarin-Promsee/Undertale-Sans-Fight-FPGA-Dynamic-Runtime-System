@@ -1,14 +1,14 @@
 {
     "game_manger": {
         "stage": 1,
-        "attack_amount": 18,
+        "attack_amount": 24,
         "platform_amount": 1,
         "wait_time": 4,
         "gravity_direction": 0,
-        "display_pos_x1": 246,
-        "display_pos_y1": 234,
+        "display_pos_x1": 245,
+        "display_pos_y1": 229,
         "display_pos_x2": 403,
-        "display_pos_y2": 391,
+        "display_pos_y2": 386,
         "free(unused)": 0
     },
 
@@ -17,73 +17,9 @@
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 391, 
-            "w": 12, 
-            "h": 64, 
-            "wait_time": 0.1, 
-            "destroy_time": 10,
-            "destroy_trigger": 1,
-            "free(unused)": 0
-        },
-
-        {
-            "type": 0, 
-            "colider_type": 0, 
-            "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 284, 
-            "w": 12, 
-            "h": 52, 
-            "wait_time": 0.3, 
-            "destroy_time": 10,
-            "destroy_trigger": 1,
-            "free(unused)": 0
-        },
-
-        
-
-        {
-            "type": 0, 
-            "colider_type": 0, 
-            "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 391, 
-            "w": 12, 
-            "h": 68, 
-            "wait_time": 0.1, 
-            "destroy_time": 10,
-            "destroy_trigger": 1,
-            "free(unused)": 0
-        },
-
-        {
-            "type": 0, 
-            "colider_type": 0, 
-            "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 280, 
-            "w": 12, 
-            "h": 48, 
-            "wait_time": 0.3, 
-            "destroy_time": 10,
-            "destroy_trigger": 1,
-            "free(unused)": 0
-        },
-
-        
-
-        {
-            "type": 0, 
-            "colider_type": 0, 
-            "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 391, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 314, 
             "w": 12, 
             "h": 72, 
             "wait_time": 0.1, 
@@ -96,25 +32,26 @@
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 276, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 229, 
             "w": 12, 
-            "h": 44, 
-            "wait_time": 0.3, 
+            "h": 46, 
+            "wait_time": 0.7, 
             "destroy_time": 10,
             "destroy_trigger": 1,
             "free(unused)": 0
         },
 
 
+
         {
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 391, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 310, 
             "w": 12, 
             "h": 76, 
             "wait_time": 0.1, 
@@ -127,27 +64,25 @@
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 272, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 229, 
             "w": 12, 
-            "h": 40, 
-            "wait_time": 0.3, 
+            "h": 42, 
+            "wait_time": 0.7, 
             "destroy_time": 10,
             "destroy_trigger": 1,
             "free(unused)": 0
         },
 
 
-
-
         {
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 391, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 306, 
             "w": 12, 
             "h": 80, 
             "wait_time": 0.1, 
@@ -160,25 +95,26 @@
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 268, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 229, 
             "w": 12, 
-            "h": 36, 
-            "wait_time": 0.3, 
+            "h": 38, 
+            "wait_time": 0.7, 
             "destroy_time": 10,
             "destroy_trigger": 1,
             "free(unused)": 0
         },
 
 
+
         {
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 391, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 302, 
             "w": 12, 
             "h": 84, 
             "wait_time": 0.1, 
@@ -191,25 +127,26 @@
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 264, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 229, 
             "w": 12, 
-            "h": 32, 
-            "wait_time": 0.3, 
+            "h": 34, 
+            "wait_time": 0.7, 
             "destroy_time": 10,
             "destroy_trigger": 1,
             "free(unused)": 0
         },
 
 
+
         {
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 391, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 298, 
             "w": 12, 
             "h": 88, 
             "wait_time": 0.1, 
@@ -222,12 +159,12 @@
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 260, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 229, 
             "w": 12, 
-            "h": 28, 
-            "wait_time": 0.3, 
+            "h": 30, 
+            "wait_time": 0.7, 
             "destroy_time": 10,
             "destroy_trigger": 1,
             "free(unused)": 0
@@ -235,13 +172,14 @@
 
 
 
+
         {
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 391, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 294, 
             "w": 12, 
             "h": 92, 
             "wait_time": 0.1, 
@@ -254,25 +192,26 @@
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 356, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 229, 
             "w": 12, 
-            "h": 24, 
-            "wait_time": 0.3, 
+            "h": 26, 
+            "wait_time": 0.7, 
             "destroy_time": 10,
             "destroy_trigger": 1,
             "free(unused)": 0
         },
 
 
+
         {
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 391, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 290, 
             "w": 12, 
             "h": 96, 
             "wait_time": 0.1, 
@@ -285,23 +224,184 @@
             "type": 0, 
             "colider_type": 0, 
             "movement_direction": 2, 
-            "speed": 1, 
-            "pos_x": 246, 
-            "pos_y": 352, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 229, 
             "w": 12, 
-            "h": 20, 
-            "wait_time": 0.3, 
+            "h": 22, 
+            "wait_time": 0.7, 
+            "destroy_time": 10,
+            "destroy_trigger": 1,
+            "free(unused)": 0
+        },
+
+
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 286, 
+            "w": 12, 
+            "h": 100, 
+            "wait_time": 0.1, 
+            "destroy_time": 10,
+            "destroy_trigger": 1,
+            "free(unused)": 0
+        },
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 229, 
+            "w": 12, 
+            "h": 18, 
+            "wait_time": 0.7, 
+            "destroy_time": 10,
+            "destroy_trigger": 1,
+            "free(unused)": 0
+        },
+
+
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 290, 
+            "w": 12, 
+            "h": 96, 
+            "wait_time": 0.1, 
+            "destroy_time": 10,
+            "destroy_trigger": 1,
+            "free(unused)": 0
+        },
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 229, 
+            "w": 12, 
+            "h": 22, 
+            "wait_time": 0.7, 
+            "destroy_time": 10,
+            "destroy_trigger": 1,
+            "free(unused)": 0
+        },
+
+
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 294, 
+            "w": 12, 
+            "h": 92, 
+            "wait_time": 0.1, 
+            "destroy_time": 10,
+            "destroy_trigger": 1,
+            "free(unused)": 0
+        },
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 229, 
+            "w": 12, 
+            "h": 26, 
+            "wait_time": 0.7, 
+            "destroy_time": 10,
+            "destroy_trigger": 1,
+            "free(unused)": 0
+        },
+
+
+
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 298, 
+            "w": 12, 
+            "h": 88, 
+            "wait_time": 0.1, 
+            "destroy_time": 10,
+            "destroy_trigger": 1,
+            "free(unused)": 0
+        },
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 229, 
+            "w": 12, 
+            "h": 30, 
+            "wait_time": 0.7, 
+            "destroy_time": 10,
+            "destroy_trigger": 1,
+            "free(unused)": 0
+        },
+
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 302, 
+            "w": 12, 
+            "h": 84, 
+            "wait_time": 0.1, 
+            "destroy_time": 10,
+            "destroy_trigger": 1,
+            "free(unused)": 0
+        },
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 3, 
+            "pos_x": 245, 
+            "pos_y": 229, 
+            "w": 12, 
+            "h": 34, 
+            "wait_time": 0.7, 
             "destroy_time": 10,
             "destroy_trigger": 1,
             "free(unused)": 0
         }
+        
 
     ],
 
     "platform_object": [
         {
             "movement_direction": 1, 
-            "speed": 2, 
+            "speed": 0, 
             "pos_x": 0, 
             "pos_y": 0, 
             "w": 0, 

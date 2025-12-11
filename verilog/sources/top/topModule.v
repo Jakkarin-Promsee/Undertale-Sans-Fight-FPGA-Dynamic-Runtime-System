@@ -190,7 +190,7 @@ module topModule#(
     
     // To recursive stage when all data in rom was readed
     localparam integer INITIAL_STAGE = 0; // Default Start at stages 1
-    localparam integer LAST_STAGE = 5; // Default End at stages 2
+    localparam integer LAST_STAGE = 6; // Default End at stages 2
     
     // Internal Data Stream   
     // Assign with game_manager_contorl
