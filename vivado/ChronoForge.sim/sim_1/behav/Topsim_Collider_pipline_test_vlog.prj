@@ -1,11 +1,11 @@
 # compile verilog/system verilog design source files
 verilog xil_defaultlib  "../../../../verilog/sources/rom_reader/game_manager_rom_reader.v"
-verilog xil_defaultlib  "../../../../verilog/sources/object/object_renderer.v"
 verilog xil_defaultlib  "../../../../verilog/sources/object/object_position_controller.v"
+verilog xil_defaultlib  "../../../../verilog/sources/object/object_renderer.v"
+verilog xil_defaultlib  "../../../../verilog/sources/runtime/main_game_runtime.v"
 verilog xil_defaultlib  "../../../../verilog/sources/top/clk_div.v"
 verilog xil_defaultlib  "../../../../verilog/sources/runtime/multi_object_trigger_runtime.v"
 verilog xil_defaultlib  "../../../../verilog/sources/runtime/multi_object_collider_runtime.v"
-verilog xil_defaultlib  "../../../../verilog/sources/runtime/main_game_runtime.v"
 verilog xil_defaultlib  "../../../../verilog/sources/rom_reader/platform_object_rom_reader.v"
 verilog xil_defaultlib  "../../../../verilog/sources/rom_reader/attack_object_rom_reader.v"
 verilog xil_defaultlib  "../../../../verilog/sources/player/player_renderer.v"

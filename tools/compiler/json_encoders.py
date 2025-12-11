@@ -14,6 +14,8 @@ def pack_bits(value, width, entry_index=None, field_name=None):
     and returns it as a binary string. This function enforces hardware constraints.
     """
     
+    value = int(value)
+
     # Check for Overflow: Is the value too large for the specified bit width?
     # e.g., If width=8, max value is 255. If value > 255, it's an error.
     if value >= (1 << width):

@@ -190,7 +190,7 @@ module topModule#(
     
     // To recursive stage when all data in rom was readed
     localparam integer INITIAL_STAGE = 0; // Default Start at stages 1
-    localparam integer LAST_STAGE = 2; // Default End at stages 2
+    localparam integer LAST_STAGE = 5; // Default End at stages 2
     
     // Internal Data Stream   
     // Assign with game_manager_contorl
@@ -226,8 +226,8 @@ module topModule#(
         .MAXIMUM_STAGE(MAXIMUM_STAGE),
         .MAXIMUM_TIMES(MAXIMUM_TIMES),
         .MAXIMUM_ATTACK_OBJECT(MAXIMUM_ATTACK_OBJECT),
-        .MAXIMUM_PLATFORM_OBJECT(MAXIMUM_PLATFORM_OBJECT)
-        
+        .MAXIMUM_PLATFORM_OBJECT(MAXIMUM_PLATFORM_OBJECT),
+        .LAST_STAGE(LAST_STAGE)
     ) game_runtime_execute (
         .clk(clk),
         .clk_centi_second(clk_centi_second),
@@ -380,7 +380,7 @@ module topModule#(
    
     //----------------------------------- Collider Object Runtimes Section  -----------------------------------------
     
-    localparam MAXIMUM_COLLIDER_OBJECT_AMOUT = 20;
+    localparam MAXIMUM_COLLIDER_OBJECT_AMOUT = 30;
     
     wire object_colider_signal;
     wire [9:0] collider_ground_h_player;

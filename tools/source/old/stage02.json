@@ -1,0 +1,149 @@
+{
+    "game_manger": {
+        "stage": 0,
+        "attack_amount": 6,
+        "platform_amount": 3,
+        "wait_time": 1,
+        "gravity_direction": 0,
+        "display_pos_x1": 100,
+        "display_pos_y1": 100,
+        "display_pos_x2": 540,
+        "display_pos_y2": 380,
+        "free(unused)": 0
+    },
+
+
+    "attack_object":[
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 6, 
+            "speed": 6, 
+            "pos_x": 320, 
+            "pos_y": 240, 
+            "w": 20, 
+            "h": 20, 
+            "wait_time": 2, 
+            "destroy_time": 0,
+            "destroy_trigger": 1,
+            "free(unused)": 0
+        }, 
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 7, 
+            "speed": 7, 
+            "pos_x": 320, 
+            "pos_y": 240, 
+            "w": 20, 
+            "h": 20, 
+            "wait_time": 2, 
+            "destroy_time": 0,
+            "destroy_trigger": 1,
+            "free(unused)": 0
+        }, 
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 0, 
+            "speed": 8, 
+            "pos_x": 320, 
+            "pos_y": 240, 
+            "w": 20, 
+            "h": 20, 
+            "wait_time": 2, 
+            "destroy_time": 0,
+            "destroy_trigger": 1,
+            "free(unused)": 0
+        }, 
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 1, 
+            "speed": 9, 
+            "pos_x": 320, 
+            "pos_y": 240, 
+            "w": 20, 
+            "h": 20, 
+            "wait_time": 2, 
+            "destroy_time": 0,
+            "destroy_trigger": 1,
+            "free(unused)": 0
+        }, 
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 2, 
+            "speed": 10, 
+            "pos_x": 320, 
+            "pos_y": 240, 
+            "w": 20, 
+            "h": 20, 
+            "wait_time": 2, 
+            "destroy_time": 0,
+            "destroy_trigger": 1,
+            "free(unused)": 0
+        }, 
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
+            "movement_direction": 3, 
+            "speed": 11, 
+            "pos_x": 320, 
+            "pos_y": 240, 
+            "w": 20, 
+            "h": 20, 
+            "wait_time": 2, 
+            "destroy_time": 0,
+            "destroy_trigger": 1,
+            "free(unused)": 0
+        }
+    ],
+
+    
+    "platform_object": [
+        {
+            "movement_direction": 0, 
+            "speed": 2, 
+            "pos_x": 340, 
+            "pos_y": 340, 
+            "w": 40, 
+            "h": 6, 
+            "wait_time": 2, 
+            "destroy_time": 5,
+            "destroy_trigger": 2,
+            "free(unused)": 0
+        }, 
+
+        {
+            "movement_direction": 7, 
+            "speed": 2, 
+            "pos_x": 340, 
+            "pos_y": 340, 
+            "w": 40, 
+            "h": 6, 
+            "wait_time": 2, 
+            "destroy_time": 5,
+            "destroy_trigger": 2,
+            "free(unused)": 0
+        },
+
+        {
+            "movement_direction": 1, 
+            "speed": 2, 
+            "pos_x": 340, 
+            "pos_y": 340, 
+            "w": 40, 
+            "h": 6, 
+            "wait_time": 2, 
+            "destroy_time": 5,
+            "destroy_trigger": 2,
+            "free(unused)": 0
+        }
+    ]
+}
