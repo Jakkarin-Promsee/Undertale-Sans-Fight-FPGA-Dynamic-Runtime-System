@@ -1,6 +1,6 @@
-UpperTale.cache/
-UpperTale.sim/
-UpperTale.runs/
+vivado/ChronoForge.cache/
+vivado/ChronoForge.sim/
+vivado/ChronoForge.runs/
 *.jou
 *.str
 *.log
