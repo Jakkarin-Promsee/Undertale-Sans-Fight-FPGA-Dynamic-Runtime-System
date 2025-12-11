@@ -432,10 +432,10 @@ module topModule#(
     
     //----------------------------------- Trigger Object Runtimes Section -----------------------------------------
     
-    localparam MAXIMUM_TRIGGER_OBJECT_AMOUT = 100;
+    localparam MAXIMUM_TRIGGER_OBJECT_AMOUT = 80;
     
     wire object_trigger_signal;
-    wire trigger_player;
+    wire is_trigger_player;
     
      multi_object_trigger_runtime #(
         .OBJECT_AMOUNT(MAXIMUM_TRIGGER_OBJECT_AMOUT)
@@ -456,6 +456,11 @@ module topModule#(
        .object_destroy_time(attack_destroy_time),
        .object_destroy_trigger(attack_destroy_trigger),
        
+       .player_pos_x(player_pos_x),
+       .player_pos_y(player_pos_y),
+       .player_w(player_w),
+       .player_h(player_h),
+       
        .display_pos_x1(display_pos_x1),
        .display_pos_y1(display_pos_y1),
        .display_pos_x2(display_pos_x2),
@@ -464,7 +469,9 @@ module topModule#(
        .sync_object_position(sync_attack_position),
        
        .update_object_position(update_object_trigger_position),    
-       .object_signal(object_trigger_signal)
+       .object_signal(object_trigger_signal),
+       
+       .is_trigger_player(is_trigger_player)
    );
   
             
@@ -534,6 +541,8 @@ module topModule#(
         .x(x),
         .y(y),
         .blank(blank),
+        
+        .is_trigger_player(is_trigger_player),
         
         .game_display_border_render(game_display_border_signal),
         .object_colider_signal(object_colider_signal),

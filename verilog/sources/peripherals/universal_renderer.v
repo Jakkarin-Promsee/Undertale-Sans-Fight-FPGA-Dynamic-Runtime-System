@@ -5,7 +5,9 @@ module universal_renderer(
     input [9:0] x,
     input [9:0] y,
     input blank,   
-       
+    
+    input is_trigger_player, 
+    
     input object_colider_signal,
     input object_trigger_signal,
     input game_display_border_render,
@@ -56,9 +58,12 @@ module universal_renderer(
             
             // Background
             else begin
-                RED   = 0;
-                GREEN = 0;
-                BLUE  = 0;
+                if(is_trigger_player)
+                    RED   <= 1;
+                else
+                    RED <= 0;
+                GREEN <= 0;
+                BLUE  <= 0;
             end
         end
     end

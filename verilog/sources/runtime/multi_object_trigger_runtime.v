@@ -19,6 +19,11 @@ module multi_object_trigger_runtime #(
     input [7:0] object_destroy_time,
     input [1:0] object_destroy_trigger,
     
+    input [9:0] player_pos_x,
+    input [9:0] player_pos_y,
+    input [9:0] player_w,
+    input [9:0] player_h,
+    
     input  [9:0]  display_pos_x1,
     input  [9:0]  display_pos_y1,
     input  [9:0]  display_pos_x2,
@@ -27,7 +32,9 @@ module multi_object_trigger_runtime #(
     input sync_object_position,
     
     output reg update_object_position,
-    output wire object_signal
+    output wire object_signal,
+    
+    output reg is_trigger_player 
 );
     genvar i;
     integer it;
@@ -50,6 +57,24 @@ module multi_object_trigger_runtime #(
     wire [OBJECT_AMOUNT-1: 0] object_free_i;
     
     reg second_sync; 
+    
+    
+    //------------- Check player ------------- 
+    always @(posedge clk_calculation) begin
+        is_trigger_player <= 0;
+    
+    
+        for (it = 0; it < OBJECT_AMOUNT; it = it + 1) begin
+             if (
+                    (player_pos_x <  object_override_pos_x_hired[it] + object_override_w_hired[it]) &&
+                    (player_pos_x + player_w > object_override_pos_x_hired[it]) &&
+                    (player_pos_y <  object_override_pos_y_hired[it] + object_override_h_hired[it]) &&
+                    (player_pos_y + player_h > object_override_pos_y_hired[it])
+                ) begin
+                    is_trigger_player <= 1;
+                end
+        end
+    end
     
     
     assign object_signal = |object_signal_i;    

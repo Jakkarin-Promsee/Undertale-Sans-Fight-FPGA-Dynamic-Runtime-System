@@ -80,7 +80,10 @@ module Topsim_Collider_pipline_test;
     assign player_pos_y = dut.player_pos_y;
     assign player_w = dut.player_w;
     
-
+    wire is_trigger_player;
+    assign is_trigger_player = dut.is_trigger_player;
+    
+    
      wire is_collider_ground_player;
      wire [9:0] collider_ground_h_player;
      wire [9:0] collider_ground_w_player;
@@ -97,13 +100,13 @@ module Topsim_Collider_pipline_test;
 //     assign centi_second = dut.multi_object_collider_runtime_execute.object_collider_position_control[i].centi_second;
 
     // Iterator Log
-    localparam integer OBJECT_AMOUNT = 30;   
+    localparam integer OBJECT_AMOUNT = 25;   
     wire [OBJECT_AMOUNT-1: 0] object_ready_state;
     
     assign object_ready_state = dut.multi_object_collider_runtime_execute.object_ready_state;
     
     // Iterator Log
-    localparam integer OBJECT_AMOUNT_T = 100;   
+    localparam integer OBJECT_AMOUNT_T = 60;   
     wire [OBJECT_AMOUNT_T-1: 0] object_ready_state_T;
     
     assign object_ready_state_T = dut.muti_object_trigger_runtime_execute.object_ready_state;
