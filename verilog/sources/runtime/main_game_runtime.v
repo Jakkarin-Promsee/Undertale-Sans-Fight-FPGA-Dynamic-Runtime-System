@@ -184,7 +184,7 @@ module game_runtime#(
             
             // current_time updates every 10 centi_seconds (e.g., 100ms/1 decisecond unit)
             // This is an integer division, assuming time unit is 100ms
-            current_time <= centi_time/10;
+            current_time <= centi_time;
         end
     end
     

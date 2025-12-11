@@ -59,7 +59,10 @@ module attack_object_rom #(
             // Wait 1 cycle to sync flip flop update                   
             end else begin
                 // Set next attack time
-                next_attack_time <= current_time + wait_time;
+                if(wait_time==0)
+                    next_attack_time <= current_time + 3;
+                else
+                    next_attack_time <= current_time + wait_time*10;
                 
                 // Send out update to sync with game runtime module
                 update_attack_time <= 1;

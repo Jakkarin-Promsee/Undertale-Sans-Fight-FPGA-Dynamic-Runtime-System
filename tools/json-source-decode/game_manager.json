@@ -2,7 +2,7 @@
     "decimal_data": [
         {
             "stage": 1,
-            "attack_amount": 24,
+            "attack_amount": 25,
             "platform_amount": 1,
             "wait_time": 5,
             "gravity_direction": 0,
@@ -39,7 +39,7 @@
         {
             "stage": 3,
             "attack_amount": 28,
-            "platform_amount": 3,
+            "platform_amount": 6,
             "wait_time": 5,
             "gravity_direction": 3,
             "display_pos_x1": 137,

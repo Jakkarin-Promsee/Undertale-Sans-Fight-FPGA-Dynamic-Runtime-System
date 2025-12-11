@@ -1,7 +1,7 @@
 {
     "game_manger": {
         "stage": 1,
-        "attack_amount": 24,
+        "attack_amount": 25,
         "platform_amount": 1,
         "wait_time": 5,
         "gravity_direction": 0,
@@ -16,13 +16,29 @@
         {
             "type": 0, 
             "colider_type": 0, 
+            "movement_direction": 0, 
+            "speed": 0, 
+            "pos_x": 0, 
+            "pos_y": 0, 
+            "w": 0, 
+            "h": 0, 
+            "wait_time": 5, 
+            "destroy_time": 10,
+            "destroy_trigger": 0,
+            "free(unused)": 0
+        },
+
+
+        {
+            "type": 0, 
+            "colider_type": 0, 
             "movement_direction": 2, 
             "speed": 6, 
             "pos_x": 245, 
             "pos_y": 314, 
             "w": 12, 
             "h": 72, 
-            "wait_time": 0.1, 
+            "wait_time": 0, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -54,7 +70,7 @@
             "pos_y": 310, 
             "w": 12, 
             "h": 76, 
-            "wait_time": 0.1, 
+            "wait_time": 0, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -85,7 +101,7 @@
             "pos_y": 306, 
             "w": 12, 
             "h": 80, 
-            "wait_time": 0.1, 
+            "wait_time": 0, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -117,7 +133,7 @@
             "pos_y": 302, 
             "w": 12, 
             "h": 84, 
-            "wait_time": 0.1, 
+            "wait_time": 0, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -149,7 +165,7 @@
             "pos_y": 298, 
             "w": 12, 
             "h": 88, 
-            "wait_time": 0.1, 
+            "wait_time": 0, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -182,7 +198,7 @@
             "pos_y": 294, 
             "w": 12, 
             "h": 92, 
-            "wait_time": 0.1, 
+            "wait_time": 0, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -214,7 +230,7 @@
             "pos_y": 290, 
             "w": 12, 
             "h": 96, 
-            "wait_time": 0.1, 
+            "wait_time": 0, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -246,7 +262,7 @@
             "pos_y": 286, 
             "w": 12, 
             "h": 100, 
-            "wait_time": 0.1, 
+            "wait_time": 0, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -278,7 +294,7 @@
             "pos_y": 290, 
             "w": 12, 
             "h": 96, 
-            "wait_time": 0.1, 
+            "wait_time": 0, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -310,7 +326,7 @@
             "pos_y": 294, 
             "w": 12, 
             "h": 92, 
-            "wait_time": 0.1, 
+            "wait_time": 0, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -343,7 +359,7 @@
             "pos_y": 298, 
             "w": 12, 
             "h": 88, 
-            "wait_time": 0.1, 
+            "wait_time": 0, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -374,7 +390,7 @@
             "pos_y": 302, 
             "w": 12, 
             "h": 84, 
-            "wait_time": 0.1, 
+            "wait_time": 0, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0

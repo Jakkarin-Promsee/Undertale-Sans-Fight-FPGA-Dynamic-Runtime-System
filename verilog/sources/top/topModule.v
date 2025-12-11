@@ -229,7 +229,7 @@ module topModule#(
         .MAXIMUM_PLATFORM_OBJECT(MAXIMUM_PLATFORM_OBJECT),
         .LAST_STAGE(LAST_STAGE)
     ) game_runtime_execute (
-        .clk(clk),
+        .clk(clk_calculation),
         .clk_centi_second(clk_centi_second),
         .reset(sync_reset),
         .next_attack_time(next_attack_time),
@@ -269,7 +269,7 @@ module topModule#(
         .ADDR_WIDTH(MAXIMUM_ATTACK_OBJECT),
         .MAXIMUM_TIMES(MAXIMUM_TIMES)
     ) attack_object_reader (
-        .clk(clk),
+        .clk(clk_calculation),
         .reset(sync_reset),
         .addr(attack_i),
         .current_time(current_time),
@@ -308,7 +308,7 @@ module topModule#(
         .ADDR_WIDTH(MAXIMUM_PLATFORM_OBJECT),
         .MAXIMUM_TIMES(MAXIMUM_TIMES)
     ) platform_object_reader (
-        .clk(clk),
+        .clk(clk_calculation),
         .reset(sync_reset),
         .addr(platform_i),
         .current_time(current_time),
@@ -477,10 +477,10 @@ module topModule#(
     localparam integer INIT_PLAYER_H = 17;
     
     // Initialize Physic parameters
-    localparam integer HORIZONTAL_SPEED = 15;
-    localparam integer VERTICAL_SPEED = 22;  // 1/16 scale
+    localparam integer HORIZONTAL_SPEED = 13;
+    localparam integer VERTICAL_SPEED = 15;  // 1/16 scale
     localparam integer GRAVITY = 8;  // 1/16 scale
-    localparam integer MAX_FALLING_SPEED = 35; // 1/16 scale 
+    localparam integer MAX_FALLING_SPEED = 30; // 1/16 scale 
     localparam integer JUMP_H = 80; 
 
 

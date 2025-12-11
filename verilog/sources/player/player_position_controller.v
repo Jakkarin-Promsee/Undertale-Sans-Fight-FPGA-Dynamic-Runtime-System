@@ -31,6 +31,11 @@ module player_position_controller#(
     output reg [9:0] player_w,
     output reg [9:0] player_h
     );
+    
+    reg swith_up_override;
+    reg swith_down_override;
+    reg swith_left_override;
+    reg swith_right_override;
 
     // Scaling Factor: 16 (4 bits for fractional part)
     localparam SCALE_FACTOR_GRAVITY_BITS = 4;
@@ -120,11 +125,11 @@ module player_position_controller#(
                 end
                 
             endcase
-            
+          
             // --- Vertical Movement Logic ---
             
             // 1. Handle Jump/Up Input
-            if (switch_up && (((is_hold_switch_up || on_ground)) || !active_gravity)) begin
+            if (switch_up_override && (((is_hold_switch_up || on_ground)) || !active_gravity)) begin
                 // While player jump up, gravity set zero
                 falling_speed <= 0;
                 
@@ -161,12 +166,12 @@ module player_position_controller#(
             // 2. Apply Gravity (Only if not moving up)
             if (!is_hold_switch_up && !on_ground && active_gravity) begin
                 // Udpate falling speed
-                if(falling_speed < (4 * SCALE_FACTOR_GRAVITY)) begin
+                if(falling_speed < (6 * SCALE_FACTOR_GRAVITY)) begin
+                    falling_speed <= falling_speed + GRAVITY/4;
+                end else if(falling_speed < (8 * SCALE_FACTOR_GRAVITY)) begin
                     falling_speed <= falling_speed + GRAVITY/3;
-                end else if(falling_speed < (5 * SCALE_FACTOR_GRAVITY)) begin
-                    falling_speed <= falling_speed + GRAVITY/2;
-                end else if(falling_speed < (6 * SCALE_FACTOR_GRAVITY)) begin
-                    falling_speed <= falling_speed + GRAVITY*2/3;
+                end else if(falling_speed < (10 * SCALE_FACTOR_GRAVITY)) begin
+                    falling_speed <= falling_speed + GRAVITY*2;
                 end else if(falling_speed < (MAX_FALLING_SPEED * SCALE_FACTOR_GRAVITY)) begin
                     falling_speed <= falling_speed + GRAVITY;
                 end else begin
@@ -196,7 +201,7 @@ module player_position_controller#(
             end
             
             // 3. Handle Down Input
-            if (switch_down && ~active_gravity) begin
+            if (switch_down_override && ~active_gravity) begin
                 if (player_pos_y_hires + player_h_hires + VERTICAL_SPEED - 2*SCALE_FACTOR <= game_display_y1_hires) begin
                     // Use SPEED directly
                     player_pos_y_hires <= player_pos_y_hires + VERTICAL_SPEED; 
@@ -221,7 +226,7 @@ module player_position_controller#(
             // --- Horizontal Movement Logic ---
             
             // Left axis
-            if(switch_left) begin
+            if(switch_left_override) begin
                 // Use SPEED directly
                 if (player_pos_x_hires - HORIZONTAL_SPEED >= game_display_x0_hires) begin
                     player_pos_x_hires <= player_pos_x_hires - HORIZONTAL_SPEED;
@@ -231,7 +236,7 @@ module player_position_controller#(
             end
             
             // Right axis
-            if(switch_right) begin
+            if(switch_right_override) begin
                 // Use SPEED directly
                 if (player_pos_x_hires + player_w_hires + HORIZONTAL_SPEED - 2*SCALE_FACTOR <= game_display_x1_hires) begin
                     player_pos_x_hires <= player_pos_x_hires + HORIZONTAL_SPEED;
@@ -251,7 +256,7 @@ module player_position_controller#(
                 on_ground <= 1;
             end else if(player_pos_y_hires < game_display_y0_hires)
                 player_pos_y_hires <= game_display_y0_hires;
-            
+                
             // --- Output Assignment (10-bit integer part only) ---
             // Divide by 16 by shifting right 4 bits to get the pixel integer value
             player_pos_x <= player_pos_x_hires >> SCALE_FACTOR_BITS;

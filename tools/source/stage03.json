@@ -2,7 +2,7 @@
     "game_manger": {
         "stage": 3,
         "attack_amount": 28,
-        "platform_amount": 3,
+        "platform_amount": 6,
         "wait_time": 5,
         "gravity_direction": 3,
         "display_pos_x1": 137,
@@ -233,7 +233,7 @@
             "pos_y": 255, 
             "w": 12, 
             "h": 44, 
-            "wait_time": 0.1, 
+            "wait_time": 0, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -265,7 +265,7 @@
             "pos_y": 255, 
             "w": 12, 
             "h": 44, 
-            "wait_time": 0.1, 
+            "wait_time": 0, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -297,7 +297,7 @@
             "pos_y": 255, 
             "w": 12, 
             "h": 44, 
-            "wait_time": 0.1, 
+            "wait_time": 0, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -441,7 +441,7 @@
             "pos_y": 328, 
             "w": 62, 
             "h": 12,
-            "wait_time": 3, 
+            "wait_time": 2, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -454,7 +454,7 @@
             "pos_y": 328, 
             "w": 62, 
             "h": 12, 
-            "wait_time": 3, 
+            "wait_time": 2, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -467,7 +467,33 @@
             "pos_y": 328, 
             "w": 62, 
             "h": 12, 
-            "wait_time": 3, 
+            "wait_time": 2, 
+            "destroy_time": 10,
+            "destroy_trigger": 2,
+            "free(unused)": 0
+        }
+
+        ,{
+            "movement_direction": 2, 
+            "speed": 9, 
+            "pos_x": 137, 
+            "pos_y": 328, 
+            "w": 62, 
+            "h": 12, 
+            "wait_time": 2, 
+            "destroy_time": 10,
+            "destroy_trigger": 2,
+            "free(unused)": 0
+        }
+
+        ,{
+            "movement_direction": 2, 
+            "speed": 9, 
+            "pos_x": 137, 
+            "pos_y": 328, 
+            "w": 62, 
+            "h": 12, 
+            "wait_time": 2, 
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0

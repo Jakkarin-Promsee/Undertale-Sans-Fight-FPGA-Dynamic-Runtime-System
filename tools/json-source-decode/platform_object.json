@@ -55,7 +55,7 @@
             "pos_y": 328,
             "w": 62,
             "h": 12,
-            "wait_time": 3,
+            "wait_time": 2,
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -67,7 +67,7 @@
             "pos_y": 328,
             "w": 62,
             "h": 12,
-            "wait_time": 3,
+            "wait_time": 2,
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -79,7 +79,31 @@
             "pos_y": 328,
             "w": 62,
             "h": 12,
-            "wait_time": 3,
+            "wait_time": 2,
+            "destroy_time": 10,
+            "destroy_trigger": 2,
+            "free(unused)": 0
+        },
+        {
+            "movement_direction": 2,
+            "speed": 9,
+            "pos_x": 137,
+            "pos_y": 328,
+            "w": 62,
+            "h": 12,
+            "wait_time": 2,
+            "destroy_time": 10,
+            "destroy_trigger": 2,
+            "free(unused)": 0
+        },
+        {
+            "movement_direction": 2,
+            "speed": 9,
+            "pos_x": 137,
+            "pos_y": 328,
+            "w": 62,
+            "h": 12,
+            "wait_time": 2,
             "destroy_time": 10,
             "destroy_trigger": 2,
             "free(unused)": 0

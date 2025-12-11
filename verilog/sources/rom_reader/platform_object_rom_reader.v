@@ -53,7 +53,11 @@ module platform_object_rom #(
             // Wait 1 cycle to sync flip flop update       
             end else begin
                 // Set next platform time
-                next_platform_time <= current_time + wait_time;
+                
+                if(wait_time==0)
+                    next_platform_time <= current_time + 3;
+                else
+                    next_platform_time <= current_time + wait_time*10;
                 
                 // Send out update to sync with game runtime module
                 update_platform_time <= 1;
