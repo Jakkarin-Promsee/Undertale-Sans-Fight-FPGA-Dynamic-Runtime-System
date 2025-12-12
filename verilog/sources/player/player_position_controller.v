@@ -5,9 +5,9 @@ module player_position_controller#(
     parameter integer PLAYER_POS_Y = 240,
     parameter integer PLAYER_W = 30,
     parameter integer PLAYER_H = 30,
-    parameter integer HORIZONTAL_SPEED = 15,
-    parameter integer VERTICAL_SPEED = 22,  // 1/16 scale
-    parameter integer GRAVITY = 8,  // 1/16 scale
+    parameter integer HORIZONTAL_SPEED = 18,
+    parameter integer VERTICAL_SPEED = 24,  // 1/16 scale
+    parameter integer GRAVITY = 12,  // 1/16 scale
     parameter integer MAX_FALLING_SPEED = 35, // 1/16 scale from 1/16 Gravity (1/256)
     parameter integer JUMP_H = 80
     )(
@@ -162,11 +162,11 @@ module player_position_controller#(
             // 2. Apply Gravity (Only if not moving up)
             if (!is_hold_switch_up && !on_ground && active_gravity) begin
                 // Udpate falling speed
-                if(falling_speed < (10 * SCALE_FACTOR_GRAVITY)) begin
+                if(falling_speed < (6 * SCALE_FACTOR_GRAVITY)) begin
                     falling_speed <= falling_speed + GRAVITY/4;
-                end else if(falling_speed < (14 * SCALE_FACTOR_GRAVITY)) begin
+                end else if(falling_speed < (10 * SCALE_FACTOR_GRAVITY)) begin
                     falling_speed <= falling_speed + GRAVITY/3;
-                end else if(falling_speed < (18 * SCALE_FACTOR_GRAVITY)) begin
+                end else if(falling_speed < (12 * SCALE_FACTOR_GRAVITY)) begin
                     falling_speed <= falling_speed + GRAVITY*2;
                 end else if(falling_speed < (MAX_FALLING_SPEED * SCALE_FACTOR_GRAVITY)) begin
                     falling_speed <= falling_speed + GRAVITY;
@@ -177,8 +177,8 @@ module player_position_controller#(
                 // Use GRAVITY directly (1 unit = 1/16th pixel)
                 if(is_collider_ground_player) begin
                     // Check for collision *after* movement
-                    if((player_pos_y_hires + falling_speed < collider_ground_h_player_hired - player_h_hires + 2*SCALE_FACTOR)) begin
-                        player_pos_y_hires <= player_pos_y_hires + falling_speed;
+                    if((player_pos_y_hires + (falling_speed>>SCALE_FACTOR_GRAVITY_BITS) < collider_ground_h_player_hired - player_h_hires + 2*SCALE_FACTOR)) begin
+                        player_pos_y_hires <= player_pos_y_hires + (falling_speed>>SCALE_FACTOR_GRAVITY_BITS);
                     end else begin
                         on_ground <= 1;
                         // Snap to ground level (Corrected: remove - 2*SCALE_FACTOR)
@@ -186,8 +186,8 @@ module player_position_controller#(
                     end
                 end else begin
                     // Check for screen bottom collision *after* movement
-                    if ((player_pos_y_hires + falling_speed < game_display_y1_hires - player_h_hires + 2*SCALE_FACTOR)) begin
-                        player_pos_y_hires <= player_pos_y_hires + falling_speed;
+                    if ((player_pos_y_hires + (falling_speed>>SCALE_FACTOR_GRAVITY_BITS) < game_display_y1_hires - player_h_hires + 2*SCALE_FACTOR)) begin
+                        player_pos_y_hires <= player_pos_y_hires + (falling_speed>>SCALE_FACTOR_GRAVITY_BITS);
                     end else begin
                         on_ground <= 1;
                         // Snap to screen bottom level (Corrected: remove + 2*SCALE_FACTOR)

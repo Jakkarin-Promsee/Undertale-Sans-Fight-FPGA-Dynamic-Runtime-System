@@ -34,7 +34,7 @@ def pack_bits(value, width, entry_index=None, field_name=None):
 
 # --------------------------------------------------------------------
 # 2. Game Manager Encoder (Stage Flow ROM Specification)
-# Total Bit Width: 74 bits
+# Total Bit Width: 72 bits
 # --------------------------------------------------------------------
 def encode_game_manager(entry, index=None):
     """ Assembles the bitstring for one Game Manager entry (one stage sequence). """
@@ -71,7 +71,7 @@ def encode_game_manager(entry, index=None):
 
 # --------------------------------------------------------------------
 # 3. Attack Object Encoder (Trigger ROM Specification)
-# Total Bit Width: 86 bits
+# Total Bit Width: 72 bits
 # --------------------------------------------------------------------
 def encode_attack(entry, index=None):
     """ Assembles the bitstring for one Attack object entry. """
@@ -112,7 +112,7 @@ def encode_attack(entry, index=None):
 
 # --------------------------------------------------------------------
 # 4. Platform Object Encoder (Collider ROM Specification)
-# Total Bit Width: 71 bits
+# Total Bit Width: 64 bits
 # --------------------------------------------------------------------
 def encode_platform(entry, index=None):
     """ Assembles the bitstring for one Platform object entry. """
@@ -146,7 +146,34 @@ def encode_platform(entry, index=None):
 
 
 # --------------------------------------------------------------------
-# 5. Hex Conversion (Utility)
+# 5. Game UI Encoder (Game UI ROM Specification)
+# Total Bit Width: 56 bits
+# --------------------------------------------------------------------
+def encode_ui(entry, index=None):
+    """ Assembles the bitstring for one game ui entry. """
+    bits = ""
+    
+    # 1 bit: The heal condition, 1 is healt HP to max, 0 isn't.
+    bits += pack_bits(entry["reset_healt_status"], 1, index, "reset_healt_status")
+
+    # 8 bits x 4: Position (x, y) and Dimension (w, h) - All scaled by 4
+    bits += pack_bits(int(entry["healt_bar_pos_x"]/4), 8, index, "healt_bar_pos_x")
+    bits += pack_bits(int(entry["healt_bar_pos_y"]/4), 8, index, "healt_bar_pos_y")
+    bits += pack_bits(int(entry["healt_bar_w"]/4), 8, index, "healt_bar_w")
+    bits += pack_bits(int(entry["healt_bar_h"]/4), 8, index, "healt_bar_h")
+
+    # 7 bits for sensitivity (0.01 - 1.23s)
+    bits += pack_bits(entry["healt_bar_sensitivity"]*100, 7, index, "healt_bar_h")
+    
+    # 16 bits: Delay before next UI (converted to 100Hz ticks)
+    bits += pack_bits(entry["wait_time"]*10, 16, index, "wait_time")
+
+    
+    return bits
+
+
+# --------------------------------------------------------------------
+# 6. Hex Conversion (Utility)
 # --------------------------------------------------------------------
 def bin_to_hex(bitstring):
     """ Converts a binary string into a padded hexadecimal string. """

@@ -1,0 +1,13 @@
+{
+    "decimal_data": [
+        {
+            "reset_healt_status": 1,
+            "healt_bar_pos_x": 256,
+            "healt_bar_pos_y": 388,
+            "healt_bar_w": 116,
+            "healt_bar_h": 20,
+            "healt_bar_sensitivity": 0.1,
+            "wait_time": 1000
+        }
+    ]
+}

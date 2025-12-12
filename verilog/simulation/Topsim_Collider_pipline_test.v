@@ -50,6 +50,11 @@ module Topsim_Collider_pipline_test;
         $finish;
     end
     
+    wire [10-1:0] x;
+    wire [10-1:0] y;
+    
+    assign x = dut.x;
+    assign y = dut.y;
     
     wire [10-1:0] attack_i;
     wire [10-1:0] platform_i;
@@ -73,8 +78,10 @@ module Topsim_Collider_pipline_test;
     wire [9:0] player_pos_x;
     wire [9:0] player_pos_y;
     wire [9:0] player_w;
+    wire [13:0] falling_speed;
     
     assign jump_height_hires = dut.player_position.jump_height_hires;
+    assign falling_speed = dut.player_position.falling_speed;
     assign on_ground = dut.player_position.on_ground;
     assign player_pos_x = dut.player_pos_x;
     assign player_pos_y = dut.player_pos_y;
@@ -109,9 +116,36 @@ module Topsim_Collider_pipline_test;
     localparam integer OBJECT_AMOUNT_T = 80;   
     wire [OBJECT_AMOUNT_T-1: 0] object_ready_state_T;
     
+    wire ui_signal;
+    wire reset_healt_status;
+    wire [9:0]   healt_bar_pos_x;
+    wire [9:0]   healt_bar_pos_y;
+    wire [9:0]   healt_bar_w;
+    wire [9:0]   healt_bar_h;
+    wire [9:0]   healt_bar_w_minus;
+    wire [6:0]   healt_bar_sensitivity;
+    wire [15:0]  wait_time;
+    wire [29:0]  next_ui_time;
+    wire object_trigger_signal;
+    
+    assign ui_signal = dut.ui_signal;
+    assign object_trigger_signal = dut.object_trigger_signal;
+    assign reset_healt_status = dut.game_ui_runtime_execute.reset_healt_status;
+    assign healt_bar_pos_x = dut.game_ui_runtime_execute.healt_bar_pos_x;
+    assign healt_bar_pos_y = dut.game_ui_runtime_execute.healt_bar_pos_y;
+    assign healt_bar_w = dut.game_ui_runtime_execute.healt_bar_w;
+    assign healt_bar_h = dut.game_ui_runtime_execute.healt_bar_h;
+    assign healt_bar_w_minus = dut.game_ui_runtime_execute.healt_bar_w_minus;
+    assign healt_bar_sensitivity = dut.game_ui_runtime_execute.healt_bar_sensitivity;
+    assign wait_time = dut.game_ui_runtime_execute.wait_time;
+    assign next_ui_time = dut.game_ui_runtime_execute.next_ui_time;
+    
     assign object_ready_state_T = dut.muti_object_trigger_runtime_execute.object_ready_state;
 
-    
-   
+    reg [55:0] rom [0:1];
+
+    initial begin
+        $readmemh("game_ui.mem", rom);
+    end  
 
 endmodule

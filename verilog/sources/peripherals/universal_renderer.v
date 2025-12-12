@@ -11,6 +11,7 @@ module universal_renderer(
     input object_colider_signal,
     input object_trigger_signal,
     input game_display_border_render,
+    input ui_signal,
     input player_render,
     
     output reg [3:0] RED,  
@@ -42,6 +43,11 @@ module universal_renderer(
                 BLUE  <= 0;
             end
             
+            else if (ui_signal) begin
+                RED   <= 15;
+                GREEN <= 15;
+                BLUE  <= 15;
+            end
             // Game display border
             else if (game_display_border_render) begin
                 RED   <= 15;
@@ -58,12 +64,17 @@ module universal_renderer(
             
             // Background
             else begin
-                if(is_trigger_player)
-                    RED   <= 1;
-                else
+                if(is_trigger_player && 0) begin
+                    RED   <= 4;
+                    GREEN <= 4;
+                    BLUE  <= 4;
+                    
+                end else begin
                     RED <= 0;
-                GREEN <= 0;
-                BLUE  <= 0;
+                    GREEN <= 0;
+                    BLUE  <= 0;
+                end
+                    
             end
         end
     end

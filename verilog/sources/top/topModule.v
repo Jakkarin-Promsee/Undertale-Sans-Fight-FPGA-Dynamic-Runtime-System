@@ -185,6 +185,7 @@ module topModule#(
     // TO declare size of hold memeory variable
     localparam integer MAXIMUM_STAGE = 8; // 256 stages
     localparam integer MAXIMUM_TIMES = 30; // 10,000,000.00 seconds
+    localparam integer MAXIMUM_UI = 20; // 1,000,000 objects
     localparam integer MAXIMUM_ATTACK_OBJECT = 20; // 1,000,000 objects
     localparam integer MAXIMUM_PLATFORM_OBJECT = 20; // 1,000,000 objects
     
@@ -328,6 +329,27 @@ module topModule#(
         .destroy_trigger(platform_destroy_trigger)
     );
     
+    wire is_trigger_player;
+    wire object_trigger_signal;
+    wire [MAXIMUM_UI-1:0] ui_i;
+    wire ui_signal;
+    
+    game_ui_runtime #(
+        .ADDR_WIDTH(MAXIMUM_UI),
+        .MAXIMUM_TIMES(MAXIMUM_TIMES)
+    ) game_ui_runtime_execute (
+        .clk_centi_second(clk_centi_second),
+        .clk_calculation(clk_calculation),
+        .reset(sync_reset),
+        .x(x),
+        .y(y),
+        .current_time(current_time),
+        .is_trigger_player(is_trigger_player),
+        
+        .addr(ui_i),
+        .ui_signal(ui_signal)
+    );
+    
     
     //----------------------------------- Game Display Section -----------------------------------------
     
@@ -434,9 +456,6 @@ module topModule#(
     
     localparam MAXIMUM_TRIGGER_OBJECT_AMOUT = 80;
     
-    wire object_trigger_signal;
-    wire is_trigger_player;
-    
      multi_object_trigger_runtime #(
         .OBJECT_AMOUNT(MAXIMUM_TRIGGER_OBJECT_AMOUT)
      ) muti_object_trigger_runtime_execute (
@@ -484,10 +503,10 @@ module topModule#(
     localparam integer INIT_PLAYER_H = 17;
     
     // Initialize Physic parameters
-    localparam integer HORIZONTAL_SPEED = 13;
-    localparam integer VERTICAL_SPEED = 15;  // 1/16 scale
+    localparam integer HORIZONTAL_SPEED = 15;
+    localparam integer VERTICAL_SPEED = 22;  // 1/16 scale
     localparam integer GRAVITY = 8;  // 1/16 scale
-    localparam integer MAX_FALLING_SPEED = 30; // 1/16 scale 
+    localparam integer MAX_FALLING_SPEED = 35; // 1/16 scale 
     localparam integer JUMP_H = 80; 
 
 
@@ -547,6 +566,7 @@ module topModule#(
         .game_display_border_render(game_display_border_signal),
         .object_colider_signal(object_colider_signal),
         .object_trigger_signal(object_trigger_signal),
+        .ui_signal(ui_signal),
         .player_render(player_render_signal),
         
         .RED(RED),

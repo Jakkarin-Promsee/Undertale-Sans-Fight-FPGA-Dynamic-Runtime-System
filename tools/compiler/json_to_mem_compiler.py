@@ -4,7 +4,7 @@ import os
 # Import all the encoding logic from the library file
 from json_encoders import (
     encode_game_manager, encode_attack, encode_platform, 
-    bin_to_hex
+    bin_to_hex, encode_ui
 )
 
 # ====================================================================
@@ -58,6 +58,12 @@ def build_mem_files(isPushingVerilog=True, isHex=True):
             "json_path": os.path.join(UNIFIED_JSON_DIR, "platform_object.json"),
             "mem_path": os.path.join(MEM_OUTPUT_DIR, "platform_object.mem"),
             "encoder": encode_platform
+        },
+        {
+            "name": "Game UI",
+            "json_path": os.path.join(UNIFIED_JSON_DIR, "game_ui.json"),
+            "mem_path": os.path.join(MEM_OUTPUT_DIR, "game_ui.mem"),
+            "encoder": encode_ui
         },
     ]
 
