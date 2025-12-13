@@ -11,7 +11,7 @@ def stage():
     # ------------------------------------------------------------------
     stage.game_manager = GameManager(
         stage=1,
-        wait_time=5,
+        wait_time=3,
         gravity_direction=3,
         display_pos_x1=136,
         display_pos_y1=256,
@@ -58,7 +58,7 @@ def stage():
             h=0,
             wait_time=3,
             destroy_time=0,
-            destroy_trigger=0,
+            destroy_trigger=2,
         )
     )
 
@@ -150,9 +150,9 @@ def stage():
             pos_y=0,
             w=0,
             h=0,
-            wait_time=5,
+            wait_time=2,
             destroy_time=0,
-            destroy_trigger=0,
+            destroy_trigger=2,
         )
     )
 
@@ -169,7 +169,7 @@ def stage():
             h=0,
             wait_time=0,
             destroy_time=0,
-            destroy_trigger=0,
+            destroy_trigger=2,
         )
     )
 

@@ -11,7 +11,7 @@ def stage():
     # ------------------------------------------------------------------
     stage.game_manager = GameManager(
         stage=0,
-        wait_time=5,
+        wait_time=3,
         gravity_direction=0,
         display_pos_x1=245,
         display_pos_y1=229,
@@ -38,7 +38,7 @@ def stage():
     BOTTOM_EDGE_Y = stage.game_manager.display_pos_y2
 
     # ------------------------------------------------------------------
-    # Initial Delay (7 seconds)
+    # Initial Delay (5 seconds)
     # ------------------------------------------------------------------
     stage.attack_objects.append(
         AttackObject(
@@ -50,9 +50,9 @@ def stage():
             pos_y=0,
             w=0,
             h=0,
-            wait_time=7,
+            wait_time=5,
             destroy_time=0,
-            destroy_trigger=0,
+            destroy_trigger=2,
         )
     )
 
@@ -167,9 +167,9 @@ def stage():
             pos_y=0,
             w=0,
             h=0,
-            wait_time=5,
+            wait_time=2,
             destroy_time=0,
-            destroy_trigger=0,
+            destroy_trigger=2,
         )
     )
 
@@ -186,7 +186,7 @@ def stage():
             h=0,
             wait_time=0,
             destroy_time=0,
-            destroy_trigger=0,
+            destroy_trigger=2,
         )
     )
 

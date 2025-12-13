@@ -220,26 +220,27 @@ module player_position_controller#(
             end
             
             // --- Horizontal Movement Logic ---
-            
             // Left axis
-            if(switch_left) begin
-                // Use SPEED directly
-                if (player_pos_x_hires - HORIZONTAL_SPEED >= game_display_x0_hires) begin
+            // Use SPEED directly
+            if (player_pos_x_hires - HORIZONTAL_SPEED >= game_display_x0_hires) begin
+                if(switch_left) begin
                     player_pos_x_hires <= player_pos_x_hires - HORIZONTAL_SPEED;
-                end else begin
-                    player_pos_x_hires <= game_display_x0_hires; // Snap to left boundary
                 end
+            end else begin
+                player_pos_x_hires <= game_display_x0_hires; // Snap to left boundary
             end
+            
             
             // Right axis
-            if(switch_right) begin
-                // Use SPEED directly
-                if (player_pos_x_hires + player_w_hires + HORIZONTAL_SPEED - 2*SCALE_FACTOR <= game_display_x1_hires) begin
+            // Use SPEED directly
+            if (player_pos_x_hires + player_w_hires + HORIZONTAL_SPEED - 2*SCALE_FACTOR <= game_display_x1_hires) begin
+                if(switch_right) begin
                     player_pos_x_hires <= player_pos_x_hires + HORIZONTAL_SPEED;
-                end else begin
-                    player_pos_x_hires <= (game_display_x1_hires - player_w_hires) + 2*SCALE_FACTOR;
                 end
+            end else begin
+                player_pos_x_hires <= (game_display_x1_hires - player_w_hires) + 2*SCALE_FACTOR;
             end
+            
             
             // If player are out size
             if(player_pos_x_hires + player_w_hires > game_display_x1_hires)
