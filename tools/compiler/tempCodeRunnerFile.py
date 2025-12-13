@@ -1,1 +1,1 @@
-project_path = os.path.dirname(tools_path)
+tools_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

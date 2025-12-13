@@ -37,7 +37,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 46,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -65,7 +65,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 38,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -93,7 +93,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 30,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -121,7 +121,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 22,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -149,7 +149,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 14,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -177,7 +177,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 14,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -205,7 +205,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 22,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -233,7 +233,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 30,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -261,7 +261,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 38,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -289,7 +289,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 46,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -317,7 +317,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 54,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -345,7 +345,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 62,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -373,7 +373,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 70,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -401,7 +401,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 78,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -429,7 +429,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 86,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -457,7 +457,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 94,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -485,7 +485,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 102,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -513,7 +513,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 102,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -541,7 +541,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 94,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -569,7 +569,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 86,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -597,7 +597,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 78,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -625,7 +625,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 70,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -653,7 +653,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 62,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
@@ -681,7 +681,7 @@
             "pos_y": 229,
             "w": 12,
             "h": 54,
-            "wait_time": 0.2,
+            "wait_time": 0,
             "destroy_time": 20,
             "destroy_trigger": 2,
             "free(unused)": 0
