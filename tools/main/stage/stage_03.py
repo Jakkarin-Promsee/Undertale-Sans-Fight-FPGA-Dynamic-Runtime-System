@@ -89,7 +89,7 @@ def stage():
     # Phase 2: Break + Extension
     # ================================================================
     for _ in range(3):
-        left_lower_bar(0, destroy=0)
+        stage.attack_objects.append(left_lower_bar(0, destroy=20))
         stage.attack_objects.append(
             AttackObject(
                 type=0,
