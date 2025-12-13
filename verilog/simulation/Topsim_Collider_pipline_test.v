@@ -99,6 +99,19 @@ module Topsim_Collider_pipline_test;
      assign collider_ground_w_player = dut.multi_object_collider_runtime_execute.collider_ground_w_player;
      assign is_collider_ground_player = dut.is_collider_ground_player;
      
+     wire [29:0] next_attack_time;
+     assign next_attack_time = dut.game_runtime_execute.next_attack_time;
+     
+     wire is_end_game_manager;
+     wire sync_game_manager;
+     wire update_game_manager;
+     
+     assign is_end_game_manager = dut.game_runtime_execute.is_end;
+     assign sync_game_manager = dut.game_runtime_execute.sync_game_manager;
+     assign update_game_manager = dut.game_runtime_execute.update_game_manager;
+     assign sync_attack_time = dut.game_runtime_execute.sync_attack_time;
+     assign sync_platform_time = dut.game_runtime_execute.sync_platform_time;
+     
      wire clk_centi_second;
 //     wire [7:0] centi_second;
      wire [7:0] object_destroy_time;
@@ -116,6 +129,7 @@ module Topsim_Collider_pipline_test;
     localparam integer OBJECT_AMOUNT_T = 80;   
     wire [OBJECT_AMOUNT_T-1: 0] object_ready_state_T;
     
+    wire [10-1:0] ui_addr;
     wire ui_signal;
     wire reset_healt_status;
     wire [9:0]   healt_bar_pos_x;
@@ -127,9 +141,15 @@ module Topsim_Collider_pipline_test;
     wire [15:0]  wait_time;
     wire [29:0]  next_ui_time;
     wire object_trigger_signal;
+    wire update_ui_time;
+    wire sync_ui_time;
     
     assign ui_signal = dut.ui_signal;
     assign object_trigger_signal = dut.object_trigger_signal;
+    assign update_ui_time = dut.game_ui_runtime_execute.update_ui_time;
+    assign sync_ui_time = dut.game_ui_runtime_execute.sync_ui_time;
+    assign ui_addr = dut.game_ui_runtime_execute.addr;
+    
     assign reset_healt_status = dut.game_ui_runtime_execute.reset_healt_status;
     assign healt_bar_pos_x = dut.game_ui_runtime_execute.healt_bar_pos_x;
     assign healt_bar_pos_y = dut.game_ui_runtime_execute.healt_bar_pos_y;

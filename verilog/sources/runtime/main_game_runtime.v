@@ -42,6 +42,8 @@ module game_runtime#(
     reg [MAXIMUM_TIMES-1:0] next_game_manager_time;
     reg  sync_game_manager;      // State machine signal: 1=Spawning, 0=Stage Transition/Wait
     wire update_game_manager;   // Asserted by ROM module when data is ready
+    
+    wire is_end;
 
     // Instantiate ROM reader (Note: 'game_manager_rom' module assumed to be defined elsewhere)
     game_manager_rom game_manager_reader (
@@ -60,7 +62,9 @@ module game_runtime#(
         .display_pos_y2(display_pos_y2),
        
         .wait_time(wait_time),
-        .update_game_manager(update_game_manager)
+        .update_game_manager(update_game_manager),
+        
+        .is_end(is_end)
     );
     
     reg [9:0] count_attack;   // Counts attacks spawned in the current stage
@@ -88,75 +92,78 @@ module game_runtime#(
             
             // --- State 1: Synchronized (Spawning Events) ---
             if(sync_game_manager) begin
+                if(is_end) begin
+                    current_stage <= 0;
+                    attack_i <= 0;
+                    platform_i <= 0;
+                    
+                    sync_attack_time <= 0;
+                    sync_platform_time <= 0;
+                    
+                    sync_game_manager <= 0;
+                end else begin
                 
-                // 1. Attack Spawning Logic (2-Cycle Handshake)
-                // Trigger condition: Current time reached spawn time, external module is NOT busy, and we are ready to spawn (sync_attack_time=1)
-                if(current_time >= next_attack_time && sync_attack_time) begin
-    
-                    if(count_attack + 1 >= attack_amount) begin
-                        // Stage End: Attack limit reached -> Transition to waiting state
-                        if(current_stage + 1 < LAST_STAGE) begin
+                    // 1. Attack Spawning Logic (2-Cycle Handshake)
+                    // Trigger condition: Current time reached spawn time, external module is NOT busy, and we are ready to spawn (sync_attack_time=1)
+                    if(current_time >= next_attack_time && sync_attack_time) begin
+        
+                        if(count_attack + 1 >= attack_amount) begin
+                            // Stage End: Attack limit reached -> Transition to waiting state
                             current_stage <= current_stage + 1;
                             attack_i <= attack_i + 1;
                             platform_i <= platform_i + 1;
+                                
+                            sync_game_manager <= 0;
+                            next_game_manager_time <= current_time + wait_time;
                         end else begin
-
-                            current_stage <= 0;
-                            attack_i <= 0;
-                            platform_i <= 0;
+                            // Spawn Next Attack
+                            attack_i <= attack_i + 1;
+                            count_attack <= count_attack + 1;
+                            sync_attack_time <= 0; // Request external module to update next_attack_time
                         end
-                            
-                        sync_game_manager <= 0;
-                        next_game_manager_time <= current_time + wait_time;
-                    end else begin
-                        // Spawn Next Attack
-                        attack_i <= attack_i + 1;
-                        count_attack <= count_attack + 1;
-                        sync_attack_time <= 0; // Request external module to update next_attack_time
-                    end
-                end 
-                
-                // Acknowledgment from external module: Allows next spawn
-                if(update_attack_time) begin
-                    sync_attack_time <= 1;
-                end
-                
-                
-                // 2. Platform Spawning Logic (2-Cycle Handshake)
-                // Trigger condition: Current time reached spawn time, external module is NOT busy, and we are ready to spawn (sync_platform_time=1)
-                if(current_time >= next_platform_time && sync_platform_time) begin
+                    end 
                     
-                    if(count_platform + 1 >= platform_amount) begin
-                        // Stage End: Platform limit reached -> Transition to waiting state
-//                        if(current_stage + 1 < LAST_STAGE) begin
-//                            current_stage <= current_stage + 1;
-//                        end else begin
-//                            current_stage <= 0;
-//                            attack_i <= 0;
-//                            platform_i <= 0;
-//                        end
-                                                    
-//                        sync_game_manager <= 0;
-//                        next_game_manager_time <= current_time + wait_time;
-                    end else begin
-                        // Spawn Next Platform
-                        platform_i <= platform_i + 1;
-                        count_platform <= count_platform + 1;
-                        sync_platform_time <= 0; // Request external module to update next_platform_time
+                    // Acknowledgment from external module: Allows next spawn
+                    if(update_attack_time) begin
+                        sync_attack_time <= 1;
                     end
-                end 
-                
-                // Acknowledgment from external module: Allows next spawn
-                if(update_platform_time) begin
-                    sync_platform_time <= 1;
+                    
+                    
+                    // 2. Platform Spawning Logic (2-Cycle Handshake)
+                    // Trigger condition: Current time reached spawn time, external module is NOT busy, and we are ready to spawn (sync_platform_time=1)
+                    if(current_time >= next_platform_time && sync_platform_time) begin
+                        
+                        if(count_platform + 1 >= platform_amount) begin
+                            // Stage End: Platform limit reached -> Transition to waiting state
+    //                        if(current_stage + 1 < LAST_STAGE) begin
+    //                            current_stage <= current_stage + 1;
+    //                        end else begin
+    //                            current_stage <= 0;
+    //                            attack_i <= 0;
+    //                            platform_i <= 0;
+    //                        end
+                                                        
+    //                        sync_game_manager <= 0;
+    //                        next_game_manager_time <= current_time + wait_time;
+                        end else begin
+                            // Spawn Next Platform
+                            platform_i <= platform_i + 1;
+                            count_platform <= count_platform + 1;
+                            sync_platform_time <= 0; // Request external module to update next_platform_time
+                        end
+                    end 
+                    
+                    // Acknowledgment from external module: Allows next spawn
+                    if(update_platform_time) begin
+                        sync_platform_time <= 1;
+                    end
                 end
-            
             // --- State 0: Desynchronized (Waiting for ROM/Wait Time) ---
             end else begin
             
                 // Transition Back to Spawning State
                 // Condition: ROM data is ready (update_game_manager) AND wait time has passed
-                if(update_game_manager && current_time >= next_game_manager_time) begin
+                if(update_game_manager && (current_time >= next_game_manager_time)) begin
                     
                     sync_game_manager <= 1; // Re-enter spawning state
                     
@@ -165,8 +172,10 @@ module game_runtime#(
                     count_platform <= 0;
                     
                     // Request external modules to calculate initial spawn times for the new stage
-                    sync_attack_time <= 0;
-                    sync_platform_time <= 0;
+                    if(!is_end) begin
+                        sync_attack_time <= 0;
+                        sync_platform_time <= 0;
+                    end
                 end
             end
         end

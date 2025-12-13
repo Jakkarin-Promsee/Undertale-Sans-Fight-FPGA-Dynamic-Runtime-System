@@ -59,14 +59,16 @@ def draw_stage():
 
     # Attack objects
     for obj in attack_objects:
-        canvas.create_rectangle(obj["pos_x"], obj["pos_y"],
-                                obj["pos_x"] + obj["w"], obj["pos_y"] + obj["h"],
+        canvas.create_rectangle(int(obj["pos_x"]/4)*4, int(obj["pos_y"]/4)*4,
+                                int(obj["pos_x"]/4)*4 + int(obj["w"]/4)*4,
+                                int(obj["pos_y"]/4)*4 + int(obj["h"]/4)*4,
                                 outline="#ff5555")
 
     # Platform objects
     for obj in platform_objects:
-        canvas.create_rectangle(obj["pos_x"], obj["pos_y"],
-                                obj["pos_x"] + obj["w"], obj["pos_y"] + obj["h"],
+        canvas.create_rectangle(int(obj["pos_x"]/4)*4, int(obj["pos_y"]/4)*4,
+                                int(obj["pos_x"]/4)*4 + int(obj["w"]/4)*4,
+                                int(obj["pos_y"]/4)*4 + int(obj["h"]/4)*4,
                                 outline="#55ccee")
 
 
@@ -145,9 +147,9 @@ def highlight_n_objects():
             obj = platform_objects[i - len(attack_objects)]
 
         canvas.create_rectangle(
-            obj["pos_x"], obj["pos_y"],
-            obj["pos_x"] + obj["w"],
-            obj["pos_y"] + obj["h"],
+            int(obj["pos_x"]/4)*4, int(obj["pos_y"]/4)*4,
+            int(obj["pos_x"]/4)*4 + int(obj["w"]/4)*4,
+            int(obj["pos_y"]/4)*4 + int(obj["h"]/4)*4,
             outline="white", width=3, tags="highlight"
         )
 

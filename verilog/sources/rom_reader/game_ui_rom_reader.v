@@ -18,7 +18,9 @@ module game_ui_rom_reader #(
     output reg [9:0]   healt_bar_h,
     output reg [6:0]   healt_bar_sensitivity,
     output reg [15:0]  wait_time,
-    output reg [MAXIMUM_TIMES-1:0] next_ui_time
+    output reg [MAXIMUM_TIMES-1:0] next_ui_time,
+    
+    output reg is_end
 );
     reg wait_time;
 
@@ -30,6 +32,7 @@ module game_ui_rom_reader #(
             $readmemh("game_ui.mem", rom);
             update_data <= 0; 
             next_ui_time <= 0;
+            is_end <= 0;
             
         end else if(!sync_ui_time) begin
             // Update data sync with game runtime
@@ -43,6 +46,8 @@ module game_ui_rom_reader #(
                 wait_time             = rom[addr][15:0];
 
                 update_data <= 1;
+                
+                is_end = &rom[addr];
             
             // Wait 1 cycle to sync flip flop update                   
             end else begin
@@ -57,7 +62,8 @@ module game_ui_rom_reader #(
             end
             
         // If sync_attack_time from game runtime module
-        end else begin                    
+        end else begin  
+            update_data <= 0;                  
             update_ui_time <= 0;
         end
     end

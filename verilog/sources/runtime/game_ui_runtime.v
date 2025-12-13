@@ -31,6 +31,8 @@ module game_ui_runtime #(
     wire [15:0]  wait_time;
     
     wire [MAXIMUM_TIMES-1:0] next_ui_time;
+    
+    wire is_end;
 
 
     game_ui_rom_reader #(
@@ -43,6 +45,8 @@ module game_ui_runtime #(
         .current_time(current_time),
         .sync_ui_time(sync_ui_time),
         
+        .update_ui_time(update_ui_time),
+        
         .reset_healt_status(reset_healt_status),
         .healt_bar_pos_x(healt_bar_pos_x),
         .healt_bar_pos_y(healt_bar_pos_y),
@@ -51,7 +55,9 @@ module game_ui_runtime #(
         .healt_bar_sensitivity(healt_bar_sensitivity),
         .wait_time(wait_time),
         
-        .next_ui_time(next_ui_time)
+        .next_ui_time(next_ui_time),
+        
+        .is_end(is_end)
     );
     
     // Border logic
@@ -80,11 +86,24 @@ module game_ui_runtime #(
         if(reset) begin
             sync_ui_time <= 0;
             addr <= 0;
-        end else begin
+            
+        end else if (!sync_ui_time) begin
             if(update_ui_time) begin
                 sync_ui_time <= 1;
             end
+                
+        end else begin
+            if(is_end) begin
+                addr <= 0;
+                sync_ui_time <= 0;
+                
+            end else if(current_time >= next_ui_time) begin
+                addr <= addr + 1;
+                sync_ui_time <= 0;
+            end
+        
         end
+        
     end
     
     reg [6:0] current_healt_bar_sensitivity;

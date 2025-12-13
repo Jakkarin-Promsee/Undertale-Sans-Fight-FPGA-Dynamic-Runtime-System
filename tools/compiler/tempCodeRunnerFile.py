@@ -1,0 +1,1 @@
+project_path = os.path.dirname(tools_path)
