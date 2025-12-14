@@ -169,7 +169,7 @@ module player_position_controller#(
                 end else if(falling_speed < (10 * SCALE_FACTOR_GRAVITY)) begin
                     falling_speed <= falling_speed + GRAVITY/3;
                 end else if(falling_speed < (12 * SCALE_FACTOR_GRAVITY)) begin
-                    falling_speed <= falling_speed + GRAVITY*2;
+                    falling_speed <= falling_speed + GRAVITY/2;
                 end else if(falling_speed < (MAX_FALLING_SPEED * SCALE_FACTOR_GRAVITY)) begin
                     falling_speed <= falling_speed + GRAVITY;
                 end else begin
