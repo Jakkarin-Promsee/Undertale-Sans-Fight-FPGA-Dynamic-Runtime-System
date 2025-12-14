@@ -28,6 +28,6 @@ module game_display_renderer #(
         (y <= game_display_y1 + BORDER);
     
     assign render = border_size && (~normal_size);
-    assign out_side_display_signal = ~border_size;
+    assign out_side_display_signal = ~normal_size;
 
 endmodule
