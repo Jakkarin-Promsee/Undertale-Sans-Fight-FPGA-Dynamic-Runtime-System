@@ -3,7 +3,7 @@ import os
 
 # ---------------- CONFIG ----------------
 IMG_SIZE = 17
-INPUT_MEM = "font.mem"
+INPUT_MEM = "font_data.mem"
 OUTPUT_DIR = "decoded_jpg"
 
 WHITE = 255
@@ -11,7 +11,7 @@ BLACK = 0
 
 CHAR_LIST = (
     [chr(c) for c in range(ord('a'), ord('z') + 1)] +
-    [str(i) for i in range(10)]
+    [str(i) for i in range(11)]
 )
 # ---------------------------------------
 

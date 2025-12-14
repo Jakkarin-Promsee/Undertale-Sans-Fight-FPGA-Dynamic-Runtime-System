@@ -8,7 +8,7 @@ OUTPUT_FILE = "font_data.mem"
 
 CHAR_LIST = (
     [chr(c) for c in range(ord('a'), ord('z') + 1)] +
-    [str(i) for i in range(10)]
+    [str(i) for i in range(11)]
 )
 # ---------------------------------------
 
