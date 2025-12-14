@@ -4,7 +4,7 @@ import os
 # Import all the encoding logic from the library file
 from json_encoders import (
     encode_game_manager, encode_attack, encode_platform, 
-    bin_to_hex, encode_ui
+    bin_to_hex, encode_ui, encode_character
 )
 
 # ====================================================================
@@ -65,6 +65,12 @@ def build_mem_files(isPushingVerilog=True, isHex=True):
             "mem_path": os.path.join(MEM_OUTPUT_DIR, "game_ui.mem"),
             "encoder": encode_ui
         },
+        {
+            "name": "Character Object",
+            "json_path": os.path.join(UNIFIED_JSON_DIR, "character_object.json"),
+            "mem_path": os.path.join(MEM_OUTPUT_DIR, "character_object.mem"),
+            "encoder": encode_character
+        }
     ]
 
     print("--- Starting Bit-Packing and ROM Generation ---")
@@ -89,7 +95,7 @@ def build_mem_files(isPushingVerilog=True, isHex=True):
             if task["name"] in ("Game Manager", "Game UI"):
                 bit_width = {
                     "Game Manager": 72,
-                    "Game UI": 56,
+                    "Game UI": 88,
                 }[task["name"]]
 
                 closer_bits = "1" * bit_width

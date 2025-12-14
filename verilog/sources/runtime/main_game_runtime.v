@@ -18,6 +18,8 @@ module game_runtime#(
     input update_attack_time,   // Asserted by external module when time is updated
     input update_platform_time, // Asserted by external module when time is updated
     
+    input is_player_dead, 
+    
     // Outputs
     output wire [2:0] gravity_direction,
     output wire [9:0] display_pos_x1,
@@ -30,7 +32,9 @@ module game_runtime#(
     output reg [MAXIMUM_ATTACK_OBJECT-1:0] attack_i,
     output reg [MAXIMUM_PLATFORM_OBJECT-1:0] platform_i,
     output reg sync_attack_time,   // Request/Enable signal for attack spawning
-    output reg sync_platform_time  // Request/Enable signal for platform spawning
+    output reg sync_platform_time,  // Request/Enable signal for platform spawning
+    
+    output reg is_reset_stage
     );
     
     // Wires from the ROM module
@@ -44,7 +48,7 @@ module game_runtime#(
     wire update_game_manager;   // Asserted by ROM module when data is ready
     
     wire is_end;
-
+ 
     // Instantiate ROM reader (Note: 'game_manager_rom' module assumed to be defined elsewhere)
     game_manager_rom game_manager_reader (
         .clk(clk),
@@ -92,7 +96,7 @@ module game_runtime#(
             
             // --- State 1: Synchronized (Spawning Events) ---
             if(sync_game_manager) begin
-                if(is_end) begin
+                if(is_end || is_player_dead) begin
                     current_stage <= 0;
                     attack_i <= 0;
                     platform_i <= 0;
@@ -101,6 +105,7 @@ module game_runtime#(
                     sync_platform_time <= 0;
                     
                     sync_game_manager <= 0;
+                    is_reset_stage <= 1;
                 end else begin
                 
                     // 1. Attack Spawning Logic (2-Cycle Handshake)
@@ -170,6 +175,8 @@ module game_runtime#(
                     // Reset count for the new stage
                     count_attack <= 0;
                     count_platform <= 0;
+                    
+                    is_reset_stage<=0;
                     
                     // Request external modules to calculate initial spawn times for the new stage
                     if(!is_end) begin

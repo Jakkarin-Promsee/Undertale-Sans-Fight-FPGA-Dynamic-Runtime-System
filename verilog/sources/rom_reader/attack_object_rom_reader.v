@@ -60,7 +60,7 @@ module attack_object_rom #(
             end else begin
                 // Set next attack time
                 if(wait_time==0)
-                    next_attack_time <= current_time+1;
+                    next_attack_time <= current_time+3;
                 else
                     next_attack_time <= current_time + wait_time*10;
                 

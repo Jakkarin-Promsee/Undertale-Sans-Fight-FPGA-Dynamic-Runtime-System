@@ -1,10 +1,45 @@
 {
     "decimal_data": [
         {
-            "reset_healt_status": 1,
+            "free(unused)": 0,
+            "character_amount": 2,
+            "transparent_out_screen_display": 0,
+            "healt_current": 96,
+            "healt_max": 96,
+            "reset_when_dead": 1,
             "healt_bar_pos_x": 256,
             "healt_bar_pos_y": 400,
-            "healt_bar_w": 112,
+            "healt_bar_w": 120,
+            "healt_bar_h": 20,
+            "healt_bar_sensitivity": 0.1,
+            "wait_time": 10
+        },
+
+        {
+            "free(unused)": 0,
+            "character_amount": 2,
+            "transparent_out_screen_display": 0,
+            "healt_current": 96,
+            "healt_max": 96,
+            "reset_when_dead": 1,
+            "healt_bar_pos_x": 256,
+            "healt_bar_pos_y": 400,
+            "healt_bar_w": 300,
+            "healt_bar_h": 20,
+            "healt_bar_sensitivity": 0.1,
+            "wait_time": 10
+        },
+
+        {
+            "free(unused)": 0,
+            "character_amount": 4,
+            "transparent_out_screen_display": 0,
+            "healt_current": 96,
+            "healt_max": 96,
+            "reset_when_dead": 1,
+            "healt_bar_pos_x": 256,
+            "healt_bar_pos_y": 400,
+            "healt_bar_w": 16,
             "healt_bar_h": 20,
             "healt_bar_sensitivity": 0.1,
             "wait_time": 3000

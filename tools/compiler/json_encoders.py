@@ -147,14 +147,22 @@ def encode_platform(entry, index=None):
 
 # --------------------------------------------------------------------
 # 5. Game UI Encoder (Game UI ROM Specification)
-# Total Bit Width: 56 bits
+# Total Bit Width: 88 bits
 # --------------------------------------------------------------------
 def encode_ui(entry, index=None):
     """ Assembles the bitstring for one game ui entry. """
     bits = ""
+    bits += pack_bits(int(entry["free(unused)"]), 5, index, "free(unused)")
+
+    bits += pack_bits(int(entry["character_amount"]), 10, index, "character_amount")
+
+    bits += pack_bits(int(entry["healt_current"]/4), 8, index, "healt_current")
+    bits += pack_bits(int(entry["healt_max"]/4), 8, index, "healt_max")
+
+    bits += pack_bits(entry["transparent_out_screen_display"], 1, index, "transparent_out_screen_display")
     
     # 1 bit: The heal condition, 1 is healt HP to max, 0 isn't.
-    bits += pack_bits(entry["reset_healt_status"], 1, index, "reset_healt_status")
+    bits += pack_bits(entry["reset_when_dead"], 1, index, "reset_healt_status")
 
     # 8 bits x 4: Position (x, y) and Dimension (w, h) - All scaled by 4
     bits += pack_bits(int(entry["healt_bar_pos_x"]/4), 8, index, "healt_bar_pos_x")
@@ -167,6 +175,22 @@ def encode_ui(entry, index=None):
     
     # 16 bits: Delay before next UI (converted to 100Hz ticks)
     bits += pack_bits(entry["wait_time"]*10, 16, index, "wait_time")
+
+    
+    return bits
+
+# --------------------------------------------------------------------
+# 6. Character Object
+# Total Bit Width: 24 bits
+# --------------------------------------------------------------------
+def encode_character(entry, index=None):
+    """ Assembles the bitstring for one game ui entry. """
+    bits = ""
+
+    # 8 bits x 4: Position (x, y) and Dimension (w, h) - All scaled by 4
+    bits += pack_bits(int(entry["character_pos_x"]/4), 8, index, "character_pos_x")
+    bits += pack_bits(int(entry["character_pos_y"]/4), 8, index, "character_pos_y")
+    bits += pack_bits(int(entry["character_index"]), 8, index, "character_index")
 
     
     return bits

@@ -158,8 +158,7 @@ module Topsim_Collider_pipline_test;
     assign update_ui_time = dut.game_ui_runtime_execute.update_ui_time;
     assign sync_ui_time = dut.game_ui_runtime_execute.sync_ui_time;
     assign ui_addr = dut.game_ui_runtime_execute.addr;
-    
-    assign reset_healt_status = dut.game_ui_runtime_execute.reset_healt_status;
+    assign is_reset_stage = dut.is_reset_stage;
     assign healt_bar_pos_x = dut.game_ui_runtime_execute.healt_bar_pos_x;
     assign healt_bar_pos_y = dut.game_ui_runtime_execute.healt_bar_pos_y;
     assign healt_bar_w = dut.game_ui_runtime_execute.healt_bar_w;
@@ -171,10 +170,10 @@ module Topsim_Collider_pipline_test;
     
     assign object_ready_state_T = dut.muti_object_trigger_runtime_execute.object_ready_state;
 
-    reg [55:0] rom [0:1];
-
-    initial begin
-        $readmemh("game_ui.mem", rom);
-    end  
+    wire [19:0] character_i;
+    wire [9:0] character_pos_x;
+    
+    assign character_i = dut.game_ui_runtime_execute.character_i;
+    assign character_pos_x = dut.game_ui_runtime_execute.character_pos_x;
 
 endmodule

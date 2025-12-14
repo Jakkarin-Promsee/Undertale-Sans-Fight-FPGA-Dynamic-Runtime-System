@@ -11,7 +11,12 @@ module game_ui_rom_reader #(
     input sync_ui_time,
     
     output reg update_ui_time,
-    output reg         reset_healt_status,
+    
+    output reg [9:0]   character_amount,
+    output reg [9:0]   healt_current,
+    output reg [9:0]   healt_max,
+    output reg         transparent_out_screen_display,
+    output reg         reset_when_dead,
     output reg [9:0]   healt_bar_pos_x,
     output reg [9:0]   healt_bar_pos_y,
     output reg [9:0]   healt_bar_w,
@@ -22,9 +27,8 @@ module game_ui_rom_reader #(
     
     output reg is_end
 );
-    reg wait_time;
 
-    reg [55:0] rom [0:(1<<ADDR_WIDTH)-1];
+    reg [87:0] rom [0:(1<<ADDR_WIDTH)-1];
     reg update_data;
 
     always @(posedge clk) begin
@@ -37,7 +41,11 @@ module game_ui_rom_reader #(
         end else if(!sync_ui_time) begin
             // Update data sync with game runtime
             if(!update_data) begin
-                reset_healt_status    = rom[addr][55];
+                character_amount  = rom[addr][82:73];
+                healt_current     = rom[addr][72:65] << 2;
+                healt_max         = rom[addr][64:57] << 2;
+                transparent_out_screen_display    = rom[addr][56];
+                reset_when_dead       = rom[addr][55];
                 healt_bar_pos_x       = rom[addr][54:47] << 2;
                 healt_bar_pos_y       = rom[addr][46:39] << 2;
                 healt_bar_w           = rom[addr][38:31] << 2;

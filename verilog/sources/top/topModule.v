@@ -222,6 +222,9 @@ module topModule#(
     wire update_attack_time;
     wire update_platform_time;
     
+    wire is_player_dead;
+    wire is_reset_stage;
+    
     game_runtime #(
         .INITIAL_STAGE(INITIAL_STAGE),
         .MAXIMUM_STAGE(MAXIMUM_STAGE),
@@ -243,6 +246,9 @@ module topModule#(
         .display_pos_y1(display_pos_y1),
         .display_pos_x2(display_pos_x2),
         .display_pos_y2(display_pos_y2),
+        
+        .is_player_dead(is_player_dead),
+        .is_reset_stage(is_reset_stage),
                 
         .current_stage(current_stage),
         .current_time(current_time),
@@ -346,8 +352,12 @@ module topModule#(
         .current_time(current_time),
         .is_trigger_player(is_trigger_player),
         
+        .is_reset_stage(is_reset_stage),
+        
         .addr(ui_i),
-        .ui_signal(ui_signal)
+        .ui_signal(ui_signal),
+        .is_player_dead(is_player_dead)
+        
     );
     
     
