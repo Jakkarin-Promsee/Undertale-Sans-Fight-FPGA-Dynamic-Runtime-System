@@ -3,7 +3,7 @@
 module game_ui_runtime #(
     parameter integer ADDR_WIDTH = 10,              // 1024 entries
     parameter integer MAXIMUM_TIMES = 30,
-    parameter integer CHARACTER_AMOUNT = 70
+    parameter integer CHARACTER_AMOUNT = 79
  ) (
     input clk_vga,
     input clk_centi_second,
@@ -27,10 +27,12 @@ module game_ui_runtime #(
     
     output wire transparent_out_screen_display
 );
+
     
     reg sync_ui_time;
     wire update_ui_time;
     
+    wire         show_healt_text;
     wire         reset_character;
     wire [9:0]   character_amount;
     wire [9:0]   healt_current;
@@ -62,6 +64,7 @@ module game_ui_runtime #(
         
         .update_ui_time(update_ui_time),
         
+        .show_healt_text(show_healt_text),
         .reset_character(reset_character),
         .character_amount(character_amount),
         .healt_current(healt_current),
@@ -106,11 +109,6 @@ module game_ui_runtime #(
         (y >= healt_bar_pos_y) &&
         (y <  healt_bar_pos_y + healt_bar_h);
 
-    
-    
-
-    
-    
     reg sync_character;
     wire update_character;
     
@@ -148,9 +146,25 @@ module game_ui_runtime #(
     reg [9:0]   character_pos_y_i [CHARACTER_AMOUNT-1: 0];
     reg [7:0]   character_index_i [CHARACTER_AMOUNT-1: 0];
     
+    wire [3:0] cur_hund = healt_current_hires / 100;
+    wire [3:0] cur_tens = (healt_current_hires % 100) / 10;
+    wire [3:0] cur_ones = healt_current_hires % 10;
+    
+    wire [3:0] max_hund = healt_max / 100;
+    wire [3:0] max_tens = (healt_max % 100) / 10;
+    wire [3:0] max_ones = healt_max % 10;
+    
+    wire show_3digit = (healt_max >= 100);
+    
     reg update;
     
     integer i;
+    
+    localparam integer  CHARACTER_W = 17;
+    localparam integer  CHARACTER_H = 17;
+    localparam integer  FRONT_GAP = 10;
+    localparam integer  HP_FRONT_GAP = 5;
+    localparam integer  BETWEEN_GAP = 1;
     
     always @(posedge clk_calculation) begin
         if(reset) begin
@@ -199,18 +213,85 @@ module game_ui_runtime #(
                  sync_character <= 1;
                  
             end else if (sync_character) begin
+                if (show_healt_text) begin
+                    // --------------------------------------------------
+                    // Default: disable all characters
+                    // --------------------------------------------------
+                    for (i = 0; i < 9; i = i + 1) begin
+                
+                        // register positions (always stable)
+                        character_pos_x_i[i] <= healt_bar_pos_x
+                                                + healt_bar_w
+                                                + FRONT_GAP
+                                                + i * (CHARACTER_W + BETWEEN_GAP)
+                                                + ((i > 1)? HP_FRONT_GAP : 0);
+                        character_pos_y_i[i] <= healt_bar_pos_y + ((healt_bar_h-CHARACTER_H)/2);
+                    end
+                
+                    // --------------------------------------------------
+                    // 3-digit mode : CCC/MMM
+                    // --------------------------------------------------
+                    if (show_3digit) begin
+                        character_active_i[0] <= 1'b1;
+                        character_active_i[1] <= 1'b1;
+                        character_active_i[2] <= 1'b1;
+                        character_active_i[3] <= 1'b1;
+                        character_active_i[4] <= 1'b1;
+                        character_active_i[5] <= 1'b1;
+                        character_active_i[6] <= 1'b1;
+                        character_active_i[7] <= 1'b1;
+                        character_active_i[8] <= 1'b1;
+                
+                        character_index_i[0] <= 7; // 'H'
+                        character_index_i[1] <= 15; // 'P;
+                        
+                        character_index_i[2] <= 26 + cur_hund;
+                        character_index_i[3] <= 26 + cur_tens;
+                        character_index_i[4] <= 26 + cur_ones;
+                        character_index_i[5] <= 36; // '/'
+                        character_index_i[6] <= 26 + max_hund;
+                        character_index_i[7] <= 26 + max_tens;
+                        character_index_i[8] <= 26 + max_ones;
+                    end
+                    // --------------------------------------------------
+                    // 2-digit mode : CC/MM
+                    // --------------------------------------------------
+                    else begin
+                        character_active_i[0] <= 1'b1;
+                        character_active_i[1] <= 1'b1;
+                        character_active_i[2] <= 1'b1;
+                        character_active_i[3] <= 1'b1;
+                        character_active_i[4] <= 1'b1;
+                        character_active_i[5] <= 1'b1;
+                        character_active_i[6] <= 1'b1;
+                        
+                        character_index_i[0] <= 7; // 'H'
+                        character_index_i[1] <= 15; // 'P;
+                                                
+                        character_index_i[2] <= 26 + cur_tens;
+                        character_index_i[3] <= 26 + cur_ones;
+                        character_index_i[4] <= 36; // '/'
+                        character_index_i[5] <= 26 + max_tens;
+                        character_index_i[6] <= 26 + max_ones;
+                    end
+                end
                 
                 if(count_character_i < character_amount) begin
-                    count_character_i <= count_character_i + 1;
-                    character_i <= character_i + 1;
-                    sync_character <= 0;
+                    if((show_healt_text && ((CHARACTER_AMOUNT-1-char_index)>8))
+                        || (!show_healt_text && ((CHARACTER_AMOUNT-char_index)>0))
+                    ) begin
                     
-                    char_index <= char_index + 1;
-                    
-                    character_active_i[CHARACTER_AMOUNT-1-char_index] <= 1;
-                    character_index_i[CHARACTER_AMOUNT-1-char_index] <= character_index;
-                    character_pos_x_i[CHARACTER_AMOUNT-1-char_index] <= character_pos_x;
-                    character_pos_y_i[CHARACTER_AMOUNT-1-char_index] <= character_pos_y;
+                        count_character_i <= count_character_i + 1;
+                        character_i <= character_i + 1;
+                        sync_character <= 0;
+                        
+                        char_index <= char_index + 1;
+                        
+                        character_active_i[CHARACTER_AMOUNT-1-char_index] <= 1;
+                        character_index_i[CHARACTER_AMOUNT-1-char_index] <= character_index;
+                        character_pos_x_i[CHARACTER_AMOUNT-1-char_index] <= character_pos_x;
+                        character_pos_y_i[CHARACTER_AMOUNT-1-char_index] <= character_pos_y;
+                    end
                 end
                
             end

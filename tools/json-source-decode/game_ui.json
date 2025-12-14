@@ -2,6 +2,7 @@
     "decimal_data": [
         {
             "free(unused)": 0,
+            "show_healt_text": 1,
             "reset_character": 0,
             "character_amount": 5,
             "transparent_out_screen_display": 0,
@@ -18,6 +19,7 @@
 
         {
             "free(unused)": 0,
+            "show_healt_text": 1,
             "reset_character": 1,
             "character_amount": 10,
             "transparent_out_screen_display": 1,
@@ -34,6 +36,7 @@
 
         {
             "free(unused)": 0,
+            "show_healt_text": 1,
             "reset_character": 0,
             "character_amount": 50,
             "transparent_out_screen_display": 1,
@@ -50,6 +53,7 @@
 
         {
             "free(unused)": 0,
+            "show_healt_text": 1,
             "reset_character": 0,
             "character_amount": 50,
             "transparent_out_screen_display": 0,

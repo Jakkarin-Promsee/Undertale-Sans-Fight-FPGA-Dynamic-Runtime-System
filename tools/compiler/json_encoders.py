@@ -152,8 +152,10 @@ def encode_platform(entry, index=None):
 def encode_ui(entry, index=None):
     """ Assembles the bitstring for one game ui entry. """
     bits = ""
-    bits += pack_bits(int(entry["free(unused)"]), 4, index, "free(unused)")
+    bits += pack_bits(int(entry["free(unused)"]), 3, index, "free(unused)")
 
+    bits += pack_bits(int(entry["show_healt_text"]), 1, index, "show_healt_text")
+    
     bits += pack_bits(int(entry["reset_character"]), 1, index, "reset_character")
 
     bits += pack_bits(int(entry["character_amount"]), 10, index, "character_amount")

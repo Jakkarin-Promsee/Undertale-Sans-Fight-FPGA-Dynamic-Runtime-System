@@ -75,9 +75,9 @@ module universal_renderer(
             end
             
             else if (character_signal) begin
-                RED   <= 0;
+                RED   <= 15;
                 GREEN <= 15;
-                BLUE  <= 0;
+                BLUE  <= 15;
             end
             
             // Background
