@@ -2,8 +2,8 @@
     "game_ui": {
         "free(unused)": 0,
         "show_healt_text": 0,
-        "reset_character": 0,
-        "character_amount": 0,
+        "reset_character": 1,
+        "character_amount": 16,
         "healt_current": 0,
         "healt_max": 0,
         "transparent_out_screen_display": 1,
@@ -13,7 +13,88 @@
         "healt_bar_w": 0,
         "healt_bar_h": 0,
         "healt_bar_sensitivity": 0.04,
-        "wait_time": 4
+        "wait_time": 1000
     },
-    "character_object": []
+    "character_object": [
+        {
+            "character_pos_x": 167,
+            "character_pos_y": 74,
+            "character_index": 6
+        },
+        {
+            "character_pos_x": 185,
+            "character_pos_y": 74,
+            "character_index": 0
+        },
+        {
+            "character_pos_x": 203,
+            "character_pos_y": 74,
+            "character_index": 12
+        },
+        {
+            "character_pos_x": 221,
+            "character_pos_y": 74,
+            "character_index": 4
+        },
+        {
+            "character_pos_x": 239,
+            "character_pos_y": 74,
+            "character_index": 15
+        },
+        {
+            "character_pos_x": 257,
+            "character_pos_y": 74,
+            "character_index": 11
+        },
+        {
+            "character_pos_x": 275,
+            "character_pos_y": 74,
+            "character_index": 0
+        },
+        {
+            "character_pos_x": 293,
+            "character_pos_y": 74,
+            "character_index": 24
+        },
+        {
+            "character_pos_x": 329,
+            "character_pos_y": 74,
+            "character_index": 18
+        },
+        {
+            "character_pos_x": 347,
+            "character_pos_y": 74,
+            "character_index": 7
+        },
+        {
+            "character_pos_x": 365,
+            "character_pos_y": 74,
+            "character_index": 14
+        },
+        {
+            "character_pos_x": 383,
+            "character_pos_y": 74,
+            "character_index": 22
+        },
+        {
+            "character_pos_x": 401,
+            "character_pos_y": 74,
+            "character_index": 2
+        },
+        {
+            "character_pos_x": 419,
+            "character_pos_y": 74,
+            "character_index": 0
+        },
+        {
+            "character_pos_x": 437,
+            "character_pos_y": 74,
+            "character_index": 18
+        },
+        {
+            "character_pos_x": 455,
+            "character_pos_y": 74,
+            "character_index": 4
+        }
+    ]
 }

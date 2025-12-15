@@ -3,7 +3,7 @@
         "free(unused)": 0,
         "show_healt_text": 0,
         "reset_character": 0,
-        "character_amount": 22,
+        "character_amount": 0,
         "healt_current": 0,
         "healt_max": 0,
         "transparent_out_screen_display": 1,
@@ -13,118 +13,7 @@
         "healt_bar_w": 0,
         "healt_bar_h": 0,
         "healt_bar_sensitivity": 0.04,
-        "wait_time": 2
+        "wait_time": 4
     },
-    "character_object": [
-        {
-            "character_pos_x": 95,
-            "character_pos_y": 262,
-            "character_index": 20
-        },
-        {
-            "character_pos_x": 113,
-            "character_pos_y": 262,
-            "character_index": 18
-        },
-        {
-            "character_pos_x": 131,
-            "character_pos_y": 262,
-            "character_index": 8
-        },
-        {
-            "character_pos_x": 149,
-            "character_pos_y": 262,
-            "character_index": 13
-        },
-        {
-            "character_pos_x": 167,
-            "character_pos_y": 262,
-            "character_index": 6
-        },
-        {
-            "character_pos_x": 203,
-            "character_pos_y": 262,
-            "character_index": 2
-        },
-        {
-            "character_pos_x": 221,
-            "character_pos_y": 262,
-            "character_index": 7
-        },
-        {
-            "character_pos_x": 239,
-            "character_pos_y": 262,
-            "character_index": 17
-        },
-        {
-            "character_pos_x": 257,
-            "character_pos_y": 262,
-            "character_index": 14
-        },
-        {
-            "character_pos_x": 275,
-            "character_pos_y": 262,
-            "character_index": 13
-        },
-        {
-            "character_pos_x": 293,
-            "character_pos_y": 262,
-            "character_index": 14
-        },
-        {
-            "character_pos_x": 329,
-            "character_pos_y": 262,
-            "character_index": 5
-        },
-        {
-            "character_pos_x": 347,
-            "character_pos_y": 262,
-            "character_index": 14
-        },
-        {
-            "character_pos_x": 365,
-            "character_pos_y": 262,
-            "character_index": 17
-        },
-        {
-            "character_pos_x": 383,
-            "character_pos_y": 262,
-            "character_index": 6
-        },
-        {
-            "character_pos_x": 401,
-            "character_pos_y": 262,
-            "character_index": 4
-        },
-        {
-            "character_pos_x": 437,
-            "character_pos_y": 262,
-            "character_index": 4
-        },
-        {
-            "character_pos_x": 455,
-            "character_pos_y": 262,
-            "character_index": 13
-        },
-        {
-            "character_pos_x": 473,
-            "character_pos_y": 262,
-            "character_index": 6
-        },
-        {
-            "character_pos_x": 491,
-            "character_pos_y": 262,
-            "character_index": 8
-        },
-        {
-            "character_pos_x": 509,
-            "character_pos_y": 262,
-            "character_index": 13
-        },
-        {
-            "character_pos_x": 527,
-            "character_pos_y": 262,
-            "character_index": 4
-        }
-    ]
+    "character_object": []
 }
