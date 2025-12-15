@@ -8,7 +8,7 @@ def stage():
     stage = GameUIStage()
 
     stage.game_ui = GameUI(
-        show_healt_text=0,
+        show_healt_text=1,
         reset_character=1,
         transparent_out_screen_display=1,
         healt_current=0,
@@ -18,19 +18,7 @@ def stage():
         healt_bar_w=0,
         healt_bar_h=0,
         healt_bar_sensitivity=0.04,
-        wait_time=8
+        wait_time=2
     )
-
-    stage.character_objects.extend([
-        CharacterObject(176 + (center_data.CHARACTER_W + center_data.GAP) * i, 74, ch)
-        for i, ch in enumerate("SUPPORT 32 LEVEL")
-        if ch != " "            
-    ])
-
-    stage.character_objects.extend([
-        CharacterObject(167 + (center_data.CHARACTER_W + center_data.GAP) * i, 102, ch)
-        for i, ch in enumerate("OF MOVEMENT SPEED")
-        if ch != " "
-    ])
 
     return stage

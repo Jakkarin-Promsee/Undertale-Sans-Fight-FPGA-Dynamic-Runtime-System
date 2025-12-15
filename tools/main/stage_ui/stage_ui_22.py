@@ -12,24 +12,24 @@ def stage():
         reset_character=1,
         transparent_out_screen_display=1,
         healt_current=0,
-        healt_max=0,
-        healt_bar_pos_x=0,
-        healt_bar_pos_y=0,
-        healt_bar_w=0,
-        healt_bar_h=0,
+        healt_max=96,
+        healt_bar_pos_x=260,
+        healt_bar_pos_y=400,
+        healt_bar_w=120,
+        healt_bar_h=20,
         healt_bar_sensitivity=0.04,
-        wait_time=8
+        wait_time=4
     )
 
     stage.character_objects.extend([
-        CharacterObject(176 + (center_data.CHARACTER_W + center_data.GAP) * i, 74, ch)
-        for i, ch in enumerate("SUPPORT 32 LEVEL")
+        CharacterObject(32 + (center_data.CHARACTER_W + center_data.GAP) * i, 74, ch)
+        for i, ch in enumerate("SUPPORT PLAYER HELTH BAR")
         if ch != " "            
     ])
 
     stage.character_objects.extend([
-        CharacterObject(167 + (center_data.CHARACTER_W + center_data.GAP) * i, 102, ch)
-        for i, ch in enumerate("OF MOVEMENT SPEED")
+        CharacterObject(158 + (center_data.CHARACTER_W + center_data.GAP) * i, 102, ch)
+        for i, ch in enumerate("AND HELTH DIGIT STATUS")
         if ch != " "
     ])
 

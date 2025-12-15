@@ -22,14 +22,14 @@ def stage():
     )
 
     stage.character_objects.extend([
-        CharacterObject(176 + (center_data.CHARACTER_W + center_data.GAP) * i, 74, ch)
-        for i, ch in enumerate("SUPPORT 32 LEVEL")
+        CharacterObject(32 + (center_data.CHARACTER_W + center_data.GAP) * i, 74, ch)
+        for i, ch in enumerate("SUPPORT DYNAMIC DISPLAY POSITION")
         if ch != " "            
     ])
 
     stage.character_objects.extend([
-        CharacterObject(167 + (center_data.CHARACTER_W + center_data.GAP) * i, 102, ch)
-        for i, ch in enumerate("OF MOVEMENT SPEED")
+        CharacterObject(158 + (center_data.CHARACTER_W + center_data.GAP) * i, 102, ch)
+        for i, ch in enumerate("AND PLAYER GRAVITY")
         if ch != " "
     ])
 

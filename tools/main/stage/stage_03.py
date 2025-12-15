@@ -63,7 +63,7 @@ def stage():
                     w=ATTACK_SIZE,
                     h=ATTACK_SIZE,
                     wait_time=0,
-                    destroy_time=6,
+                    destroy_time=4,
                     destroy_trigger=2,
                 ) for i in range(10)
             

@@ -22,12 +22,12 @@ def stage():
     # ------------------------------------------------------------------
     # Common Parameters
     # ------------------------------------------------------------------
-    PLATFORM_SIZE = 70
-    PLATFORM_GAP_X = 30
-    PLATFORM_GAP_y = 50
-    PLATFORM_X = 85
-    PLATFORM_Y = 140
-
+    ATTACK_SIZE = 20
+    GAP = 150
+    ATTACK_X = 235-GAP-ATTACK_SIZE+85
+    ATTACK_Y = 480 - 145 - 70
+    PLATFORM_X = 235+GAP+85
+    PLATFORM_Y = 480 - 145 - 70
 
     # ------------------------------------------------------------------
     # Initial Delay (2 seconds)
@@ -42,7 +42,7 @@ def stage():
             pos_y=0,
             w=0,
             h=0,
-            wait_time=9,
+            wait_time=0.2,
             destroy_time=0,
             destroy_trigger=2,
         )
@@ -59,7 +59,7 @@ def stage():
             pos_y=0,
             w=0,
             h=0,
-            wait_time=2,
+            wait_time=0.2,
             destroy_time=0,
             destroy_trigger=2,
         )
@@ -68,30 +68,66 @@ def stage():
     # ------------------------------------------------------------------
     # Helper: Create Left / Right Wall Pair with Vertical Gap
     # ------------------------------------------------------------------
-    def generate_row(platform_y):
-
-        stage.platform_objects.extend([
-            
-                 PlatformObject(
-                    movement_direction=0,
-                    speed=0,
-                    pos_x=PLATFORM_X + (PLATFORM_SIZE+PLATFORM_GAP_X)*i,
-                    pos_y=platform_y,
-                    w=PLATFORM_X,
-                    h=12,
-                    wait_time=0,
+    def generate_attack():
+        stage.attack_objects.extend([
+                 AttackObject(
+                    type=0,
+                    colider_type=0,
+                    movement_direction=i,
+                    speed=3,
+                    pos_x=ATTACK_X,
+                    pos_y=ATTACK_Y,
+                    w=ATTACK_SIZE,
+                    h=ATTACK_SIZE,
+                    wait_time=1,
                     destroy_time=4,
                     destroy_trigger=2,
-                ) for i in range(5)
+                ) for i in range(8)
+            
+        ])
+
+    def generate_platform():
+        stage.platform_objects.extend([
+                 PlatformObject(
+                    movement_direction=i,
+                    speed=3,
+                    pos_x=PLATFORM_X,
+                    pos_y=PLATFORM_Y,
+                    w=ATTACK_SIZE,
+                    h=ATTACK_SIZE,
+                    wait_time=1,
+                    destroy_time=4,
+                    destroy_trigger=2,
+                ) for i in range(8)
             
         ])
 
     # ------------------------------------------------------------------
     # Repeating Symmetric Wall Pattern
     # ------------------------------------------------------------------
-    for i in range(5):
-        generate_row(
-            PLATFORM_Y + (12+PLATFORM_GAP_y)*i
+    for i in range(2):
+        generate_attack()
+        generate_platform()
+
+    # ------------------------------------------------------------------
+    # Last Delay (5 seconds)
+    # ------------------------------------------------------------------
+    stage.attack_objects.append(
+        AttackObject(
+            type=0,
+            colider_type=0,
+            movement_direction=2,
+            speed=0,
+            pos_x=0,
+            pos_y=0,
+            w=0,
+            h=0,
+            wait_time=13.6,
+            destroy_time=0,
+            destroy_trigger=2,
         )
+    )
+
+    
 
     return stage

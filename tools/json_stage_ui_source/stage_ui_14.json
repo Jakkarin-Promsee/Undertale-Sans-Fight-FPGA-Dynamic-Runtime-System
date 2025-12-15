@@ -1,0 +1,165 @@
+{
+    "game_ui": {
+        "free(unused)": 0,
+        "show_healt_text": 0,
+        "reset_character": 1,
+        "character_amount": 29,
+        "healt_current": 0,
+        "healt_max": 0,
+        "transparent_out_screen_display": 1,
+        "reset_when_dead": 0,
+        "healt_bar_pos_x": 0,
+        "healt_bar_pos_y": 0,
+        "healt_bar_w": 0,
+        "healt_bar_h": 0,
+        "healt_bar_sensitivity": 0.04,
+        "wait_time": 8
+    },
+    "character_object": [
+        {
+            "character_pos_x": 176,
+            "character_pos_y": 74,
+            "character_index": 18
+        },
+        {
+            "character_pos_x": 194,
+            "character_pos_y": 74,
+            "character_index": 20
+        },
+        {
+            "character_pos_x": 212,
+            "character_pos_y": 74,
+            "character_index": 15
+        },
+        {
+            "character_pos_x": 230,
+            "character_pos_y": 74,
+            "character_index": 15
+        },
+        {
+            "character_pos_x": 248,
+            "character_pos_y": 74,
+            "character_index": 14
+        },
+        {
+            "character_pos_x": 266,
+            "character_pos_y": 74,
+            "character_index": 17
+        },
+        {
+            "character_pos_x": 284,
+            "character_pos_y": 74,
+            "character_index": 19
+        },
+        {
+            "character_pos_x": 320,
+            "character_pos_y": 74,
+            "character_index": 29
+        },
+        {
+            "character_pos_x": 338,
+            "character_pos_y": 74,
+            "character_index": 28
+        },
+        {
+            "character_pos_x": 374,
+            "character_pos_y": 74,
+            "character_index": 11
+        },
+        {
+            "character_pos_x": 392,
+            "character_pos_y": 74,
+            "character_index": 4
+        },
+        {
+            "character_pos_x": 410,
+            "character_pos_y": 74,
+            "character_index": 21
+        },
+        {
+            "character_pos_x": 428,
+            "character_pos_y": 74,
+            "character_index": 4
+        },
+        {
+            "character_pos_x": 446,
+            "character_pos_y": 74,
+            "character_index": 11
+        },
+        {
+            "character_pos_x": 167,
+            "character_pos_y": 102,
+            "character_index": 14
+        },
+        {
+            "character_pos_x": 185,
+            "character_pos_y": 102,
+            "character_index": 5
+        },
+        {
+            "character_pos_x": 221,
+            "character_pos_y": 102,
+            "character_index": 12
+        },
+        {
+            "character_pos_x": 239,
+            "character_pos_y": 102,
+            "character_index": 14
+        },
+        {
+            "character_pos_x": 257,
+            "character_pos_y": 102,
+            "character_index": 21
+        },
+        {
+            "character_pos_x": 275,
+            "character_pos_y": 102,
+            "character_index": 4
+        },
+        {
+            "character_pos_x": 293,
+            "character_pos_y": 102,
+            "character_index": 12
+        },
+        {
+            "character_pos_x": 311,
+            "character_pos_y": 102,
+            "character_index": 4
+        },
+        {
+            "character_pos_x": 329,
+            "character_pos_y": 102,
+            "character_index": 13
+        },
+        {
+            "character_pos_x": 347,
+            "character_pos_y": 102,
+            "character_index": 19
+        },
+        {
+            "character_pos_x": 383,
+            "character_pos_y": 102,
+            "character_index": 18
+        },
+        {
+            "character_pos_x": 401,
+            "character_pos_y": 102,
+            "character_index": 15
+        },
+        {
+            "character_pos_x": 419,
+            "character_pos_y": 102,
+            "character_index": 4
+        },
+        {
+            "character_pos_x": 437,
+            "character_pos_y": 102,
+            "character_index": 4
+        },
+        {
+            "character_pos_x": 455,
+            "character_pos_y": 102,
+            "character_index": 3
+        }
+    ]
+}
