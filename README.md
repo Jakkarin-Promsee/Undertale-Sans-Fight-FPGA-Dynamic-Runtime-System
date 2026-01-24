@@ -1121,12 +1121,13 @@ As we explain above:
 - **Stage** controls Attack + Platform spawning, go to next Stage when run all Attack Object.
 - **StageUI** controls Character + UI behavior, go to next StageUI when run all Character Object.
 
-The **Stage timeline is global**.
-When Stage reaches its end:
+The **Stage timeline is global**. When Stage reaches its end:
 
 - All objects are flushed
 - Both Stage and StageUI reset to index 0
 - Game start again
+
+Utilizes 0xFFFFF as a EOF (End-of-File) marker for Stage/UI data to ensure deterministic termination and prevent memory overflow.
 
 ---
 
