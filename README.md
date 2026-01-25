@@ -18,9 +18,11 @@
 
 ## Overview
 
+ChronoForge started from a simple counter circuit, mapping indices into ROM for event-driven commands. Over time, it grew to handle the full requirements of a game — entirely designed and implemented by me: circuits, event command structure, compiler, and interpreter. We didn’t even check how others did it; this was our personal playground for experimenting with command counting and hardware behavior.
+
 ChronoForge is a pure-hardware game runtime that runs entirely on an FPGA. **No CPU**. **No ISA**. **No OS**. **No emulator**. Just raw event-driven circuits executing your game logic directly from post-processed data stored as hex blocks.
 
-The goal is simple: maximum efficiency. That means **lowest LUT usage** and **lowest flip-flops** for each behavior, while maintaining **the fastest possible pipeline**.
+Our goal is simple: maximum efficiency. That means **lowest LUT usage** and **lowest flip-flops** for each behavior, while maintaining **the fastest possible pipeline**.
 
 ### Why ChronoForge?
 
