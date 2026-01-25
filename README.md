@@ -18,7 +18,7 @@
 
 ## Overview
 
-ChronoForge is a pure-hardware game runtime that runs entirely on an FPGA. **No CPU**. **No OS**. **No emulator**. Just raw event-driven circuits executing your game logic directly from post-processed data stored as hex blocks.
+ChronoForge is a pure-hardware game runtime that runs entirely on an FPGA. **No CPU**. **No ISA**. **No OS**. **No emulator**. Just raw event-driven circuits executing your game logic directly from post-processed data stored as hex blocks.
 
 The goal is simple: maximum efficiency. That means **lowest LUT usage** and **lowest flip-flops** for each behavior, while maintaining **the fastest possible pipeline**.
 
