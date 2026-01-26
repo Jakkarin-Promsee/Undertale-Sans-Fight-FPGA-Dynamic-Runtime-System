@@ -5,6 +5,7 @@
 **Project Goal:**
 
 - Let anyone build games on an FPGA board without touching hardware code
+- Using 4 switch to contron. Including up, down, left, and right.
 - Push FPGA resource optimization to the limit of the board
 - Build a custom runtime + binary format for max efficiency
 - Study, test, and prove my hardware-runtime game engine idea
@@ -89,6 +90,7 @@ The three timelines are controlled by a **dynamic register system**, allowing th
 
 - **Hardware Runtime Engine:**
   - Designed and built in Vivado + Verilog
+  - Use four on boad button for input (up/down/left/right)
   - Uses five main runtime pipelines for game stage, game ui, and trigger/collider/character object
   - Reads data from ROM (.mem files in hex form)
 
@@ -595,6 +597,16 @@ Without manually writing each object one by one.
    - Implementation
    - Generate bitstream
    - Upload to FPGA board
+
+5. Play the game
+   - Ensure that you use Xilinx Basys3 FPGA Board. If not you have to rename the board pin to your FPGA layout. [Go to [1. Hardware Input Pin Configuration]](#1-hardware-input-pin-configuration), Just channging only the pin name in only one file.
+   - Ensure that you connect VGA port from FPGA board to display
+
+   - Enjoy the game. If you use Xilinx Basys3 FPGA Board, you can directly use on-board up/down/left/right switch (push botton) to control the game.
+
+    <p align="center" style="text-align: center;">
+       <img src="docs\images\fpga_basys3_push_botton_layout.png" alt="Early Convergence Comparison" width="600px">
+   </p>
 
 ---
 
