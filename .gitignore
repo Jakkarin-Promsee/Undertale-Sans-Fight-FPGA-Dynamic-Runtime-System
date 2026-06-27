@@ -1,6 +1,17 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+tempCodeRunnerFile.py
+
+# --- Scratch / temp ---
+tools/temp/
+
+# --- Vivado build artifacts ---
 vivado/ChronoForge.cache/
 vivado/ChronoForge.sim/
 vivado/ChronoForge.runs/
+vivado/.Xil/
+vivado/*.zip
 *.jou
 *.str
 *.log
