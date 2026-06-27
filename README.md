@@ -18,7 +18,7 @@ circuits on an FPGA, at 640×480 @ 60 Hz.
 <br>
 
 <video
-  src="https://github.com/Jakkarin-Promsee/chronoforge-fpga-engine/raw/main/assets/ChronoForge-FPGA-Showcase.mp4"
+  src="https://github.com/user-attachments/assets/413df5cf-5592-4747-9183-524726bb38b8"
   poster="docs/images/chonoforge_showcase.png"
   width="800" controls muted>
 </video>
@@ -59,7 +59,7 @@ circuits on an FPGA, at 640×480 @ 60 Hz.
 ## How it works
 
 ChronoForge is a **decentralized, multi-clock, event-driven** design. Instead of a
-CPU running a game loop, each *runtime* owns one responsibility and its own clock
+CPU running a game loop, each _runtime_ owns one responsibility and its own clock
 domain, and they coordinate over a tiny two-wire handshake.
 
 Game logic never runs as code on the board. It is pre-processed on a PC, down a
@@ -94,12 +94,12 @@ that's how pauses, waves, and pacing are scripted directly in ROM.
 
 ### What you can build
 
-| Surface           | What you control                                                                 |
-| ----------------- | -------------------------------------------------------------------------------- |
-| **Objects**       | free position, custom size, 32 speed levels, 8 movement directions, wait/destroy timing |
-| **Player**        | display position & size, custom hitbox, gravity on/off, HP & damage sensitivity, HP bar |
-| **Stages**        | per-stage play area, gravity, pacing, and a live on-screen `HP ###/###` readout  |
-| **Input**         | four on-board push buttons (up / down / left / right) + a reset switch            |
+| Surface     | What you control                                                                        |
+| ----------- | --------------------------------------------------------------------------------------- |
+| **Objects** | free position, custom size, 32 speed levels, 8 movement directions, wait/destroy timing |
+| **Player**  | display position & size, custom hitbox, gravity on/off, HP & damage sensitivity, HP bar |
+| **Stages**  | per-stage play area, gravity, pacing, and a live on-screen `HP ###/###` readout         |
+| **Input**   | four on-board push buttons (up / down / left / right) + a reset switch                  |
 
 ---
 
@@ -157,8 +157,8 @@ def stage():
 | FF       | 7196  | 41600     | 17%   |
 | BUFG     | 6     | 32        | 19%   |
 
-*Defaults: 56 dynamic attack objects, 25 dynamic platform objects, 79 character
-slots — set in `topModule.v`. LUT is the binding constraint.*
+_Defaults: 56 dynamic attack objects, 25 dynamic platform objects, 79 character
+slots — set in `topModule.v`. LUT is the binding constraint._
 
 **ROM capacity (Basys3 BRAM ≈ 1.8 Mb / 225 KB):**
 
@@ -166,17 +166,17 @@ slots — set in `topModule.v`. LUT is the binding constraint.*
 | :--------------- | :------------- | :--------------- |
 | Attack object    | 9 bytes        | 25,000           |
 | Platform object  | 8 bytes        | 28,125           |
-| Character object  | 3 bytes        | 75,000           |
+| Character object | 3 bytes        | 75,000           |
 
 **Clock domains** (all derived from the 100 MHz input):
 
-| Clock                | Frequency | Drives                          |
-| -------------------- | --------- | ------------------------------- |
-| `clk_vga`            | 25 MHz    | VGA 640×480 timing              |
-| `clk_calculation`    | 1 kHz     | sync, collision, ROM updates    |
-| `clk_player_control` | 100 Hz    | player input / physics          |
-| `clk_object_control` | 100 Hz    | object movement                 |
-| `clk_centi_second`   | 100 Hz    | `wait_time` / `destroy_time`    |
+| Clock                | Frequency | Drives                       |
+| -------------------- | --------- | ---------------------------- |
+| `clk_vga`            | 25 MHz    | VGA 640×480 timing           |
+| `clk_calculation`    | 1 kHz     | sync, collision, ROM updates |
+| `clk_player_control` | 100 Hz    | player input / physics       |
+| `clk_object_control` | 100 Hz    | object movement              |
+| `clk_centi_second`   | 100 Hz    | `wait_time` / `destroy_time` |
 
 ---
 
@@ -268,13 +268,13 @@ Porting to a non-Basys3 board only needs the pin file
 
 ## Documentation
 
-| Guide | What's inside |
-| ----- | ------------- |
-| **[docs/python-guide.md](docs/python-guide.md)** | Authoring games in Python: the class API, writing stages/UI, procedural patterns, compiler internals, and font tooling. |
-| **[docs/hardware-guide.md](docs/hardware-guide.md)** | Using the hardware: Vivado build flow, board/pin config, clock & resource knobs, and how the `.mem` ROMs wire into the project. |
-| **[docs/hardware-architecture.md](docs/hardware-architecture.md)** | How the engine works inside: every module, the three timelines, and how the runtime cores communicate. |
+| Guide                                                              | What's inside                                                                                                                   |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| **[docs/python-guide.md](docs/python-guide.md)**                   | Authoring games in Python: the class API, writing stages/UI, procedural patterns, compiler internals, and font tooling.         |
+| **[docs/hardware-guide.md](docs/hardware-guide.md)**               | Using the hardware: Vivado build flow, board/pin config, clock & resource knobs, and how the `.mem` ROMs wire into the project. |
+| **[docs/hardware-architecture.md](docs/hardware-architecture.md)** | How the engine works inside: every module, the three timelines, and how the runtime cores communicate.                          |
 
-*(For contributors and AI agents, `CLAUDE.md` is a one-page map of the whole repo.)*
+_(For contributors and AI agents, `CLAUDE.md` is a one-page map of the whole repo.)_
 
 ---
 
