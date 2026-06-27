@@ -101,6 +101,50 @@ that's how pauses, waves, and pacing are scripted directly in ROM.
 
 ---
 
+## Authoring a level — a taste
+
+A whole stage is just a Python function returning a `GameStage`. Because objects
+live in plain lists, loops give you bullet-hell patterns for free — here's a
+falling wave of ten blocks that fans out as `speed` ramps across the row:
+
+```python
+def stage():
+    s = GameStage()
+    s.game_manager = GameManager(stage=1, wait_time=1, gravity_direction=0,
+                                 display_pos_x1=0, display_pos_y1=0,
+                                 display_pos_x2=0, display_pos_y2=0)
+
+    # 10 blocks marching down (dir 4), each a touch faster than the last
+    s.attack_objects.extend([
+        AttackObject(movement_direction=4, speed=4 + i,
+                     pos_x=85 + 50 * i, pos_y=140, w=20, h=20,
+                     wait_time=0, destroy_time=4, destroy_trigger=2)
+        for i in range(10)])
+
+    s.platform_objects.append(            # ≥1 placeholder required
+        PlatformObject(movement_direction=2, speed=0, pos_x=0, pos_y=0, w=0, h=0,
+                       wait_time=0, destroy_time=0, destroy_trigger=2))
+    return s
+```
+
+UI screens are the same idea — place text as glyphs, or let the hardware draw the
+live HP readout for you:
+
+```python
+def stage():
+    s = GameUIStage()
+    s.game_ui = GameUI(show_healt_text=1, healt_current=100, healt_max=100,
+                       healt_bar_pos_x=140, healt_bar_pos_y=60,
+                       healt_bar_w=200, healt_bar_h=16,
+                       healt_bar_sensitivity=0.04, wait_time=30)
+    return s   # show_healt_text=1 auto-draws "HP 100/100" — no glyphs needed
+```
+
+> Full class API, procedural patterns, and longer showcases live in
+> **[docs/python-guide.md](docs/python-guide.md)**.
+
+---
+
 ## By the numbers
 
 **Board utilization (Basys3, shipped configuration):**
