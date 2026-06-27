@@ -1,5 +1,7 @@
 # ChronoForge — Python Toolchain Guide
 
+> **ChronoForge docs:** [README](../README.md) · **python-guide** · [hardware-guide](hardware-guide.md) · [architecture](hardware-architecture.md)
+
 How to **author a game in Python** and how the **compiler** turns it into the
 `.mem` ROMs the FPGA reads. This is the layer that sits *on top of* the hardware —
 if you haven't read it yet, [`hardware-guide.md`](hardware-guide.md) explains where
@@ -23,7 +25,9 @@ these ROMs go and how the board consumes them.
    - [4.3 GameUIStage / GameUI](#43-gameuistage--gameui)
    - [4.4 CharacterObject](#44-characterobject)
 5. [Writing a stage](#5-writing-a-stage)
+   - [5.1 More stage examples](#51-more-stage-examples)
 6. [Writing a UI stage](#6-writing-a-ui-stage)
+   - [6.1 More UI examples](#61-more-ui-examples)
 7. [Procedural generation patterns](#7-procedural-generation-patterns)
 8. [The GUI previewer](#8-the-gui-previewer)
 9. [Compiler implementation (deep)](#9-compiler-implementation-deep)
@@ -277,6 +281,104 @@ Design order that works well in practice:
 The first `import sys/os` header is mandatory — it puts `tools/` on the path so
 `interpret_langauge.game_class` resolves when the compiler imports your file.
 
+### 5.1 More stage examples
+
+Two patterns lifted from real stages. (The `import` header from above is assumed;
+shown trimmed for focus.)
+
+**Showcase A — a marching wave that fans out.** Three waves of 10 falling blocks
+(`movement_direction=4` = down). Each wave is faster than the last, and `speed`
+ramps across the row (`base_speed + i`) so the wave spreads instead of staying a
+flat line:
+
+```python
+def stage():
+    stage = GameStage()
+    stage.game_manager = GameManager(stage=1, wait_time=1, gravity_direction=0,
+                                     display_pos_x1=0, display_pos_y1=0,
+                                     display_pos_x2=0, display_pos_y2=0)
+
+    SIZE, GAP, X0, Y = 20, 30, 85, 140
+
+    # 2 s opening pause (null object: w=h=0, just burns wait_time)
+    stage.attack_objects.append(
+        AttackObject(movement_direction=2, speed=0, pos_x=0, pos_y=0, w=0, h=0,
+                     wait_time=2, destroy_time=0, destroy_trigger=2))
+
+    def wave(base_speed):
+        stage.attack_objects.extend([
+            AttackObject(movement_direction=4, speed=base_speed + i,
+                         pos_x=X0 + (SIZE + GAP) * i, pos_y=Y, w=SIZE, h=SIZE,
+                         wait_time=0, destroy_time=4, destroy_trigger=2)
+            for i in range(10)])
+    for w in range(3):
+        wave(base_speed=w * 10)
+
+    # tail pause so the last wave clears before the stage loops
+    stage.attack_objects.append(
+        AttackObject(movement_direction=2, speed=0, pos_x=0, pos_y=0, w=0, h=0,
+                     wait_time=7, destroy_time=0, destroy_trigger=2))
+
+    stage.platform_objects.append(            # required ≥1 placeholder
+        PlatformObject(movement_direction=2, speed=0, pos_x=0, pos_y=0, w=0, h=0,
+                       wait_time=0, destroy_time=0, destroy_trigger=2))
+    return stage
+```
+
+**Showcase B — a gravity gauntlet of closing walls.** Gravity is on
+(`gravity_direction=3`), so the player falls to the floor and must line up with a
+gap. Each beat spawns a left+right pair of walls *outside* the play box that slide
+inward (`2` = right, `6` = left); every wall is split into a tall upper bar and a
+short lower bar, leaving a `GAP` to slip through. Geometry is read back off the
+`GameManager` so the walls always hug the current play area:
+
+```python
+def stage():
+    stage = GameStage()
+    stage.game_manager = GameManager(stage=1, wait_time=1, gravity_direction=3,
+                                     display_pos_x1=136, display_pos_y1=256,
+                                     display_pos_x2=508, display_pos_y2=384)
+    gm = stage.game_manager
+
+    SPEED, BAR_W, GAP = 12, 12, 22
+    HEIGHTS  = [20, 40, 60]                  # small / medium / large
+    SEQUENCE = [0, 2, 1, 0, 1, 1, 2, 0]      # the height each pair uses
+
+    LEFT_X, RIGHT_X = gm.display_pos_x1 - BAR_W, gm.display_pos_x2
+    TOP_Y,  BOT_Y   = gm.display_pos_y1, gm.display_pos_y2
+    H = BOT_Y - TOP_Y
+
+    stage.attack_objects.append(             # 3 s intro
+        AttackObject(movement_direction=2, speed=0, pos_x=0, pos_y=0, w=0, h=0,
+                     wait_time=3, destroy_time=0, destroy_trigger=2))
+
+    def wall_pair(bar_h, right_delay):
+        upper_h = H - bar_h - GAP
+        stage.attack_objects.extend([
+            # left lower, left upper, right lower, right upper (last one delayed)
+            AttackObject(movement_direction=2, speed=SPEED, pos_x=LEFT_X,
+                         pos_y=BOT_Y - bar_h, w=BAR_W, h=bar_h,
+                         wait_time=0, destroy_time=20, destroy_trigger=2),
+            AttackObject(movement_direction=2, speed=SPEED, pos_x=LEFT_X,
+                         pos_y=TOP_Y, w=BAR_W, h=upper_h,
+                         wait_time=0, destroy_time=20, destroy_trigger=2),
+            AttackObject(movement_direction=6, speed=SPEED, pos_x=RIGHT_X,
+                         pos_y=BOT_Y - bar_h, w=BAR_W, h=bar_h,
+                         wait_time=0, destroy_time=20, destroy_trigger=2),
+            AttackObject(movement_direction=6, speed=SPEED, pos_x=RIGHT_X,
+                         pos_y=TOP_Y, w=BAR_W, h=upper_h,
+                         wait_time=right_delay, destroy_time=20, destroy_trigger=2),
+        ])
+
+    for idx in SEQUENCE:
+        wall_pair(bar_h=HEIGHTS[idx], right_delay=1.5)
+
+    stage.platform_objects.append(
+        PlatformObject(movement_direction=2, speed=0, pos_x=0, pos_y=0, w=0, h=0,
+                       wait_time=0, destroy_time=0, destroy_trigger=2))
+    return stage
+```
+
 ---
 
 ## 6. Writing a UI stage
@@ -315,6 +417,58 @@ cost no character slots.
 
 The live HP readout (`show_healt_text=1`) is generated by the hardware, not by you
 — you only place *static* text via `CharacterObject`.
+
+### 6.1 More UI examples
+
+**Showcase A — a live combat HUD.** Set HP to `100/100`, draw a bar, and turn on
+the auto `HP ###/###` readout. This is the one case where a UI stage needs **no**
+hand-placed glyphs: with `show_healt_text=1` the hardware fills the character slots
+with the live HP digits for you. `reset_character=1` clears any text left over from
+the previous UI stage:
+
+```python
+def stage():
+    stage = GameUIStage()
+
+    stage.game_ui = GameUI(
+        show_healt_text=1,            # auto-draw the live HP ###/### readout
+        reset_character=1,            # clear text from the previous UI stage
+        transparent_out_screen_display=1,
+        reset_when_dead=1,            # HP 0 -> reset the whole game
+        healt_current=100, healt_max=100,
+        healt_bar_pos_x=140, healt_bar_pos_y=60,
+        healt_bar_w=200, healt_bar_h=16,
+        healt_bar_sensitivity=0.04,   # ~0.04 s between each 1-HP tick while hit
+        wait_time=30)                 # hold the HUD while the fight plays out
+
+    return stage
+```
+
+**Showcase B — a centered, multi-line title card.** A small `line()` helper draws
+any word as a row of glyphs (skipping spaces), so stacking lines is just two
+`extend` calls at different `y`:
+
+```python
+def stage():
+    stage = GameUIStage()
+    stage.game_ui = GameUI(show_healt_text=0, reset_character=1,
+                           healt_current=0, healt_max=0,
+                           healt_bar_w=0, healt_bar_h=0,
+                           healt_bar_sensitivity=0, wait_time=2)
+
+    W, GAP = center_data.CHARACTER_W, center_data.GAP     # 17, 1
+
+    def line(text, x0, y):
+        return [CharacterObject(x0 + (W + GAP) * i, y, ch)
+                for i, ch in enumerate(text) if ch != " "]
+
+    stage.character_objects.extend(line("GAME OVER",   x0=180, y=200))
+    stage.character_objects.extend(line("PRESS RESET", x0=170, y=230))
+    return stage
+```
+
+> The font only covers `A`–`Z`, `0`–`9`, and `/` ([§4.4](#44-characterobject)), so
+> keep title text within that set — any other glyph renders blank.
 
 ---
 

@@ -1,8 +1,11 @@
 # ChronoForge — Hardware Guide (Vivado / Verilog)
 
+> **ChronoForge docs:** [README](../README.md) · [python-guide](python-guide.md) · **hardware-guide** · [architecture](hardware-architecture.md)
+
 How the FPGA side of ChronoForge is built, how to run it on a board, and how to
-configure it. This is the **foundation layer** — the Python toolchain (see the
-upcoming `python-guide.md`) only produces the `.mem` ROMs that this hardware reads.
+configure it. This is the **foundation layer** — the Python toolchain
+([`python-guide.md`](python-guide.md)) only produces the `.mem` ROMs that this
+hardware reads.
 
 > **Source of truth:** the RTL in `verilog/sources/` and the Vivado project in
 > `vivado/`. Where the top-level `README.md` and this guide ever disagree on a
@@ -179,11 +182,12 @@ transitions settle here before the slower 100 Hz behavior clocks consume them.
 Each `..._SIM` variant (e.g. `CLK_DIV_FACTOR_CALCULATION_SIM = 5`) is used when
 `IS_SIM=1` so waveforms are short.
 
-> ⚠️ **Doc-drift flag.** The top-level README narrates `clk_centi_second` as
-> 1 kHz ("we treat centi-second as millisecond"). The *committed* divisor is
-> `1_000_000`, which is **100 Hz**. The 1 kHz clock in this design is
-> `clk_calculation`. Reconcile the README to match the code (or change the
-> divisor if 1 kHz timing was actually intended).
+> ⚠️ **Naming rough edge.** `clk_centi_second` does **not** run at one
+> centisecond. Its committed divisor is `1_000_000`, i.e. **100 Hz** (10 ms). The
+> only 1 kHz logic clock in this design is `clk_calculation`; the name survives
+> from the original design (see the README's "millisecond lie" challenge). If you
+> actually want 1 kHz `wait_time`/`destroy_time` resolution, change the divisor —
+> don't trust the name.
 
 A synchronous-reset hold (`WAIT_TIME_FOR_CLK_SYNC = 100_000_000`, ≈1 s at
 100 MHz) keeps `sync_reset` asserted long enough for every domain to come up
@@ -521,8 +525,9 @@ LUT is the binding constraint — driven mostly by the parallel object instances
 Documented honestly so the next person (you) isn't surprised. **Not fixed here —
 this guide is docs-only.**
 
-- **`clk_centi_second` is 100 Hz in code, but narrated as 1 kHz** in the README.
-  Decide which is intended and make code + docs agree ([§6](#6-clock-domains)).
+- **`clk_centi_second` is 100 Hz despite its name** ([§6](#6-clock-domains)). The
+  docs now describe it correctly; the open item is the *code* — either rename the
+  signal or change the divisor so the name stops lying.
 - **Misspelled but real paths:** `verilog/constrains/constains.xdc`,
   `systhesis/`, `interpret_langauge/`. Renaming touches the `.xpr`, Python
   imports, and `$readmemh` search paths — do it deliberately and re-test, not via

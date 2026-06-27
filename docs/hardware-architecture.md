@@ -1,5 +1,7 @@
 # ChronoForge — Hardware Architecture
 
+> **ChronoForge docs:** [README](../README.md) · [python-guide](python-guide.md) · [hardware-guide](hardware-guide.md) · **architecture**
+
 How the engine works *inside*: the design philosophy, every RTL module, and —
 most importantly — how the runtime cores talk to each other.
 
@@ -451,9 +453,9 @@ The design runs five clocks but keeps CDC disciplined:
   (`WAIT_TIME_FOR_CLK_SYNC`) so every domain and `$readmem*` init completes before
   gameplay starts.
 
-> The `clk_centi_second` vs `clk_calculation` naming is the one rough edge: the
-> README narrates centi-second as 1 kHz, but the committed divider makes it 100 Hz
-> (the 1 kHz clock is `clk_calculation`). See
+> The `clk_centi_second` vs `clk_calculation` naming is the one rough edge:
+> `clk_centi_second`'s committed divider makes it **100 Hz**, while the only 1 kHz
+> logic clock is `clk_calculation`. The name is a leftover, not the behavior — see
 > [guide §6](hardware-guide.md#6-clock-domains).
 
 ---

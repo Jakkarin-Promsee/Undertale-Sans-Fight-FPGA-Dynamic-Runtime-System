@@ -120,18 +120,22 @@ Platform, Character. The Attack timeline is the global epoch — when it hits th
 | `clk_centi_second`   | `=1_000_000`              | 100 Hz    | `wait_time`/`destroy_time`      |
 | `clk_calculation`    | `=100_000`                | 1 kHz     | sync, collision, ROM updates    |
 
-> ⚠️ The READMEs narrate `clk_centi_second` as 1 kHz / millisecond, but the
-> committed divisor (`1_000_000`) yields 100 Hz. Treat `topModule.v` as the
-> source of truth and reconcile the docs.
+> ⚠️ `clk_centi_second`'s committed divisor (`1_000_000`) yields 100 Hz, not the
+> 1 kHz its name implies; the only 1 kHz logic clock is `clk_calculation`. The
+> English `README.md` and `docs/*` now describe this correctly — `README_thai.md`
+> is still stale on it. Treat `topModule.v` as the source of truth.
 
 ### Resource-allocation knobs (in `topModule.v`)
 
 - `MAXIMUM_COLLIDER_OBJECT_AMOUT = 25`  (note: real spelling is `AMOUT`)
 - `MAXIMUM_TRIGGER_OBJECT_AMOUT = 56`
-- `MAXIMUM_UI = 20` (character/UI slots — there is **no** `MAXIMUM_CHARACTER_AMOUNT`)
+- `MAXIMUM_UI = 20` is the UI ROM **address bit-width** (`topModule.v:188`), *not* a
+  slot count. The character **slot count** is `CHARACTER_AMOUNT = 79`, a parameter
+  on `game_ui_runtime` (`game_ui_runtime.v:6`). The docs (`README.md`,
+  `docs/hardware-architecture.md`) correctly use 79.
 
-These set instanced object counts and dominate LUT/FF/BRAM usage. README's config
-section lists different names/values — trust the code.
+These set instanced object counts and dominate LUT/FF/BRAM usage. Trust the code
+(`topModule.v` + `game_ui_runtime.v`).
 
 ## ROM / bit-packing formats
 
