@@ -17,11 +17,13 @@ circuits on an FPGA, at 640×480 @ 60 Hz.
 
 <br>
 
-<a href="https://youtu.be/yzlUlyLRUwM">
-  <img src="docs/images/chonoforge_showcase.png" width="800px" alt="Watch the ChronoForge FPGA Engine showcase on YouTube">
-</a>
+<video
+  src="https://github.com/Jakkarin-Promsee/chronoforge-fpga-engine/raw/main/assets/ChronoForge-FPGA-Showcase.mp4"
+  poster="docs/images/chonoforge_showcase.png"
+  width="800" controls muted>
+</video>
 
-**▶ [Watch the system demo on YouTube](https://youtu.be/yzlUlyLRUwM)**
+**▶ [Watch the full system demo on YouTube](https://youtu.be/yzlUlyLRUwM)**
 
 </div>
 
