@@ -1,6 +1,6 @@
 <div align="center">
 
-# ChronoForge FPGA Game Engine
+# ChronoForge FPGA Pure-Hardware Game Engine
 
 **A 2D game engine that runs as _pure hardware_ — no CPU, no OS, no instruction set.**
 
